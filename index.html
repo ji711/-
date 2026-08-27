@@ -3,39 +3,586 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
 <title>🛂 5세 세계여행 출국심사</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;background:linear-gradient(145deg,#dff5ff,#f5edff);color:#18324a;min-height:100vh}.wrap{max-width:900px;margin:auto;padding:18px}.card{background:#fffffff2;border-radius:30px;padding:22px;box-shadow:0 15px 50px #274b6b22}h1{text-align:center;margin:0;font-size:30px}.sub{text-align:center;color:#687d90;margin:7px 0 18px}.gate{background:#0d4772;color:white;border-radius:20px;padding:12px;text-align:center;font-weight:800;margin-bottom:15px}.camera{position:relative;border-radius:24px;overflow:hidden;background:#071827;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}.scan{position:absolute;width:62%;aspect-ratio:1/1;border:4px solid #54d6ff;border-radius:45%;box-shadow:0 0 0 999px #0004,0 0 30px #54d6ff;display:none}.scan:after{content:"";position:absolute;left:8%;right:8%;top:20%;height:3px;background:#fff;box-shadow:0 0 15px #fff;animation:scan 1.6s infinite}@keyframes scan{0%{top:15%}50%{top:80%}100%{top:15%}}.status{text-align:center;font-size:21px;font-weight:900;margin:16px 0;min-height:30px}.result{display:none;text-align:center;background:#eafaff;border:2px solid #bdeaff;border-radius:24px;padding:24px}.result .name{font-size:42px;font-weight:1000}.result .done{font-size:28px;font-weight:900;margin:8px}.buttons{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}button{border:0;border-radius:15px;padding:13px 17px;font-size:16px;font-weight:800;background:#1679c7;color:#fff}button.alt{background:#e9f1f7;color:#20577d}button.red{background:#d9534f}.panel{display:none;margin-top:18px;background:#f6f9fb;border-radius:20px;padding:18px}.row{display:flex;gap:8px;flex-wrap:wrap}.row input{flex:1;min-width:170px;border:1px solid #c9d7e2;border-radius:13px;padding:13px;font-size:16px}.person{display:flex;align-items:center;justify-content:space-between;background:#fff;padding:10px 12px;border-radius:13px;margin-top:7px}.small{font-size:13px;color:#6d7f90;line-height:1.5}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#17324a;color:white;padding:12px 16px;border-radius:99px;display:none;z-index:9}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;
+  background:linear-gradient(145deg,#dff5ff,#f5edff);
+  color:#18324a;
+  min-height:100vh;
+}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
+.card{
+  background:#fffffff2;
+  border-radius:30px;
+  padding:22px;
+  box-shadow:0 15px 50px #274b6b22;
+}
+
+h1{
+  text-align:center;
+  margin:0;
+  font-size:30px;
+}
+
+.sub{
+  text-align:center;
+  color:#687d90;
+  margin:7px 0 18px;
+}
+
+.gate{
+  background:#0d4772;
+  color:white;
+  border-radius:20px;
+  padding:12px;
+  text-align:center;
+  font-weight:800;
+  margin-bottom:15px;
+}
+
+.camera{
+  position:relative;
+  border-radius:24px;
+  overflow:hidden;
+  background:#071827;
+  aspect-ratio:4/3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scaleX(-1);
+}
+
+.scan{
+  position:absolute;
+  width:62%;
+  aspect-ratio:1/1;
+  border:4px solid #54d6ff;
+  border-radius:45%;
+  box-shadow:0 0 0 999px #0004,0 0 30px #54d6ff;
+  display:none;
+}
+
+.scan:after{
+  content:"";
+  position:absolute;
+  left:8%;
+  right:8%;
+  top:20%;
+  height:3px;
+  background:#fff;
+  box-shadow:0 0 15px #fff;
+  animation:scan 1.6s infinite;
+}
+
+@keyframes scan{
+  0%{top:15%}
+  50%{top:80%}
+  100%{top:15%}
+}
+
+.status{
+  text-align:center;
+  font-size:21px;
+  font-weight:900;
+  margin:16px 0;
+  min-height:30px;
+}
+
+.result{
+  display:none;
+  text-align:center;
+  background:#eafaff;
+  border:2px solid #bdeaff;
+  border-radius:24px;
+  padding:28px 20px;
+}
+
+.result .pass{
+  font-size:20px;
+  font-weight:900;
+}
+
+.result .name{
+  font-size:42px;
+  font-weight:1000;
+  margin:8px 0;
+}
+
+.result .done{
+  font-size:28px;
+  font-weight:900;
+  margin:8px;
+}
+
+.result .travel{
+  font-size:20px;
+  margin-top:12px;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:14px;
+}
+
+button{
+  border:0;
+  border-radius:15px;
+  padding:13px 17px;
+  font-size:16px;
+  font-weight:800;
+  background:#1679c7;
+  color:#fff;
+}
+
+button.alt{
+  background:#e9f1f7;
+  color:#20577d;
+}
+
+.panel{
+  display:none;
+  margin-top:18px;
+  background:#f6f9fb;
+  border-radius:20px;
+  padding:18px;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.row input{
+  flex:1;
+  min-width:170px;
+  border:1px solid #c9d7e2;
+  border-radius:13px;
+  padding:13px;
+  font-size:16px;
+}
+
+.person{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#fff;
+  padding:10px 12px;
+  border-radius:13px;
+  margin-top:7px;
+}
+
+.small{
+  font-size:13px;
+  color:#6d7f90;
+  line-height:1.5;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%);
+  background:#17324a;
+  color:white;
+  padding:12px 16px;
+  border-radius:99px;
+  display:none;
+  z-index:9;
+}
 </style>
 </head>
+
 <body>
-<div class="wrap"><div class="card">
-<div class="gate">🇰🇷 REPUBLIC OF KOREA · DEPARTURE CONTROL</div>
-<h1>🛂 5세 세계여행 출국심사</h1><div class="sub">얼굴을 보여주면 여행 준비 완료! ✈️🌎</div>
-<div class="camera"><video id="video" autoplay muted playsinline></video><div id="scan" class="scan"></div></div>
-<div id="status" class="status">먼저 친구 얼굴을 등록해 주세요.</div>
-<div id="result" class="result"><div>🎫 PASSENGER VERIFIED</div><div id="resultName" class="name"></div><div class="done">✅ 출국심사 완료!</div><div>✈️ 즐거운 세계여행 되세요 🌎</div></div>
-<div class="buttons"><button id="start">📷 얼굴인식 시작</button><button id="again" class="alt">↻ 다음 친구</button><button id="manage" class="alt">👩‍🏫 친구 등록</button></div>
-<div id="panel" class="panel"><h2>👩‍🏫 5세 친구 등록</h2><div class="small">아이 이름을 입력하고 카메라에 얼굴을 정면으로 보여준 뒤 <b>현재 얼굴 등록</b>을 눌러주세요. 얼굴 특징값은 이 브라우저의 저장공간에 저장됩니다.</div><div class="row" style="margin-top:12px"><input id="personName" placeholder="예: 소민이"><button id="register">현재 얼굴 등록</button></div><div id="people"></div><div class="small" style="margin-top:12px">※ 이 놀이는 교육용 프로토타입입니다. 실제 출입·출석 관리에는 사용하지 마세요.</div></div>
-</div></div><div id="toast" class="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+
+<div class="wrap">
+<div class="card">
+
+<div class="gate">
+🇰🇷 REPUBLIC OF KOREA · DEPARTURE CONTROL
+</div>
+
+<h1>🛂 5세 세계여행 출국심사</h1>
+
+<div class="sub">
+얼굴을 보여주면 여행 준비 완료! ✈️🌎
+</div>
+
+<div class="camera">
+<video id="video" autoplay muted playsinline></video>
+<div id="scan" class="scan"></div>
+</div>
+
+<div id="status" class="status">
+친구 이름을 먼저 등록해 주세요.
+</div>
+
+<div id="result" class="result">
+
+<div class="pass">
+🎫 PASSENGER VERIFIED
+</div>
+
+<div id="resultName" class="name"></div>
+
+<div class="done">
+✅ 출국심사 완료!
+</div>
+
+<div class="travel">
+✈️ 즐거운 세계여행 되세요 🌎
+</div>
+
+</div>
+
+<div class="buttons">
+
+<button id="start">
+📷 얼굴인식 시작
+</button>
+
+<button id="again" class="alt">
+↻ 다음 친구
+</button>
+
+<button id="manage" class="alt">
+👩‍🏫 친구 등록
+</button>
+
+</div>
+
+<div id="panel" class="panel">
+
+<h2>👩‍🏫 5세 친구 등록</h2>
+
+<div class="small">
+아이 이름을 입력하면 출국심사 놀이에서 사용할 수 있어요.
+</div>
+
+<div class="row" style="margin-top:12px">
+
+<input
+id="personName"
+placeholder="예: 소민이"
+>
+
+<button id="register">
+친구 등록
+</button>
+
+</div>
+
+<div id="people"></div>
+
+<div class="small" style="margin-top:12px">
+※ 이 놀이는 유아교육용 체험 프로그램입니다.
+실제 출입국 심사나 신원 확인에는 사용할 수 없습니다.
+</div>
+
+</div>
+
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
 <script>
-const MODEL='https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';let stream=null,models=false,running=false,stable=0,last='';
-const $=id=>document.getElementById(id), peopleKey='five_departure_faces';
-function people(){try{return JSON.parse(localStorage.getItem(peopleKey)||'{}')}catch(e){return {}}}
-function save(p){localStorage.setItem(peopleKey,JSON.stringify(p));render()}
-function render(){const p=people(),box=$('people');box.innerHTML='';Object.keys(p).forEach(n=>{const d=document.createElement('div');d.className='person';d.innerHTML='<span>👤 '+esc(n)+'</span>';const b=document.createElement('button');b.className='red';b.textContent='삭제';b.onclick=()=>{delete p[n];save(p)};d.appendChild(b);box.appendChild(d)})}
-function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function dist(a,b){let s=0;for(let i=0;i<a.length;i++){let x=a[i]-b[i];s+=x*x}return Math.sqrt(s)}
-async function prep(){if(models)return; $('status').textContent='🔄 얼굴인식 기능을 준비하고 있어요...';await Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(MODEL),faceapi.nets.faceLandmark68Net.loadFromUri(MODEL),faceapi.nets.faceRecognitionNet.loadFromUri(MODEL)]);models=true}
-async function cam(){if(!window.isSecureContext)throw Error('Safari의 카메라를 쓰려면 HTTPS 주소에서 열어야 해요.');if(!stream)stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:720}},audio:false});$('video').srcObject=stream}
-async function face(){return await faceapi.detectSingleFace($('video'),new faceapi.TinyFaceDetectorOptions({inputSize:320,scoreThreshold:.5})).withFaceLandmarks().withFaceDescriptor()}
-async function loop(){if(!running)return;const d=await face();if(!d){$('status').textContent='🙂 얼굴을 화면 가운데에 맞춰주세요.';stable=0;last='';return setTimeout(loop,350)}const p=people(),ns=Object.keys(p);if(!ns.length){$('status').textContent='👩‍🏫 먼저 친구 등록을 해주세요.';return}let best='',bd=99;ns.forEach(n=>{const x=dist(d.descriptor,p[n]);if(x<bd){bd=x;best=n}});if(true){if(best===last)stable++;else{last=best;stable=1}$('status').textContent='🔍 '+best+' 얼굴 확인 중...';if(stable>=2){finish(best);return}}else{$('status').textContent='🔍 등록된 얼굴과 비교 중...';stable=0;last=''}setTimeout(loop,350)}
-function finish(n){running=false;$('scan').style.display='none';$('resultName').textContent=n;$('result').style.display='block';$('status').textContent='🎉 출국심사 완료!';if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}navigator.vibrate?.([100,60,100])}
-$('start').onclick=async()=>{try{$('result').style.display='none';await prep();await cam();running=true;stable=0;last='';$('scan').style.display='block';$('status').textContent='🙂 얼굴을 보여주세요!';loop()}catch(e){$('status').textContent='⚠️ '+e.message}}
-$('again').onclick=()=>{running=false;$('result').style.display='none';stable=0;last='';if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('scan').style.display='none';$('status').textContent='📷 다음 친구를 기다리고 있어요.'}
-$('manage').onclick=()=>{$('panel').style.display=$('panel').style.display==='none'?'block':'none';render()}
-$('register').onclick=async()=>{const n=$('personName').value.trim();if(!n)return alert('이름을 입력해 주세요.');try{await prep();await cam();await new Promise(r=>setTimeout(r,700));const d=await face();if(!d)return alert('얼굴을 찾지 못했어요. 정면을 바라봐 주세요.');const p=people();p[n]=Array.from(d.descriptor);save(p);$('personName').value='';show('✅ '+n+' 등록 완료!')}catch(e){alert('등록 오류: '+e.message)}}
-function show(t){const x=$('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1800)}render();
+
+let stream=null;
+let running=false;
+let timer=null;
+
+const peopleKey="five_departure_names";
+
+const $=id=>document.getElementById(id);
+
+function people(){
+
+  try{
+    return JSON.parse(
+      localStorage.getItem(peopleKey)||"[]"
+    );
+  }catch(e){
+    return [];
+  }
+
+}
+
+function savePeople(list){
+
+  localStorage.setItem(
+    peopleKey,
+    JSON.stringify(list)
+  );
+
+  render();
+
+}
+
+function render(){
+
+  const list=people();
+  const box=$("people");
+
+  box.innerHTML="";
+
+  list.forEach(name=>{
+
+    const d=document.createElement("div");
+
+    d.className="person";
+
+    d.innerHTML="<span>👤 "+name+"</span>";
+
+    const b=document.createElement("button");
+
+    b.className="alt";
+    b.textContent="삭제";
+
+    b.onclick=()=>{
+
+      const newList=people().filter(
+        x=>x!==name
+      );
+
+      savePeople(newList);
+
+    };
+
+    d.appendChild(b);
+
+    box.appendChild(d);
+
+  });
+
+}
+
+async function startCamera(){
+
+  if(stream) return;
+
+  if(!navigator.mediaDevices){
+
+    throw new Error(
+      "카메라를 사용할 수 없는 환경이에요."
+    );
+
+  }
+
+  stream=
+    await navigator.mediaDevices.getUserMedia({
+      video:{
+        facingMode:"user"
+      },
+      audio:false
+    });
+
+  $("video").srcObject=stream;
+
+}
+
+function stopCamera(){
+
+  if(stream){
+
+    stream.getTracks().forEach(
+      track=>track.stop()
+    );
+
+    stream=null;
+
+  }
+
+}
+
+function finish(){
+
+  running=false;
+
+  clearTimeout(timer);
+
+  $("scan").style.display="none";
+
+  const list=people();
+
+  let name="우리 친구";
+
+  if(list.length>0){
+
+    name=list[0];
+
+  }
+
+  $("resultName").textContent=name;
+
+  $("result").style.display="block";
+
+  $("status").textContent=
+    "🎉 출국심사가 완료되었습니다!";
+
+  stopCamera();
+
+}
+
+function beginRecognition(){
+
+  running=true;
+
+  $("result").style.display="none";
+
+  $("scan").style.display="block";
+
+  $("status").textContent=
+    "🙂 얼굴을 보여주세요!";
+
+  /*
+   교육용 놀이 버전입니다.
+   얼굴을 실제로 식별하지 않고
+   약 3초 후 출국심사를 완료합니다.
+  */
+
+  timer=setTimeout(()=>{
+
+    if(running){
+
+      finish();
+
+    }
+
+  },3000);
+
+}
+
+$("start").onclick=async()=>{
+
+  try{
+
+    const list=people();
+
+    if(list.length===0){
+
+      $("status").textContent=
+        "👩‍🏫 먼저 친구 등록을 해주세요.";
+
+      $("panel").style.display="block";
+
+      return;
+
+    }
+
+    await startCamera();
+
+    beginRecognition();
+
+  }catch(e){
+
+    $("status").textContent=
+      "⚠️ 카메라를 사용할 수 없어요.";
+
+  }
+
+};
+
+$("again").onclick=()=>{
+
+  running=false;
+
+  clearTimeout(timer);
+
+  $("result").style.display="none";
+
+  $("scan").style.display="none";
+
+  stopCamera();
+
+  $("status").textContent=
+    "📷 다음 친구를 기다리고 있어요.";
+
+};
+
+$("manage").onclick=()=>{
+
+  const panel=$("panel");
+
+  panel.style.display=
+    panel.style.display==="none"
+    ?"block"
+    :"none";
+
+  render();
+
+};
+
+$("register").onclick=()=>{
+
+  const input=$("personName");
+
+  const name=input.value.trim();
+
+  if(!name){
+
+    alert("친구 이름을 입력해 주세요.");
+
+    return;
+
+  }
+
+  const list=people();
+
+  if(!list.includes(name)){
+
+    list.push(name);
+
+  }
+
+  savePeople(list);
+
+  input.value="";
+
+  show("✅ "+name+" 등록 완료!");
+
+};
+
+function show(text){
+
+  const toast=$("toast");
+
+  toast.textContent=text;
+
+  toast.style.display="block";
+
+  setTimeout(()=>{
+
+    toast.style.display="none";
+
+  },1800);
+
+}
+
+render();
+
 </script>
-</body></html>
+
+</body>
+</html>

@@ -3,50 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
 <title>🛂 5세 세계여행 출국심사</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;
-  background:linear-gradient(145deg,#dff5ff,#f5edff);
+  background:linear-gradient(145deg,#dff6ff,#f7edff);
   color:#18324a;
-  min-height:100vh
+  min-height:100vh;
 }
-.wrap{max-width:900px;margin:auto;padding:18px}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
 .card{
-  background:#fffffff2;
+  background:#ffffffee;
   border-radius:30px;
   padding:22px;
-  box-shadow:0 15px 50px #274b6b22
+  box-shadow:0 15px 50px #274b6b22;
 }
-h1{text-align:center;margin:0;font-size:30px}
-.sub{text-align:center;color:#687d90;margin:7px 0 18px}
+
 .gate{
   background:#0d4772;
   color:white;
   border-radius:20px;
   padding:12px;
   text-align:center;
-  font-weight:800;
-  margin-bottom:15px
+  font-weight:900;
+  margin-bottom:15px;
 }
-.selectBox{
-  background:#f6f9fb;
-  border-radius:20px;
-  padding:15px;
-  margin-bottom:15px
+
+h1{
+  text-align:center;
+  margin:0;
+  font-size:30px;
 }
-select{
-  width:100%;
-  margin-top:10px;
-  padding:14px;
-  border:1px solid #c9d7e2;
-  border-radius:13px;
-  font-size:17px;
-  background:white
+
+.sub{
+  text-align:center;
+  color:#687d90;
+  margin:7px 0 18px;
 }
+
+.step{
+  text-align:center;
+  font-weight:900;
+  font-size:20px;
+  margin:18px 0 12px;
+}
+
+/* 이름 카드 */
+
+.names{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.nameCard{
+  border:3px solid #d9e8f2;
+  background:white;
+  border-radius:22px;
+  padding:18px 10px;
+  font-size:22px;
+  font-weight:1000;
+  text-align:center;
+  box-shadow:0 5px 15px #274b6b15;
+  transition:.15s;
+}
+
+.nameCard:active{
+  transform:scale(.96);
+}
+
+.nameCard.selected{
+  border-color:#38a9df;
+  background:#e9f9ff;
+  box-shadow:0 0 0 4px #38a9df22;
+}
+
 .camera{
   position:relative;
   border-radius:24px;
@@ -55,14 +97,17 @@ select{
   aspect-ratio:4/3;
   display:flex;
   align-items:center;
-  justify-content:center
+  justify-content:center;
+  margin-top:12px;
 }
+
 video{
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:scaleX(-1)
+  transform:scaleX(-1);
 }
+
 .scan{
   position:absolute;
   width:62%;
@@ -70,8 +115,9 @@ video{
   border:4px solid #54d6ff;
   border-radius:45%;
   box-shadow:0 0 0 999px #0004,0 0 30px #54d6ff;
-  display:none
+  display:none;
 }
+
 .scan:after{
   content:"";
   position:absolute;
@@ -81,75 +127,136 @@ video{
   height:3px;
   background:#fff;
   box-shadow:0 0 15px #fff;
-  animation:scan 1.6s infinite
+  animation:scan 1.5s infinite;
 }
+
 @keyframes scan{
   0%{top:15%}
   50%{top:80%}
   100%{top:15%}
 }
+
 .status{
   text-align:center;
   font-size:21px;
-  font-weight:900;
+  font-weight:1000;
   margin:16px 0;
-  min-height:30px
+  min-height:30px;
 }
-.result{
-  display:none;
-  text-align:center;
-  background:#eafaff;
-  border:2px solid #bdeaff;
-  border-radius:24px;
-  padding:28px 20px
-}
-.pass{font-size:20px;font-weight:900}
-.name{font-size:42px;font-weight:1000;margin:8px 0}
-.done{font-size:28px;font-weight:900;margin:8px}
-.travel{font-size:20px;margin-top:12px}
+
 .buttons{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   justify-content:center;
-  margin-top:14px
+  margin-top:15px;
 }
+
 button{
   border:0;
-  border-radius:15px;
-  padding:13px 17px;
-  font-size:16px;
-  font-weight:800;
+  border-radius:16px;
+  padding:14px 18px;
+  font-size:17px;
+  font-weight:900;
   background:#1679c7;
-  color:#fff
+  color:white;
 }
-button.alt{background:#e9f1f7;color:#20577d}
+
+button.alt{
+  background:#e9f1f7;
+  color:#20577d;
+}
+
+/* 결과 */
+
+.result{
+  display:none;
+  text-align:center;
+  background:#eafaff;
+  border:3px solid #bdeaff;
+  border-radius:26px;
+  padding:30px 20px;
+  animation:pop .5s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(.8);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+
+.pass{
+  font-size:20px;
+  font-weight:1000;
+}
+
+.resultName{
+  font-size:44px;
+  font-weight:1000;
+  margin:10px 0;
+}
+
+.done{
+  font-size:30px;
+  font-weight:1000;
+}
+
+.travel{
+  font-size:21px;
+  margin-top:12px;
+}
+
+.plane{
+  font-size:55px;
+  animation:fly 2s ease-in-out infinite;
+}
+
+@keyframes fly{
+  0%{transform:translateX(-20px)}
+  50%{transform:translateX(20px)}
+  100%{transform:translateX(-20px)}
+}
+
+/* 친구 관리 */
+
 .panel{
   display:none;
   margin-top:18px;
   background:#f6f9fb;
   border-radius:20px;
-  padding:18px
+  padding:18px;
 }
-.row{display:flex;gap:8px;flex-wrap:wrap}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
 .row input{
   flex:1;
   min-width:170px;
   border:1px solid #c9d7e2;
   border-radius:13px;
   padding:13px;
-  font-size:16px
+  font-size:16px;
 }
+
 .person{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:#fff;
+  background:white;
   padding:10px 12px;
   border-radius:13px;
-  margin-top:7px
+  margin-top:7px;
 }
-.small{font-size:13px;color:#6d7f90;line-height:1.5}
+
+.small{
+  font-size:13px;
+  color:#6d7f90;
+  line-height:1.5;
+}
+
 .toast{
   position:fixed;
   left:50%;
@@ -160,7 +267,16 @@ button.alt{background:#e9f1f7;color:#20577d}
   padding:12px 16px;
   border-radius:99px;
   display:none;
-  z-index:9
+  z-index:9;
+}
+
+/* 모바일 */
+
+@media(max-width:500px){
+  h1{font-size:26px}
+  .nameCard{font-size:20px;padding:16px 8px}
+  .done{font-size:26px}
+  .resultName{font-size:38px}
 }
 </style>
 </head>
@@ -180,52 +296,98 @@ button.alt{background:#e9f1f7;color:#20577d}
 여행을 떠날 준비가 되었나요? ✈️🌎
 </div>
 
-<div class="selectBox">
-<b>👤 출국하는 친구를 선택해주세요</b>
-<select id="friendSelect">
-<option value="">친구를 선택하세요</option>
-</select>
+<div id="chooseArea">
+
+<div class="step">
+🎫 나의 여권을 찾아주세요!
+</div>
+
+<div id="names" class="names"></div>
+
+</div>
+
+<div id="cameraArea" style="display:none">
+
+<div class="step">
+📷 얼굴을 보여주세요!
 </div>
 
 <div class="camera">
+
 <video id="video" autoplay muted playsinline></video>
+
 <div id="scan" class="scan"></div>
+
 </div>
 
 <div id="status" class="status">
-친구를 선택한 후 출국심사를 시작해주세요 🙂
+카메라를 준비하고 있어요 🙂
+</div>
+
 </div>
 
 <div id="result" class="result">
-<div class="pass">🎫 PASSENGER VERIFIED</div>
-<div id="resultName" class="name"></div>
-<div class="done">✅ 출국심사 완료!</div>
-<div class="travel">✈️ 즐거운 세계여행 되세요 🌎</div>
+
+<div class="plane">✈️</div>
+
+<div class="pass">
+🎫 PASSENGER VERIFIED
+</div>
+
+<div id="resultName" class="resultName"></div>
+
+<div class="done">
+✅ 출국심사 완료!
+</div>
+
+<div class="travel">
+즐거운 세계여행 되세요 🌎
+</div>
+
 </div>
 
 <div class="buttons">
-<button id="start">📷 출국심사 시작</button>
-<button id="again" class="alt">↻ 다음 친구</button>
-<button id="manage" class="alt">👩‍🏫 친구 등록</button>
+
+<button id="start" style="display:none">
+📷 출국심사 시작
+</button>
+
+<button id="again" class="alt">
+↻ 다음 친구
+</button>
+
+<button id="manage" class="alt">
+👩‍🏫 친구 등록
+</button>
+
 </div>
 
 <div id="panel" class="panel">
 
-<h2>👩‍🏫 친구 등록</h2>
+<h2>👩‍🏫 친구 이름 등록</h2>
 
 <div class="small">
-아이 이름을 등록하면 출국심사 화면에서 선택할 수 있어요.
+아이 이름을 등록하면 출국심사 화면에 큰 이름 카드로 나타나요.
 </div>
 
 <div class="row" style="margin-top:12px">
-<input id="personName" placeholder="예: 소민이">
-<button id="register">친구 등록</button>
+
+<input
+id="personName"
+placeholder="예: 소민이"
+>
+
+<button id="register">
+친구 등록
+</button>
+
 </div>
 
 <div id="people"></div>
 
 <div class="small" style="margin-top:12px">
-※ 교육용 출국심사 놀이입니다. 얼굴 사진이나 얼굴 특징값은 저장하지 않습니다.
+※ 교육용 출국심사 놀이입니다.
+얼굴 사진이나 얼굴 특징값은 저장하지 않습니다.
 </div>
 
 </div>
@@ -238,14 +400,16 @@ button.alt{background:#e9f1f7;color:#20577d}
 <script>
 
 let stream=null;
-let timer=null;
+let selectedName="";
 let running=false;
+let timer=null;
 
 const peopleKey="five_departure_names";
 
 const $=id=>document.getElementById(id);
 
 function people(){
+
   try{
     return JSON.parse(
       localStorage.getItem(peopleKey)||"[]"
@@ -253,35 +417,42 @@ function people(){
   }catch(e){
     return [];
   }
+
 }
 
 function savePeople(list){
+
   localStorage.setItem(
     peopleKey,
     JSON.stringify(list)
   );
+
   render();
+
 }
 
 function render(){
 
   const list=people();
 
+  const names=$("names");
   const box=$("people");
-  const select=$("friendSelect");
 
+  names.innerHTML="";
   box.innerHTML="";
-  select.innerHTML=
-    '<option value="">친구를 선택하세요</option>';
 
   list.forEach(name=>{
 
-    const option=document.createElement("option");
+    const card=document.createElement("button");
 
-    option.value=name;
-    option.textContent="👤 "+name;
+    card.className="nameCard";
+    card.type="button";
 
-    select.appendChild(option);
+    card.textContent="🎫 "+name;
+
+    card.onclick=()=>selectName(name,card);
+
+    names.appendChild(card);
 
     const person=document.createElement("div");
 
@@ -313,22 +484,43 @@ function render(){
 
 }
 
+function selectName(name,card){
+
+  selectedName=name;
+
+  document.querySelectorAll(".nameCard")
+    .forEach(x=>x.classList.remove("selected"));
+
+  card.classList.add("selected");
+
+  $("start").style.display="block";
+
+  $("status").textContent=
+    "🎫 "+name+" 친구의 여권이 선택되었어요!";
+
+}
+
 async function startCamera(){
 
   if(stream)return;
 
   if(!navigator.mediaDevices){
-    throw new Error("카메라를 사용할 수 없는 환경이에요.");
+
+    throw new Error(
+      "이 기기에서는 카메라를 사용할 수 없어요."
+    );
+
   }
 
-  stream=await navigator.mediaDevices.getUserMedia({
-    video:{
-      facingMode:"user",
-      width:{ideal:1280},
-      height:{ideal:720}
-    },
-    audio:false
-  });
+  stream=
+    await navigator.mediaDevices.getUserMedia({
+      video:{
+        facingMode:"user",
+        width:{ideal:1280},
+        height:{ideal:720}
+      },
+      audio:false
+    });
 
   $("video").srcObject=stream;
 
@@ -356,11 +548,16 @@ function finish(){
 
   $("scan").style.display="none";
 
-  const name=$("friendSelect").value;
-
-  $("resultName").textContent=name;
+  $("resultName").textContent=
+    selectedName+" 출국심사";
 
   $("result").style.display="block";
+
+  $("cameraArea").style.display="none";
+
+  $("chooseArea").style.display="none";
+
+  $("start").style.display="none";
 
   $("status").textContent=
     "🎉 출국심사가 완료되었습니다!";
@@ -371,12 +568,10 @@ function finish(){
 
 $("start").onclick=async()=>{
 
-  const name=$("friendSelect").value;
-
-  if(!name){
+  if(!selectedName){
 
     $("status").textContent=
-      "👤 먼저 친구를 선택해주세요.";
+      "🎫 먼저 친구 이름을 선택해주세요.";
 
     return;
 
@@ -384,14 +579,23 @@ $("start").onclick=async()=>{
 
   try{
 
-    await startCamera();
+    $("chooseArea").style.display="none";
+
+    $("cameraArea").style.display="block";
 
     $("result").style.display="none";
+
+    $("start").style.display="none";
+
+    $("status").textContent=
+      "📷 카메라를 준비하고 있어요...";
+
+    await startCamera();
 
     $("scan").style.display="block";
 
     $("status").textContent=
-      "🙂 "+name+" 친구, 얼굴을 보여주세요!";
+      "🙂 "+selectedName+" 친구, 얼굴을 보여주세요!";
 
     running=true;
 
@@ -400,7 +604,10 @@ $("start").onclick=async()=>{
     timer=setTimeout(()=>{
 
       if(running){
-        finish();
+        $("status").textContent=
+          "🔍 출국심사를 확인하고 있어요...";
+
+        setTimeout(finish,1200);
       }
 
     },3000);
@@ -409,6 +616,8 @@ $("start").onclick=async()=>{
 
     $("status").textContent=
       "⚠️ 카메라 권한을 허용해주세요.";
+
+    $("chooseArea").style.display="block";
 
   }
 
@@ -420,15 +629,25 @@ $("again").onclick=()=>{
 
   clearTimeout(timer);
 
-  $("result").style.display="none";
-  $("scan").style.display="none";
-
   stopCamera();
 
-  $("friendSelect").value="";
+  selectedName="";
+
+  $("result").style.display="none";
+
+  $("cameraArea").style.display="none";
+
+  $("chooseArea").style.display="block";
+
+  $("start").style.display="none";
+
+  $("scan").style.display="none";
 
   $("status").textContent=
-    "👤 다음 친구를 선택해주세요.";
+    "🎫 다음 친구의 여권을 찾아주세요!";
+
+  document.querySelectorAll(".nameCard")
+    .forEach(x=>x.classList.remove("selected"));
 
 };
 
@@ -461,21 +680,21 @@ $("register").onclick=()=>{
 
   const list=people();
 
-  if(!list.includes(name)){
-
-    list.push(name);
-
-    savePeople(list);
-
-    show("✅ "+name+" 등록 완료!");
-
-  }else{
+  if(list.includes(name)){
 
     alert("이미 등록된 친구예요.");
 
+    return;
+
   }
 
+  list.push(name);
+
+  savePeople(list);
+
   input.value="";
+
+  show("✅ "+name+" 등록 완료!");
 
 };
 
@@ -488,7 +707,9 @@ function show(text){
   toast.style.display="block";
 
   setTimeout(()=>{
+
     toast.style.display="none";
+
   },1800);
 
 }

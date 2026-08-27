@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>🛂 5세 세계여행 출국심사</title>
+
+<title>🛂 세계여행 출국심사</title>
 
 <style>
 *{box-sizing:border-box}
@@ -14,7 +15,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;
   background:linear-gradient(145deg,#dff7ff,#fff1fa,#fff8df);
   color:#17324a;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
 .wrap{
@@ -80,7 +81,9 @@ video{
   height:72%;
   border:4px solid #54d6ff;
   border-radius:48%;
-  box-shadow:0 0 0 999px #0004,0 0 35px #54d6ff;
+  box-shadow:
+    0 0 0 999px #0004,
+    0 0 35px #54d6ff;
 }
 
 .face:after{
@@ -109,7 +112,9 @@ video{
   min-height:32px;
 }
 
-/* 완료 화면 */
+/* =========================
+   출국심사 완료 화면
+   ========================= */
 
 .result{
   display:none;
@@ -119,8 +124,8 @@ video{
   background:linear-gradient(180deg,#effcff,#fff7fd);
   border:4px solid #bcecff;
   border-radius:30px;
-  padding:28px 15px 34px;
-  min-height:480px;
+  padding:34px 15px 38px;
+  min-height:500px;
   animation:resultIn .6s cubic-bezier(.2,1.5,.4,1);
 }
 
@@ -130,7 +135,7 @@ video{
     opacity:0;
   }
   70%{
-    transform:scale(1.05) rotate(1deg);
+    transform:scale(1.04) rotate(1deg);
   }
   100%{
     transform:scale(1) rotate(0);
@@ -138,96 +143,157 @@ video{
   }
 }
 
-.cheer{
-  font-size:25px;
-  font-weight:1000;
-  animation:cheer .8s ease-out;
-}
+/* 빨간 여권 도장 */
 
-@keyframes cheer{
-  0%{transform:scale(0)}
-  70%{transform:scale(1.2)}
-  100%{transform:scale(1)}
-}
-
-.bigCheck{
-  width:105px;
-  height:105px;
-  margin:15px auto 8px;
-  border-radius:50%;
-  background:#65d7a2;
-  display:flex;
+.travelStamp{
+  position:relative;
+  z-index:3;
+  display:inline-flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-size:65px;
-  box-shadow:0 8px 0 #37ad78;
-  animation:checkPop .9s cubic-bezier(.2,1.6,.4,1);
-}
 
-@keyframes checkPop{
-  0%{
-    transform:scale(0) rotate(-30deg);
-  }
-  60%{
-    transform:scale(1.2) rotate(8deg);
-  }
-  100%{
-    transform:scale(1) rotate(0);
-  }
-}
+  width:235px;
+  height:125px;
 
-.pass{
-  display:inline-block;
-  margin-top:15px;
-  padding:8px 20px;
-  border:4px solid #e66b76;
-  border-radius:50%;
-  color:#df5360;
-  font-size:22px;
-  font-weight:1000;
+  border:7px solid #d83c4d;
+  color:#d83c4d;
+
   transform:rotate(-7deg) scale(0);
-  animation:stamp .5s 1s forwards;
+  opacity:0;
+
+  margin:35px auto 28px;
+
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:900;
+
+  letter-spacing:2px;
+
+  box-shadow:
+    inset 0 0 0 3px #d83c4d,
+    inset 0 0 18px #d83c4d55;
+
+  filter:url(#roughStamp);
+  
+  animation:stampBang .65s .25s cubic-bezier(.2,1.7,.3,1) forwards;
 }
 
-@keyframes stamp{
+.travelStamp:before{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:2px dashed #d83c4d;
+}
+
+.travelStamp .top{
+  font-size:21px;
+  line-height:1.1;
+}
+
+.travelStamp .main{
+  font-size:29px;
+  line-height:1.05;
+  margin:3px 0;
+}
+
+.travelStamp .bottom{
+  font-size:16px;
+  line-height:1;
+}
+
+@keyframes stampBang{
   0%{
-    transform:rotate(-7deg) scale(2);
+    transform:rotate(-7deg) scale(2.3);
     opacity:0;
   }
-  70%{
-    transform:rotate(-7deg) scale(.9);
+
+  55%{
+    transform:rotate(-7deg) scale(.88);
+    opacity:1;
   }
+
+  75%{
+    transform:rotate(-7deg) scale(1.08);
+  }
+
   100%{
     transform:rotate(-7deg) scale(1);
     opacity:1;
   }
 }
 
-.done{
-  margin-top:10px;
-  font-size:34px;
-  font-weight:1000;
-  animation:textBounce .8s 1.1s both;
+/* 도장 주변 잉크 효과 */
+
+.ink{
+  position:absolute;
+  z-index:2;
+  color:#d83c4d;
+  font-weight:900;
+  opacity:0;
+  animation:inkPop .5s .65s forwards;
 }
 
-@keyframes textBounce{
-  0%{transform:translateY(20px);opacity:0}
-  70%{transform:translateY(-5px)}
-  100%{transform:translateY(0);opacity:1}
+.ink1{
+  left:18%;
+  top:145px;
+  font-size:18px;
+  transform:rotate(-15deg);
+}
+
+.ink2{
+  right:17%;
+  top:190px;
+  font-size:15px;
+  transform:rotate(12deg);
+}
+
+@keyframes inkPop{
+  from{
+    opacity:0;
+    transform:scale(1.8) rotate(0);
+  }
+  to{
+    opacity:.45;
+  }
+}
+
+/* 멘트 */
+
+.done{
+  position:relative;
+  z-index:4;
+  font-size:34px;
+  font-weight:1000;
+  margin-top:5px;
+  animation:textBounce .8s .8s both;
 }
 
 .travel{
-  margin-top:13px;
+  position:relative;
+  z-index:4;
+  margin-top:14px;
   font-size:21px;
   font-weight:800;
+  line-height:1.7;
 }
+
+.world{
+  position:relative;
+  z-index:4;
+  margin-top:2px;
+  font-size:22px;
+  font-weight:1000;
+}
+
+/* 비행기 */
 
 .plane{
   position:absolute;
+  z-index:1;
   left:-100px;
-  top:115px;
+  top:105px;
   font-size:60px;
-  animation:planeFly 2.8s 1.1s ease-in-out forwards;
+  animation:planeFly 3.2s .6s ease-in-out forwards;
 }
 
 @keyframes planeFly{
@@ -236,54 +302,62 @@ video{
     top:120px;
     transform:rotate(-5deg);
   }
+
   45%{
     left:45%;
     top:55px;
     transform:rotate(-5deg);
   }
+
   100%{
     left:110%;
-    top:110px;
+    top:105px;
     transform:rotate(-5deg);
   }
 }
+
+/* 구름 */
 
 .cloud{
   position:absolute;
   font-size:45px;
   opacity:.75;
+  z-index:1;
 }
 
 .cloud1{
-  left:-60px;
+  left:-70px;
   top:65px;
-  animation:cloudMove 7s linear infinite;
+  animation:cloudMove 8s linear infinite;
 }
 
 .cloud2{
-  right:-70px;
-  top:200px;
-  animation:cloudMove2 8s linear infinite;
+  right:-80px;
+  top:215px;
+  animation:cloudMove2 9s linear infinite;
 }
 
 @keyframes cloudMove{
-  from{left:-70px}
+  from{left:-80px}
   to{left:110%}
 }
 
 @keyframes cloudMove2{
-  from{right:-80px}
+  from{right:-90px}
   to{right:110%}
 }
+
+/* 별 */
 
 .star{
   position:absolute;
   font-size:30px;
+  z-index:1;
   animation:twinkle 1.2s infinite alternate;
 }
 
-.s1{left:8%;top:150px}
-.s2{right:9%;top:90px;animation-delay:.3s}
+.s1{left:8%;top:160px}
+.s2{right:9%;top:85px;animation-delay:.3s}
 .s3{left:13%;bottom:80px;animation-delay:.6s}
 .s4{right:14%;bottom:55px;animation-delay:.9s}
 
@@ -298,29 +372,53 @@ video{
   }
 }
 
+/* 하트 */
+
 .heart{
   position:absolute;
   font-size:25px;
+  z-index:1;
   animation:heartFloat 2.5s infinite ease-in-out;
 }
 
-.h1{left:20%;top:40px}
-.h2{right:20%;top:150px;animation-delay:.8s}
+.h1{
+  left:20%;
+  top:40px;
+}
+
+.h2{
+  right:20%;
+  top:150px;
+  animation-delay:.8s;
+}
 
 @keyframes heartFloat{
-  0%,100%{transform:translateY(0) rotate(-8deg)}
-  50%{transform:translateY(-18px) rotate(8deg)}
+  0%,100%{
+    transform:translateY(0) rotate(-8deg);
+  }
+
+  50%{
+    transform:translateY(-18px) rotate(8deg);
+  }
 }
 
-.bottomMessage{
-  margin-top:16px;
-  font-size:18px;
-  font-weight:900;
+@keyframes textBounce{
+  0%{
+    transform:translateY(20px);
+    opacity:0;
+  }
+
+  70%{
+    transform:translateY(-5px);
+  }
+
+  100%{
+    transform:translateY(0);
+    opacity:1;
+  }
 }
 
-.hidden{
-  display:none!important;
-}
+/* 다시 하기 */
 
 .buttons{
   display:flex;
@@ -338,11 +436,50 @@ button{
   color:white;
 }
 
+.hidden{
+  display:none!important;
+}
+
 @media(max-width:500px){
-  h1{font-size:26px}
-  .result{min-height:450px}
-  .done{font-size:29px}
-  .travel{font-size:19px}
+
+  h1{
+    font-size:26px;
+  }
+
+  .result{
+    min-height:470px;
+    padding-top:25px;
+  }
+
+  .travelStamp{
+    width:215px;
+    height:115px;
+    margin-top:28px;
+  }
+
+  .travelStamp .top{
+    font-size:18px;
+  }
+
+  .travelStamp .main{
+    font-size:26px;
+  }
+
+  .travelStamp .bottom{
+    font-size:14px;
+  }
+
+  .done{
+    font-size:29px;
+  }
+
+  .travel{
+    font-size:18px;
+  }
+
+  .world{
+    font-size:20px;
+  }
 }
 </style>
 </head>
@@ -350,6 +487,7 @@ button{
 <body>
 
 <div class="wrap">
+
 <div class="card">
 
 <div class="gate">
@@ -365,8 +503,11 @@ button{
 <div id="cameraArea">
 
 <div class="camera">
+
 <video id="video" autoplay muted playsinline></video>
+
 <div class="face"></div>
+
 </div>
 
 <div id="status" class="status">
@@ -374,6 +515,9 @@ button{
 </div>
 
 </div>
+
+
+<!-- 완료 화면 -->
 
 <div id="result" class="result">
 
@@ -390,33 +534,39 @@ button{
 
 <div class="plane">✈️</div>
 
-<div class="cheer">
-🌈✨ 짝짝짝! ✨🌈
+<div class="ink ink1">✦</div>
+<div class="ink ink2">✦</div>
+
+<div class="travelStamp">
+
+<div class="top">
+DEPARTURE
 </div>
 
-<div class="bigCheck">
-✓
+<div class="main">
+APPROVED
 </div>
 
-<div class="pass">
-🎫 PASS!
+<div class="bottom">
+✈ TRAVEL
+</div>
+
 </div>
 
 <div class="done">
-🎉 출국심사 완료! 🎉
+🧳 출국심사 완료!
 </div>
 
 <div class="travel">
-✈️💨 비행기가 슝~ 날아가요!
+여행을 떠날 준비가 되었습니다!
 </div>
 
-<div class="bottomMessage">
-🌎 즐거운 세계여행을 다녀오세요! 🌎
-<br>
-🧳🎈 행복한 여행 되세요! 🎈🧳
+<div class="world">
+🌎 즐거운 세계여행 되세요! ✈️
 </div>
 
 </div>
+
 
 <div class="buttons">
 
@@ -429,6 +579,7 @@ button{
 </div>
 </div>
 
+
 <script>
 
 let stream=null;
@@ -436,6 +587,9 @@ let finished=false;
 let timer=null;
 
 const $=id=>document.getElementById(id);
+
+
+/* 카메라 시작 */
 
 async function startCamera(){
 
@@ -450,28 +604,42 @@ async function startCamera(){
       return;
     }
 
-    stream=await navigator.mediaDevices.getUserMedia({
+    stream=
+      await navigator.mediaDevices.getUserMedia({
 
-      video:{
-        facingMode:"user",
-        width:{ideal:1280},
-        height:{ideal:720}
-      },
+        video:{
+          facingMode:"user",
+          width:{ideal:1280},
+          height:{ideal:720}
+        },
 
-      audio:false
+        audio:false
 
-    });
+      });
 
     $("video").srcObject=stream;
 
     $("status").textContent=
       "🙂 얼굴을 화면 가운데에 보여주세요!";
 
-    timer=setTimeout(()=>{
 
-      finish();
+    /*
+      교육용 출국심사 놀이입니다.
 
-    },3500);
+      얼굴의 신원을 식별하거나
+      얼굴 정보를 저장하지 않습니다.
+
+      카메라가 켜진 뒤 잠시 후
+      출국심사 완료 화면이 나타납니다.
+    */
+
+    timer=
+      setTimeout(()=>{
+
+        finish();
+
+      },3500);
+
 
   }catch(error){
 
@@ -481,6 +649,9 @@ async function startCamera(){
   }
 
 }
+
+
+/* 완료 화면 */
 
 function finish(){
 
@@ -492,17 +663,24 @@ function finish(){
     clearTimeout(timer);
   }
 
-  $("cameraArea").classList.add("hidden");
+  $("cameraArea")
+    .classList
+    .add("hidden");
 
   $("result").style.display="block";
 
-  $("again").classList.remove("hidden");
+  $("again")
+    .classList
+    .remove("hidden");
+
 
   if(stream){
 
-    stream.getTracks().forEach(
-      track=>track.stop()
-    );
+    stream
+      .getTracks()
+      .forEach(
+        track=>track.stop()
+      );
 
     stream=null;
 
@@ -510,15 +688,22 @@ function finish(){
 
 }
 
+
+/* 다음 친구 */
+
 $("again").onclick=()=>{
 
   finished=false;
 
   $("result").style.display="none";
 
-  $("again").classList.add("hidden");
+  $("again")
+    .classList
+    .add("hidden");
 
-  $("cameraArea").classList.remove("hidden");
+  $("cameraArea")
+    .classList
+    .remove("hidden");
 
   $("status").textContent=
     "📷 다음 친구를 기다리고 있어요...";
@@ -526,6 +711,9 @@ $("again").onclick=()=>{
   startCamera();
 
 };
+
+
+/* 페이지 열리면 카메라 시작 */
 
 window.addEventListener(
   "load",

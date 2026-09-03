@@ -1,42 +1,374 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>캐릭터 세계여행</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>캐릭터와 떠나는 세계여행</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #dff4ff;
-      text-align: center;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    h1 {
-      margin-top: 60px;
-      font-size: 42px;
-    }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  overflow: hidden;
+}
 
-    p {
-      font-size: 22px;
-    }
+/* 첫 화면 */
+#start {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(#aee7ff, #f5fcff);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-    .world {
-      font-size: 100px;
-      margin-top: 40px;
-    }
-  </style>
+#start h1 {
+  font-size: clamp(38px, 7vw, 85px);
+  margin: 0 20px 20px;
+}
+
+#start p {
+  font-size: clamp(20px, 3vw, 35px);
+  margin: 0 20px 35px;
+}
+
+.startButton {
+  border: 0;
+  border-radius: 40px;
+  padding: 20px 45px;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: bold;
+  background: white;
+  box-shadow: 0 8px 20px #0002;
+}
+
+/* 나라 선택 */
+#countrySelect {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background: #eef9ff;
+  text-align: center;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+#countrySelect h2 {
+  font-size: clamp(32px, 5vw, 65px);
+  margin: 20px 0 10px;
+}
+
+#countrySelect p {
+  font-size: clamp(18px, 2.5vw, 28px);
+}
+
+.countries {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 35px;
+}
+
+.country {
+  width: 180px;
+  min-height: 130px;
+  border: 0;
+  border-radius: 28px;
+  background: white;
+  box-shadow: 0 7px 18px #0002;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.flag {
+  display: block;
+  font-size: 55px;
+  margin-bottom: 8px;
+}
+
+/* 이집트 */
+#egypt {
+  display: none;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(
+    #65cfff 0%,
+    #b8e9ff 52%,
+    #f7ce72 53%,
+    #e8ad48 100%
+  );
+}
+
+/* 태양 */
+.sun {
+  position: absolute;
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  background: #ffd74a;
+  right: 9%;
+  top: 10%;
+  box-shadow: 0 0 45px #ffd74a;
+}
+
+/* 피라미드 */
+.pyramidBack {
+  position: absolute;
+  bottom: 22%;
+  left: 12%;
+  width: 0;
+  height: 0;
+  border-left: 190px solid transparent;
+  border-right: 190px solid transparent;
+  border-bottom: 270px solid #d99c42;
+}
+
+.pyramid {
+  position: absolute;
+  bottom: 17%;
+  left: 42%;
+  width: 0;
+  height: 0;
+  border-left: 290px solid transparent;
+  border-right: 290px solid transparent;
+  border-bottom: 410px solid #e6b354;
+  filter: drop-shadow(15px 12px 4px #8f5c2744);
+}
+
+/* 사막 언덕 */
+.dune1 {
+  position: absolute;
+  width: 70%;
+  height: 180px;
+  border-radius: 50%;
+  background: #f1bd5c;
+  bottom: -80px;
+  left: -10%;
+}
+
+.dune2 {
+  position: absolute;
+  width: 75%;
+  height: 210px;
+  border-radius: 50%;
+  background: #e3a846;
+  bottom: -110px;
+  right: -20%;
+}
+
+/* 안내 글 */
+.egyptTitle {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  z-index: 5;
+  color: white;
+  text-align: left;
+  text-shadow: 0 3px 8px #0005;
+}
+
+.egyptTitle strong {
+  display: block;
+  font-size: clamp(34px, 5vw, 70px);
+}
+
+.egyptTitle span {
+  font-size: clamp(18px, 2.5vw, 30px);
+}
+
+/* 테스트 캐릭터 */
+.testCharacter {
+  position: absolute;
+  z-index: 10;
+  bottom: 9%;
+  left: -150px;
+  font-size: 95px;
+  animation: walkEgypt 12s linear infinite;
+}
+
+@keyframes walkEgypt {
+  0% {
+    left: -150px;
+    bottom: 9%;
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  15% {
+    transform: translateY(-12px) rotate(3deg);
+  }
+
+  30% {
+    left: 28%;
+    bottom: 9%;
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    left: 48%;
+    bottom: 23%;
+    transform: translateY(-10px) rotate(3deg);
+  }
+
+  70% {
+    left: 58%;
+    bottom: 39%;
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  85% {
+    left: 67%;
+    bottom: 24%;
+    transform: translateY(-10px) rotate(3deg);
+  }
+
+  100% {
+    left: 110%;
+    bottom: 9%;
+    transform: translateY(0) rotate(-3deg);
+  }
+}
+
+.back {
+  position: absolute;
+  z-index: 30;
+  top: 25px;
+  right: 25px;
+  border: 0;
+  border-radius: 30px;
+  background: #ffffffdd;
+  padding: 13px 22px;
+  font-size: 20px;
+  font-weight: bold;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>🌎 캐릭터 세계여행</h1>
+<!-- 시작 화면 -->
+<section id="start">
 
-  <p>내가 만든 캐릭터와 함께<br>
-  세계여행을 떠나볼까요?</p>
+  <div style="font-size:90px;">🌎✈️</div>
 
-  <div class="world">✈️ 🌍</div>
+  <h1>캐릭터와 떠나는 세계여행</h1>
+
+  <p>
+    내가 만든 캐릭터는<br>
+    어느 나라로 여행을 떠날까요?
+  </p>
+
+  <button class="startButton" onclick="showCountries()">
+    여행 시작하기 ✈️
+  </button>
+
+</section>
+
+
+<!-- 나라 선택 화면 -->
+<section id="countrySelect">
+
+  <h2>🌎 어디로 떠나볼까요?</h2>
+  <p>가고 싶은 나라를 선택해 주세요!</p>
+
+  <div class="countries">
+
+    <button class="country" onclick="showEgypt()">
+      <span class="flag">🇪🇬</span>
+      이집트
+    </button>
+
+    <button class="country">
+      <span class="flag">🇫🇷</span>
+      프랑스
+    </button>
+
+    <button class="country">
+      <span class="flag">🇯🇵</span>
+      일본
+    </button>
+
+    <button class="country">
+      <span class="flag">🇬🇧</span>
+      영국
+    </button>
+
+    <button class="country">
+      <span class="flag">🇺🇸</span>
+      미국
+    </button>
+
+    <button class="country">
+      <span class="flag">🇨🇳</span>
+      중국
+    </button>
+
+    <button class="country">
+      <span class="flag">🇻🇳</span>
+      베트남
+    </button>
+
+    <button class="country">
+      <span class="flag">🇧🇷</span>
+      브라질
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- 이집트 여행 화면 -->
+<section id="egypt">
+
+  <div class="sun"></div>
+
+  <div class="pyramidBack"></div>
+  <div class="pyramid"></div>
+
+  <div class="dune1"></div>
+  <div class="dune2"></div>
+
+  <div class="egyptTitle">
+    <strong>🇪🇬 이집트</strong>
+    <span>피라미드가 있는 사막으로 출발!</span>
+  </div>
+
+  <!-- 지금은 움직임 확인용 -->
+  <div class="testCharacter">🧸</div>
+
+  <button class="back" onclick="showCountries()">
+    🌎 다른 나라
+  </button>
+
+</section>
+
+
+<script>
+function hideAll() {
+  document.getElementById("start").style.display = "none";
+  document.getElementById("countrySelect").style.display = "none";
+  document.getElementById("egypt").style.display = "none";
+}
+
+function showCountries() {
+  hideAll();
+  document.getElementById("countrySelect").style.display = "block";
+}
+
+function showEgypt() {
+  hideAll();
+  document.getElementById("egypt").style.display = "block";
+}
+</script>
 
 </body>
 </html>

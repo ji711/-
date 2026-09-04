@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>캐릭터와 떠나는 세계여행</title>
 
 <style>
@@ -13,582 +13,525 @@ html,body{
   height:100%;
   overflow:hidden;
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  background:#111;
 }
-button{font-family:inherit;cursor:pointer}
+button,label{font:inherit}
 .hidden{display:none!important}
 
 /* =========================
    전자칠판
 ========================= */
-#boardApp{
+#board{
   width:100vw;
   height:100vh;
   position:relative;
   overflow:hidden;
-  background:#dff4ff;
 }
 
-/* 첫 화면 */
 #home{
-  width:100%;
-  height:100%;
+  position:absolute;
+  inset:0;
   overflow:auto;
-  padding:32px 24px 80px;
   text-align:center;
-  background:
-    radial-gradient(circle at 10% 15%,#fff 0 45px,transparent 46px),
-    radial-gradient(circle at 85% 18%,#fff 0 60px,transparent 61px),
-    linear-gradient(#aee6ff,#eefaff);
+  padding:28px 22px 60px;
+  background:linear-gradient(#bceaff,#f8fdff);
 }
 
-.homeEarth{
-  font-size:75px;
-  margin-top:4px;
-}
+.earth{font-size:75px}
 
 #home h1{
-  margin:4px 0 5px;
-  font-size:clamp(34px,5vw,68px);
-  color:#173659;
+  margin:4px 0 6px;
+  font-size:clamp(34px,6vw,72px);
+  color:#173852;
 }
 
-#home .sub{
-  font-size:clamp(17px,2vw,25px);
-  color:#486078;
-  margin:0 0 24px;
+#home p{
+  margin:0 0 22px;
+  color:#4f687d;
+  font-size:clamp(17px,2.4vw,26px);
 }
 
-.countryGrid{
-  width:min(1000px,95%);
-  margin:0 auto;
+.grid{
+  width:min(1050px,96%);
+  margin:auto;
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:14px;
 }
 
-.countryBtn{
+.country{
+  min-height:116px;
   border:0;
   border-radius:24px;
-  min-height:115px;
-  background:rgba(255,255,255,.94);
-  box-shadow:0 7px 18px rgba(0,0,0,.12);
-  font-weight:800;
+  background:white;
+  box-shadow:0 7px 20px #0002;
   font-size:21px;
-  color:#26384a;
+  font-weight:900;
+  color:#263b50;
 }
 
-.countryBtn .flag{
+.country .flag{
   display:block;
-  font-size:46px;
+  font-size:48px;
   margin-bottom:3px;
 }
 
 @media(max-width:650px){
-  .countryGrid{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
 }
 
 /* 여행 화면 */
 #world{
-  width:100%;
-  height:100%;
-  position:relative;
-  overflow:hidden;
-}
-
-#scene{
   position:absolute;
   inset:0;
   overflow:hidden;
+  background:#000;
 }
 
-/* 하늘 */
-.sky{
+#photoBg{
   position:absolute;
   inset:0;
-  background:linear-gradient(#8ddaff 0 58%,#c9eeff 59% 100%);
+  background-size:cover;
+  background-position:center;
+  transform:scale(1.02);
 }
 
-/* 땅 */
-.ground{
+#photoBg:after{
+  content:"";
   position:absolute;
-  left:-5%;
-  bottom:-12%;
-  width:110%;
-  height:40%;
-  border-radius:50% 50% 0 0;
-  background:#92cc6e;
+  inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(0,0,0,.22),
+    transparent 30%,
+    transparent 70%,
+    rgba(0,0,0,.34)
+  );
 }
 
-/* 나라 제목 */
-.countryTitle{
+.topCard{
   position:absolute;
-  z-index:50;
-  left:24px;
+  z-index:20;
+  left:22px;
   top:20px;
-  padding:13px 20px;
-  border-radius:24px;
-  background:rgba(255,255,255,.9);
-  box-shadow:0 5px 15px #0002;
+  padding:12px 18px;
+  border-radius:23px;
+  background:#ffffffeb;
+  box-shadow:0 6px 18px #0003;
 }
 
-.countryTitle strong{
+.topCard b{
   display:block;
   font-size:clamp(27px,4vw,45px);
 }
 
-.countryTitle span{
-  font-size:16px;
-  color:#555;
+.topCard span{
+  color:#566;
+  font-size:15px;
 }
 
-/* 홈 버튼 */
 .homeBtn{
   position:absolute;
-  z-index:100;
-  top:20px;
+  z-index:30;
   right:20px;
+  top:20px;
   border:0;
   border-radius:25px;
   padding:12px 18px;
-  font-size:17px;
-  font-weight:800;
   background:#ffffffee;
-  box-shadow:0 4px 14px #0002;
+  font-weight:900;
+  box-shadow:0 4px 15px #0003;
 }
 
-/* QR 패널 */
-.qrPanel{
+/* QR */
+.qrCard{
   position:absolute;
-  z-index:100;
-  right:20px;
-  bottom:20px;
-  width:185px;
+  z-index:30;
+  right:18px;
+  bottom:18px;
+  width:190px;
   padding:12px;
   border-radius:22px;
-  background:rgba(255,255,255,.94);
-  box-shadow:0 6px 20px #0003;
+  background:#ffffffed;
+  box-shadow:0 7px 22px #0004;
   text-align:center;
 }
 
-.qrPanel .qrTitle{
-  font-size:15px;
-  font-weight:900;
+.qrCard b{
+  display:block;
   margin-bottom:7px;
 }
 
-#qrcode{
+#qr{
   display:flex;
-  align-items:center;
   justify-content:center;
-  min-height:135px;
+  align-items:center;
+  min-height:140px;
 }
 
-#qrcode img,
-#qrcode canvas{
-  max-width:135px!important;
-  max-height:135px!important;
+#qr img,
+#qr canvas{
+  width:140px!important;
+  height:140px!important;
 }
 
-.qrPanel small{
+.qrCard small{
   display:block;
   margin-top:7px;
   line-height:1.35;
   color:#555;
 }
 
-/* 사진 등장 영역 */
-#photoStage{
+/* 캐릭터 */
+#stage{
   position:absolute;
   inset:0;
-  z-index:40;
+  z-index:15;
   pointer-events:none;
 }
 
-.travelPhoto{
+.puppet{
   position:absolute;
-  left:50%;
-  bottom:8%;
-  max-width:55vw;
-  max-height:63vh;
+  width:clamp(170px,24vw,330px);
+  height:clamp(240px,38vw,480px);
+  left:-35vw;
+  bottom:4vh;
+  animation:walkAcross 16s linear forwards;
+  filter:drop-shadow(0 12px 8px #0007);
+}
+
+.piece{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
   object-fit:contain;
-  border-radius:22px;
-  box-shadow:0 15px 35px rgba(0,0,0,.28);
-  transform:translateX(-50%) scale(.2);
-  opacity:0;
-  animation:photoPop .7s cubic-bezier(.2,1.3,.3,1) forwards,
-            photoFloat 2.4s ease-in-out .7s infinite;
-  background:white;
+  will-change:transform;
 }
 
-@keyframes photoPop{
-  to{
-    opacity:1;
-    transform:translateX(-50%) scale(1);
-  }
+/* 자동 분할 */
+.head{
+  clip-path:polygon(17% 0,83% 0,83% 39%,17% 39%);
+  transform-origin:50% 32%;
+  animation:headBob .8s ease-in-out infinite alternate;
 }
 
-@keyframes photoFloat{
-  0%,100%{margin-bottom:0;rotate:-1deg}
-  50%{margin-bottom:12px;rotate:1deg}
+.body{
+  clip-path:polygon(23% 29%,77% 29%,77% 76%,23% 76%);
+  transform-origin:50% 64%;
+  animation:bodyBob .42s ease-in-out infinite alternate;
 }
 
-.arrival{
+.armL{
+  clip-path:polygon(0 21%,43% 21%,43% 74%,0 74%);
+  transform-origin:35% 34%;
+  animation:armL .52s ease-in-out infinite alternate;
+}
+
+.armR{
+  clip-path:polygon(57% 21%,100% 21%,100% 74%,57% 74%);
+  transform-origin:65% 34%;
+  animation:armR .52s ease-in-out infinite alternate;
+}
+
+.legL{
+  clip-path:polygon(12% 62%,53% 62%,53% 100%,12% 100%);
+  transform-origin:42% 66%;
+  animation:legL .52s ease-in-out infinite alternate;
+}
+
+.legR{
+  clip-path:polygon(47% 62%,88% 62%,88% 100%,47% 100%);
+  transform-origin:58% 66%;
+  animation:legR .52s ease-in-out infinite alternate;
+}
+
+@keyframes walkAcross{
+  0%{left:-30vw;bottom:5vh}
+  18%{left:7vw;bottom:5vh}
+  42%{left:33vw;bottom:10vh}
+  68%{left:58vw;bottom:7vh}
+  100%{left:110vw;bottom:5vh}
+}
+
+@keyframes armL{
+  from{transform:rotate(15deg)}
+  to{transform:rotate(-18deg)}
+}
+
+@keyframes armR{
+  from{transform:rotate(-15deg)}
+  to{transform:rotate(18deg)}
+}
+
+@keyframes legL{
+  from{transform:rotate(-9deg) translateY(0)}
+  to{transform:rotate(10deg) translateY(3px)}
+}
+
+@keyframes legR{
+  from{transform:rotate(10deg) translateY(3px)}
+  to{transform:rotate(-9deg) translateY(0)}
+}
+
+@keyframes headBob{
+  from{transform:rotate(-2deg) translateY(0)}
+  to{transform:rotate(2deg) translateY(-4px)}
+}
+
+@keyframes bodyBob{
+  from{transform:translateY(0)}
+  to{transform:translateY(-5px)}
+}
+
+.arrive{
   position:absolute;
-  z-index:80;
+  z-index:40;
   left:50%;
   top:16%;
   transform:translateX(-50%);
-  padding:12px 22px;
-  border-radius:30px;
+  padding:13px 22px;
+  border-radius:28px;
   background:#fff;
-  box-shadow:0 6px 18px #0003;
-  font-weight:900;
+  box-shadow:0 7px 22px #0004;
   font-size:clamp(20px,3vw,32px);
+  font-weight:900;
   opacity:0;
-  pointer-events:none;
 }
 
-.arrival.show{
-  animation:notice 2.5s ease;
+.arrive.show{
+  animation:notice 2.6s ease;
 }
 
 @keyframes notice{
   0%{opacity:0;transform:translate(-50%,-15px)}
-  15%,75%{opacity:1;transform:translate(-50%,0)}
+  15%,76%{opacity:1;transform:translate(-50%,0)}
   100%{opacity:0}
 }
 
 /* =========================
-   나라 배경 소품
+   휴대폰
 ========================= */
-.prop{
-  position:absolute;
-  z-index:10;
-}
-
-/* 한국 */
-.palace{
-  left:17%;
-  bottom:18%;
-  font-size:clamp(110px,17vw,240px);
-}
-.koreaFlower{
-  right:15%;
-  bottom:17%;
-  font-size:clamp(70px,10vw,150px);
-}
-
-/* 일본 */
-.fuji{
-  left:12%;
-  bottom:18%;
-  width:42vw;
-  max-width:500px;
-  height:28vw;
-  max-height:330px;
-  clip-path:polygon(50% 0,100% 100%,0 100%);
-  background:linear-gradient(150deg,#fff 0 28%,#7ca5bd 29% 100%);
-}
-.sakura{
-  right:10%;
-  top:13%;
-  font-size:clamp(100px,16vw,220px);
-}
-
-/* 중국 */
-.wall{
-  left:5%;
-  right:5%;
-  bottom:21%;
-  height:75px;
-  background:#aa805c;
-  transform:rotate(-5deg);
-  border-radius:18px;
-  box-shadow:
-    120px -55px 0 -20px #8f6747,
-    320px -20px 0 -20px #8f6747,
-    530px -80px 0 -20px #8f6747;
-}
-.wall:before{
-  content:"";
-  position:absolute;
-  inset:-15px 0 auto 0;
-  height:20px;
-  background:repeating-linear-gradient(90deg,#8f6747 0 30px,transparent 30px 43px);
-}
-
-/* 베트남 */
-.vietnamBoat{
-  left:18%;
-  bottom:18%;
-  font-size:clamp(100px,15vw,220px);
-}
-.vietnamLantern{
-  right:16%;
-  top:17%;
-  font-size:clamp(90px,12vw,170px);
-}
-
-/* 프랑스 */
-.eiffel{
-  left:16%;
-  bottom:16%;
-  font-size:clamp(150px,23vw,330px);
-}
-.franceCafe{
-  right:13%;
-  bottom:17%;
-  font-size:clamp(100px,15vw,210px);
-}
-
-/* 영국 */
-.bigben{
-  left:17%;
-  bottom:16%;
-  font-size:clamp(160px,23vw,330px);
-}
-.londonBus{
-  right:14%;
-  bottom:18%;
-  font-size:clamp(100px,16vw,220px);
-}
-
-/* 미국 */
-.liberty{
-  left:14%;
-  bottom:17%;
-  font-size:clamp(150px,22vw,315px);
-}
-.city{
-  right:11%;
-  bottom:18%;
-  font-size:clamp(105px,16vw,230px);
-}
-
-/* 브라질 */
-.christ{
-  left:13%;
-  bottom:18%;
-  font-size:clamp(150px,23vw,320px);
-}
-.brazilTree{
-  right:10%;
-  bottom:17%;
-  font-size:clamp(130px,19vw,270px);
-}
-
-/* 이집트 */
-.desert{
-  background:linear-gradient(#7bd7ff 0 58%,#f4c667 59% 100%);
-}
-.pyramid1{
-  left:10%;
-  bottom:14%;
-  width:35vw;
-  height:33vw;
-  max-width:430px;
-  max-height:390px;
-  clip-path:polygon(50% 0,100% 100%,0 100%);
-  background:#d8a047;
-}
-.pyramid2{
-  left:36%;
-  bottom:13%;
-  width:46vw;
-  height:42vw;
-  max-width:560px;
-  max-height:500px;
-  clip-path:polygon(50% 0,100% 100%,0 100%);
-  background:#e4b35c;
-}
-
-/* =========================
-   휴대폰 촬영 화면
-========================= */
-#phoneApp{
+#phone{
   width:100vw;
   min-height:100vh;
   overflow:auto;
-  background:linear-gradient(#c9eeff,#fff8e1);
-  padding:25px 18px 50px;
+  padding:20px 16px 50px;
   text-align:center;
+  background:linear-gradient(#c9efff,#fff4d8);
 }
 
-.phoneCard{
+.card{
   max-width:520px;
-  margin:0 auto;
-  background:white;
+  margin:auto;
+  padding:24px 18px;
   border-radius:30px;
-  padding:25px 20px;
-  box-shadow:0 7px 25px #0002;
+  background:white;
+  box-shadow:0 8px 30px #0002;
 }
 
-.phoneEarth{
-  font-size:65px;
-}
-
-.phoneCard h1{
-  font-size:29px;
-  margin:5px 0;
+.card h1{
+  margin:4px 0 6px;
+  font-size:30px;
 }
 
 #phoneCountry{
-  margin:10px 0 22px;
-  font-size:19px;
-  font-weight:800;
+  margin:8px 0 20px;
+  font-weight:900;
   color:#345;
 }
 
-.cameraLabel{
+.take{
   display:block;
   padding:18px;
-  border-radius:25px;
-  background:#2d8cff;
+  border-radius:24px;
+  background:#238cff;
   color:white;
   font-size:21px;
   font-weight:900;
-  box-shadow:0 5px 15px #0002;
+  box-shadow:0 5px 16px #0002;
 }
 
-.cameraLabel input{
+.take input{
   display:none;
 }
 
 #previewWrap{
   display:none;
-  margin-top:20px;
+  margin-top:18px;
+  padding:12px;
+  border-radius:20px;
+  background:
+    repeating-conic-gradient(#eee 0 25%,#fff 0 50%)
+    0 / 22px 22px;
 }
 
 #preview{
   max-width:100%;
-  max-height:380px;
-  border-radius:20px;
-  box-shadow:0 6px 20px #0002;
+  max-height:390px;
+  object-fit:contain;
 }
 
-.sendBtn{
+#send{
   width:100%;
-  border:0;
-  margin-top:18px;
+  margin-top:16px;
   padding:17px;
-  border-radius:25px;
+  border:0;
+  border-radius:24px;
+  background:#ffd84f;
   font-size:21px;
   font-weight:900;
-  background:#ffd94f;
-  color:#333;
 }
 
-.sendBtn:disabled{
+#send:disabled{
   opacity:.45;
 }
 
-#phoneMessage{
-  min-height:28px;
-  margin-top:15px;
-  font-size:17px;
+#status{
+  min-height:50px;
+  margin-top:14px;
+  color:#445;
   font-weight:800;
+  line-height:1.45;
+}
+
+.progress{
+  display:none;
+  height:11px;
+  margin-top:10px;
+  overflow:hidden;
+  border-radius:20px;
+  background:#e8edf2;
+}
+
+#bar{
+  width:0;
+  height:100%;
+  background:#69aef7;
+  transition:width .2s;
 }
 
 .tip{
-  margin-top:22px;
-  padding:13px;
-  background:#f4f8fb;
+  margin-top:18px;
+  padding:12px;
   border-radius:18px;
-  color:#53606b;
-  line-height:1.5;
+  background:#f5f8fa;
+  color:#5d6871;
   font-size:14px;
+  line-height:1.45;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ======================
-     전자칠판
-====================== -->
-<div id="boardApp">
+<div id="board">
 
   <section id="home">
-    <div class="homeEarth">🌎✈️</div>
+
+    <div class="earth">🌎✈️</div>
+
     <h1>캐릭터와 떠나는 세계여행</h1>
-    <p class="sub">어느 나라로 여행을 떠나볼까요?</p>
 
-    <div class="countryGrid">
-      <button class="countryBtn" onclick="selectCountry('korea')">
-        <span class="flag">🇰🇷</span>대한민국
+    <p>
+      실제 세계 풍경 속으로<br>
+      내가 그린 캐릭터가 여행을 떠나요!
+    </p>
+
+    <div class="grid">
+
+      <button class="country" data-country="korea">
+        <span class="flag">🇰🇷</span>
+        대한민국
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('japan')">
-        <span class="flag">🇯🇵</span>일본
+      <button class="country" data-country="japan">
+        <span class="flag">🇯🇵</span>
+        일본
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('china')">
-        <span class="flag">🇨🇳</span>중국
+      <button class="country" data-country="china">
+        <span class="flag">🇨🇳</span>
+        중국
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('vietnam')">
-        <span class="flag">🇻🇳</span>베트남
+      <button class="country" data-country="vietnam">
+        <span class="flag">🇻🇳</span>
+        베트남
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('france')">
-        <span class="flag">🇫🇷</span>프랑스
+      <button class="country" data-country="france">
+        <span class="flag">🇫🇷</span>
+        프랑스
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('uk')">
-        <span class="flag">🇬🇧</span>영국
+      <button class="country" data-country="uk">
+        <span class="flag">🇬🇧</span>
+        영국
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('usa')">
-        <span class="flag">🇺🇸</span>미국
+      <button class="country" data-country="usa">
+        <span class="flag">🇺🇸</span>
+        미국
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('brazil')">
-        <span class="flag">🇧🇷</span>브라질
+      <button class="country" data-country="brazil">
+        <span class="flag">🇧🇷</span>
+        브라질
       </button>
 
-      <button class="countryBtn" onclick="selectCountry('egypt')">
-        <span class="flag">🇪🇬</span>이집트
+      <button class="country" data-country="egypt">
+        <span class="flag">🇪🇬</span>
+        이집트
       </button>
+
     </div>
+
   </section>
+
 
   <section id="world" class="hidden">
 
-    <div id="scene"></div>
+    <div id="photoBg"></div>
 
-    <div class="countryTitle">
-      <strong id="boardCountryName"></strong>
-      <span>내가 찍은 사진이 이곳에 나타나요 ✨</span>
+    <div class="topCard">
+      <b id="countryTitle"></b>
+      <span>QR을 찍고 캐릭터를 보내보세요 ✨</span>
     </div>
 
-    <button class="homeBtn" onclick="goHome()">
+    <button id="homeBtn" class="homeBtn">
       🌎 나라 고르기
     </button>
 
-    <div id="photoStage"></div>
+    <div id="stage"></div>
 
-    <div id="arrival" class="arrival">
-      ✨ 새로운 캐릭터가 도착했어요!
+    <div id="arrive" class="arrive">
+      ✨ 캐릭터가 도착했어요!
     </div>
 
-    <div class="qrPanel">
-      <div class="qrTitle">📱 내 사진 띄우기</div>
-      <div id="qrcode"></div>
-      <small>QR 찍기 → 사진 촬영 →<br>세계로 보내기!</small>
+    <div class="qrCard">
+
+      <b>📱 내 캐릭터 띄우기</b>
+
+      <div id="qr"></div>
+
+      <small>
+        QR → 사진 촬영 → 자동 누끼<br>
+        → 전자칠판에 등장!
+      </small>
+
     </div>
 
   </section>
+
 </div>
 
 
-<!-- ======================
-     휴대폰
-====================== -->
-<div id="phoneApp" class="hidden">
+<div id="phone" class="hidden">
 
-  <div class="phoneCard">
+  <div class="card">
 
-    <div class="phoneEarth">📱🌎</div>
+    <div class="earth">📱🎨</div>
 
     <h1>내 캐릭터 보내기</h1>
 
@@ -596,44 +539,45 @@ button{font-family:inherit;cursor:pointer}
       전자칠판과 연결 중...
     </div>
 
-    <label class="cameraLabel">
-      📸 사진 찍기
+    <label class="take">
+      📸 그림 사진 찍기
       <input
-        id="phonePhoto"
+        id="photoInput"
         type="file"
         accept="image/*"
         capture="environment"
       >
     </label>
 
+    <div class="progress" id="progress">
+      <div id="bar"></div>
+    </div>
+
+    <div id="status">
+      종이 위 캐릭터가 크게 보이게 찍어주세요 😊
+    </div>
+
     <div id="previewWrap">
       <img id="preview">
     </div>
 
-    <button
-      id="sendBtn"
-      class="sendBtn"
-      disabled
-    >
+    <button id="send" disabled>
       ✈️ 세계로 보내기
     </button>
 
-    <div id="phoneMessage"></div>
-
     <div class="tip">
-      앱을 설치할 필요 없어요 😊<br>
-      사진을 찍은 뒤 <b>세계로 보내기</b>만 눌러주세요.
+      앱 설치·로그인 필요 없음<br>
+      사진을 찍으면 자동으로 배경을 없애요.
     </div>
 
   </div>
+
 </div>
 
 
-<!-- QR 만들기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
-<!-- Firebase -->
 <script type="module">
 
 import { initializeApp }
@@ -643,11 +587,8 @@ import {
   getDatabase,
   ref,
   set,
-  push,
   onValue,
-  onChildAdded,
-  query,
-  limitToLast
+  get
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
@@ -664,143 +605,154 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getDatabase(app);
 
 
-/* 우리 반 방 이름 */
-const ROOM = "dasom-class";
+/* =========================
+   실제 여행지 사진
+========================= */
 
-
-const countries = {
+const COUNTRIES = {
 
   korea:{
     flag:"🇰🇷",
     name:"대한민국",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop palace">🏯</div>
-      <div class="prop koreaFlower">🌺</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1538485399081-7c8970b1c9b1?auto=format&fit=crop&w=1800&q=85"
   },
 
   japan:{
     flag:"🇯🇵",
     name:"일본",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop fuji"></div>
-      <div class="prop sakura">🌸</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=1800&q=85"
   },
 
   china:{
     flag:"🇨🇳",
     name:"중국",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop wall"></div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1800&q=85"
   },
 
   vietnam:{
     flag:"🇻🇳",
     name:"베트남",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop vietnamBoat">🛶🌿</div>
-      <div class="prop vietnamLantern">🏮</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=85"
   },
 
   france:{
     flag:"🇫🇷",
     name:"프랑스",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop eiffel">🗼</div>
-      <div class="prop franceCafe">🥐☕</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1800&q=85"
   },
 
   uk:{
     flag:"🇬🇧",
     name:"영국",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop bigben">🕰️</div>
-      <div class="prop londonBus">🚌</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1800&q=85"
   },
 
   usa:{
     flag:"🇺🇸",
     name:"미국",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop liberty">🗽</div>
-      <div class="prop city">🏙️</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1800&q=85"
   },
 
   brazil:{
     flag:"🇧🇷",
     name:"브라질",
-    scene:`
-      <div class="sky"></div>
-      <div class="ground"></div>
-      <div class="prop christ">🙌</div>
-      <div class="prop brazilTree">🌴🌺</div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1800&q=85"
   },
 
   egypt:{
     flag:"🇪🇬",
     name:"이집트",
-    scene:`
-      <div class="sky desert"></div>
-      <div class="prop pyramid1"></div>
-      <div class="prop pyramid2"></div>
-    `
+    photo:
+    "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1800&q=85"
   }
 
 };
 
 
 /* =========================
-   어떤 화면인지 확인
+   전자칠판/휴대폰 구분
 ========================= */
 
-const params = new URLSearchParams(location.search);
+const params =
+  new URLSearchParams(location.search);
 
-const mode = params.get("mode");
+const mode =
+  params.get("mode");
 
-const boardApp =
-  document.getElementById("boardApp");
-
-const phoneApp =
-  document.getElementById("phoneApp");
+const isPhone =
+  mode === "phone";
 
 
-if(mode === "phone"){
+let room =
+  params.get("room");
 
-  boardApp.classList.add("hidden");
-  phoneApp.classList.remove("hidden");
+
+if(!room && !isPhone){
+
+  room =
+    localStorage.getItem(
+      "worldTravelRoom"
+    );
+
+  if(!room){
+
+    room =
+      Math.random()
+      .toString(36)
+      .slice(2,8)
+      .toUpperCase();
+
+    localStorage.setItem(
+      "worldTravelRoom",
+      room
+    );
+
+  }
+
+}
+
+
+room =
+  (room || "")
+  .replace(
+    /[^A-Za-z0-9_-]/g,
+    ""
+  )
+  .slice(0,20);
+
+
+document
+.getElementById("board")
+.classList
+.toggle("hidden",isPhone);
+
+
+document
+.getElementById("phone")
+.classList
+.toggle("hidden",!isPhone);
+
+
+if(isPhone){
 
   startPhone();
 
 }else{
 
-  boardApp.classList.remove("hidden");
-  phoneApp.classList.add("hidden");
-
   startBoard();
+
 }
 
 
@@ -812,124 +764,265 @@ function startBoard(){
 
   makeQR();
 
-  const photosQuery =
-    query(
-      ref(db,`rooms/${ROOM}/photos`),
-      limitToLast(1)
+
+  document
+  .querySelectorAll(".country")
+  .forEach(btn=>{
+
+    btn.addEventListener(
+      "click",
+      async ()=>{
+
+        const country =
+          btn.dataset.country;
+
+        await set(
+          ref(
+            db,
+            `rooms/${room}/currentCountry`
+          ),
+          country
+        );
+
+        showCountry(country);
+
+      }
     );
 
-  onChildAdded(photosQuery,snapshot=>{
-
-    const data = snapshot.val();
-
-    if(!data || !data.image) return;
-
-    showPhoto(data.image);
-
   });
 
-}
+
+  document
+  .getElementById("homeBtn")
+  .onclick = ()=>{
+
+    document
+    .getElementById("world")
+    .classList.add("hidden");
+
+    document
+    .getElementById("home")
+    .classList.remove("hidden");
+
+  };
 
 
-window.selectCountry =
-async function(country){
+  let lastStamp = 0;
 
-  if(!countries[country]) return;
 
-  await set(
-    ref(db,`rooms/${ROOM}/currentCountry`),
-    country
+  onValue(
+    ref(
+      db,
+      `rooms/${room}/latest`
+    ),
+    snapshot=>{
+
+      const data =
+        snapshot.val();
+
+      if(
+        !data ||
+        !data.image ||
+        !data.createdAt
+      ){
+        return;
+      }
+
+      if(
+        data.createdAt
+        <= lastStamp
+      ){
+        return;
+      }
+
+      lastStamp =
+        data.createdAt;
+
+      showPuppet(
+        data.image
+      );
+
+    }
   );
 
-  showCountry(country);
 
-};
+  get(
+    ref(
+      db,
+      `rooms/${room}/currentCountry`
+    )
+  )
+  .then(snapshot=>{
 
+    if(
+      snapshot.exists() &&
+      COUNTRIES[
+        snapshot.val()
+      ]
+    ){
 
-function showCountry(country){
+      showCountry(
+        snapshot.val()
+      );
 
-  const info = countries[country];
+    }
 
-  document
-    .getElementById("home")
-    .classList.add("hidden");
-
-  document
-    .getElementById("world")
-    .classList.remove("hidden");
-
-  document.getElementById("scene").innerHTML =
-    info.scene;
-
-  document.getElementById("boardCountryName")
-    .textContent =
-    `${info.flag} ${info.name}`;
-
-  document.getElementById("photoStage")
-    .innerHTML = "";
-
-}
-
-
-window.goHome =
-function(){
-
-  document
-    .getElementById("world")
-    .classList.add("hidden");
-
-  document
-    .getElementById("home")
-    .classList.remove("hidden");
-
-};
-
-
-function makeQR(){
-
-  const qrBox =
-    document.getElementById("qrcode");
-
-  qrBox.innerHTML = "";
-
-  const base =
-    location.origin + location.pathname;
-
-  const phoneURL =
-    `${base}?mode=phone`;
-
-  new QRCode(qrBox,{
-    text:phoneURL,
-    width:135,
-    height:135
   });
 
 }
 
 
-function showPhoto(src){
+/* 나라 실사 화면 */
+function showCountry(country){
+
+  const c =
+    COUNTRIES[country];
+
+  if(!c) return;
+
+
+  document
+  .getElementById("home")
+  .classList.add("hidden");
+
+
+  document
+  .getElementById("world")
+  .classList.remove("hidden");
+
+
+  document
+  .getElementById("photoBg")
+  .style
+  .backgroundImage =
+    `url("${c.photo}")`;
+
+
+  document
+  .getElementById("countryTitle")
+  .textContent =
+    `${c.flag} ${c.name}`;
+
+
+  document
+  .getElementById("stage")
+  .innerHTML = "";
+
+}
+
+
+/* QR */
+function makeQR(){
+
+  const box =
+    document.getElementById("qr");
+
+  box.innerHTML = "";
+
+
+  const base =
+    location.origin
+    +
+    location.pathname;
+
+
+  const phoneURL =
+    `${base}?mode=phone&room=${room}`;
+
+
+  new QRCode(
+    box,
+    {
+      text:phoneURL,
+      width:140,
+      height:140,
+      correctLevel:
+        QRCode.CorrectLevel.M
+    }
+  );
+
+}
+
+
+/* 캐릭터 걷기 */
+function showPuppet(src){
 
   const stage =
-    document.getElementById("photoStage");
+    document.getElementById("stage");
+
 
   stage.innerHTML = "";
 
-  const img =
-    document.createElement("img");
 
-  img.className = "travelPhoto";
-  img.src = src;
+  const puppet =
+    document.createElement("div");
 
-  stage.appendChild(img);
+
+  puppet.className =
+    "puppet";
+
+
+  [
+    "body",
+    "head",
+    "armL",
+    "armR",
+    "legL",
+    "legR"
+  ]
+  .forEach(part=>{
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      src;
+
+    img.className =
+      `piece ${part}`;
+
+    puppet.appendChild(
+      img
+    );
+
+  });
+
+
+  stage.appendChild(
+    puppet
+  );
+
 
   const notice =
-    document.getElementById("arrival");
+    document
+    .getElementById(
+      "arrive"
+    );
 
-  notice.classList.remove("show");
+
+  notice
+  .classList
+  .remove("show");
+
 
   void notice.offsetWidth;
 
-  notice.classList.add("show");
+
+  notice
+  .classList
+  .add("show");
+
+
+  puppet
+  .addEventListener(
+    "animationend",
+    ()=>{
+
+      stage.innerHTML="";
+
+    },
+    {once:true}
+  );
 
 }
 
@@ -938,49 +1031,100 @@ function showPhoto(src){
    휴대폰
 ========================= */
 
-function startPhone(){
+async function startPhone(){
 
-  let selectedImage = null;
+  if(!room){
 
-  const countryText =
-    document.getElementById("phoneCountry");
+    document
+    .getElementById("status")
+    .textContent =
+      "QR을 다시 찍어주세요.";
+
+    return;
+
+  }
+
+
+  let finalImage =
+    null;
+
 
   const input =
-    document.getElementById("phonePhoto");
+    document.getElementById(
+      "photoInput"
+    );
+
 
   const preview =
-    document.getElementById("preview");
+    document.getElementById(
+      "preview"
+    );
+
 
   const previewWrap =
-    document.getElementById("previewWrap");
+    document.getElementById(
+      "previewWrap"
+    );
 
-  const sendBtn =
-    document.getElementById("sendBtn");
 
-  const message =
-    document.getElementById("phoneMessage");
+  const send =
+    document.getElementById(
+      "send"
+    );
+
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+
+  const progress =
+    document.getElementById(
+      "progress"
+    );
+
+
+  const bar =
+    document.getElementById(
+      "bar"
+    );
 
 
   onValue(
-    ref(db,`rooms/${ROOM}/currentCountry`),
+    ref(
+      db,
+      `rooms/${room}/currentCountry`
+    ),
     snapshot=>{
 
-      const country = snapshot.val();
+      const key =
+        snapshot.val();
+
 
       if(
-        country &&
-        countries[country]
+        key &&
+        COUNTRIES[key]
       ){
 
-        const info =
-          countries[country];
+        const c =
+          COUNTRIES[key];
 
-        countryText.textContent =
-          `${info.flag} 지금 전자칠판은 ${info.name} 여행 중이에요!`;
+
+        document
+        .getElementById(
+          "phoneCountry"
+        )
+        .textContent =
+          `${c.flag} 지금 ${c.name} 여행 중이에요!`;
 
       }else{
 
-        countryText.textContent =
+        document
+        .getElementById(
+          "phoneCountry"
+        )
+        .textContent =
           "🌎 전자칠판에서 나라를 먼저 골라주세요.";
 
       }
@@ -989,42 +1133,182 @@ function startPhone(){
   );
 
 
-  input.addEventListener(
+  input
+  .addEventListener(
     "change",
-    async function(){
+    async ()=>{
 
       const file =
-        this.files[0];
+        input.files?.[0];
+
 
       if(!file) return;
 
-      message.textContent =
-        "사진을 준비하고 있어요 ✨";
+
+      send.disabled =
+        true;
+
+
+      previewWrap
+      .style
+      .display =
+        "none";
+
+
+      finalImage =
+        null;
+
+
+      progress
+      .style
+      .display =
+        "block";
+
+
+      bar.style.width =
+        "8%";
+
+
+      status.textContent =
+        "✨ 캐릭터 자동 누끼를 준비하고 있어요...";
+
 
       try{
 
-        selectedImage =
-          await compressImage(file);
+        const module =
+          await import(
+            "https://esm.sh/@imgly/background-removal@1.7.0"
+          );
+
+
+        const removeBackground =
+          module.removeBackground
+          ||
+          module.default;
+
+
+        const resultBlob =
+          await removeBackground(
+            file,
+            {
+              model:
+                "isnet_quint8",
+
+              device:
+                "cpu",
+
+              proxyToWorker:
+                false,
+
+              output:{
+                format:
+                  "image/png",
+
+                quality:
+                  1
+              },
+
+              progress:
+              (
+                key,
+                current,
+                total
+              )=>{
+
+                const percent =
+                  Math.max(
+                    10,
+                    Math.min(
+                      88,
+                      Math.round(
+                        current
+                        /
+                        total
+                        *
+                        88
+                      )
+                    )
+                  );
+
+
+                bar
+                .style
+                .width =
+                  percent+"%";
+
+
+                status
+                .textContent =
+                  `✂️ 배경을 자동으로 지우는 중... ${percent}%`;
+
+              }
+
+            }
+          );
+
+
+        bar.style.width =
+          "92%";
+
+
+        status.textContent =
+          "✨ 캐릭터 모양을 다듬는 중...";
+
+
+        finalImage =
+          await resizeTransparent(
+            resultBlob
+          );
+
+
+        bar.style.width =
+          "100%";
+
 
         preview.src =
-          selectedImage;
+          finalImage;
 
-        previewWrap.style.display =
+
+        previewWrap
+        .style
+        .display =
           "block";
 
-        sendBtn.disabled =
+
+        send.disabled =
           false;
 
-        message.textContent =
-          "사진이 준비됐어요 😊";
+
+        status.textContent =
+          "완성! 캐릭터만 남았어요 💛";
+
+
+        setTimeout(
+          ()=>{
+
+            progress
+            .style
+            .display =
+              "none";
+
+          },
+          500
+        );
 
       }
-      catch(e){
+      catch(error){
 
-        console.error(e);
+        console.error(error);
 
-        message.textContent =
-          "사진을 다시 찍어주세요 🥹";
+
+        status.textContent =
+          "누끼 처리에 실패했어요. 흰 종이 위에서 다시 찍어주세요 🥹";
+
+
+        progress
+        .style
+        .display =
+          "none";
 
       }
 
@@ -1032,73 +1316,94 @@ function startPhone(){
   );
 
 
-  sendBtn.addEventListener(
+  send
+  .addEventListener(
     "click",
-    async function(){
+    async ()=>{
 
-      if(!selectedImage) return;
-
-      sendBtn.disabled = true;
-
-      message.textContent =
-        "✈️ 전자칠판으로 보내는 중...";
-
-      try{
-
-        const countrySnap =
-          await new Promise(resolve=>{
-
-            onValue(
-              ref(db,`rooms/${ROOM}/currentCountry`),
-              resolve,
-              {onlyOnce:true}
-            );
-
-          });
-
-        const country =
-          countrySnap.val() || "world";
+      if(
+        !finalImage
+      ){
+        return;
+      }
 
 
-        await push(
-          ref(db,`rooms/${ROOM}/photos`),
-          {
-            image:selectedImage,
-            country:country,
-            createdAt:Date.now()
-          }
+      send.disabled =
+        true;
+
+
+      status.textContent =
+        "✈️ 전자칠판으로 날아가는 중...";
+
+
+      const countrySnap =
+        await get(
+          ref(
+            db,
+            `rooms/${room}/currentCountry`
+          )
         );
 
-        message.textContent =
-          "🎉 전자칠판에 나타났어요!";
 
-        setTimeout(()=>{
+      const country =
+        countrySnap.val()
+        ||
+        "world";
 
-          selectedImage = null;
 
-          preview.src = "";
+      await set(
+        ref(
+          db,
+          `rooms/${room}/latest`
+        ),
+        {
+          image:
+            finalImage,
 
-          previewWrap.style.display =
+          country:
+            country,
+
+          createdAt:
+            Date.now()
+        }
+      );
+
+
+      status.textContent =
+        "🎉 전자칠판에 도착했어요!";
+
+
+      setTimeout(
+        ()=>{
+
+          finalImage =
+            null;
+
+
+          input.value =
+            "";
+
+
+          preview.src =
+            "";
+
+
+          previewWrap
+          .style
+          .display =
             "none";
 
-          input.value = "";
 
-          message.textContent =
+          send.disabled =
+            true;
+
+
+          status.textContent =
             "다음 캐릭터도 찍어보세요 📸";
 
-        },1800);
-
-      }
-      catch(e){
-
-        console.error(e);
-
-        message.textContent =
-          "전송이 안 됐어요. 다시 눌러주세요 🥹";
-
-        sendBtn.disabled = false;
-
-      }
+        },
+        1700
+      );
 
     }
   );
@@ -1106,101 +1411,187 @@ function startPhone(){
 }
 
 
-/* 사진 용량 줄이기 */
-function compressImage(file){
+/* =========================
+   투명 이미지 크기 줄이기
+========================= */
+
+async function resizeTransparent(blob){
+
+  const img =
+    await blobToImage(blob);
+
+
+  const max =
+    700;
+
+
+  let width =
+    img.naturalWidth;
+
+
+  let height =
+    img.naturalHeight;
+
+
+  const scale =
+    Math.min(
+      1,
+      max
+      /
+      Math.max(
+        width,
+        height
+      )
+    );
+
+
+  width =
+    Math.max(
+      1,
+      Math.round(
+        width*scale
+      )
+    );
+
+
+  height =
+    Math.max(
+      1,
+      Math.round(
+        height*scale
+      )
+    );
+
+
+  const canvas =
+    document
+    .createElement(
+      "canvas"
+    );
+
+
+  canvas.width =
+    width;
+
+
+  canvas.height =
+    height;
+
+
+  const ctx =
+    canvas
+    .getContext(
+      "2d"
+    );
+
+
+  ctx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  ctx.drawImage(
+    img,
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  const outputBlob =
+    await new Promise(
+      resolve=>
+        canvas.toBlob(
+          resolve,
+          "image/webp",
+          .82
+        )
+    );
+
+
+  return await blobToDataURL(
+    outputBlob
+  );
+
+}
+
+
+function blobToImage(blob){
 
   return new Promise(
-    (resolve,reject)=>{
+    (
+      resolve,
+      reject
+    )=>{
 
-      const reader =
-        new FileReader();
+      const url =
+        URL.createObjectURL(
+          blob
+        );
 
-      reader.onload =
-      function(e){
 
-        const image =
-          new Image();
+      const img =
+        new Image();
 
-        image.onload =
-        function(){
 
-          const canvas =
-            document.createElement("canvas");
+      img.onload =
+        ()=>{
 
-          const maxSize = 900;
-
-          let width =
-            image.width;
-
-          let height =
-            image.height;
-
-          if(
-            width > height &&
-            width > maxSize
-          ){
-
-            height =
-              Math.round(
-                height * maxSize / width
-              );
-
-            width =
-              maxSize;
-
-          }
-
-          if(
-            height >= width &&
-            height > maxSize
-          ){
-
-            width =
-              Math.round(
-                width * maxSize / height
-              );
-
-            height =
-              maxSize;
-
-          }
-
-          canvas.width =
-            width;
-
-          canvas.height =
-            height;
-
-          const ctx =
-            canvas.getContext("2d");
-
-          ctx.drawImage(
-            image,
-            0,0,
-            width,height
+          URL
+          .revokeObjectURL(
+            url
           );
 
           resolve(
-            canvas.toDataURL(
-              "image/jpeg",
-              .72
-            )
+            img
           );
 
         };
 
-        image.onerror =
-          reject;
 
-        image.src =
-          e.target.result;
+      img.onerror =
+        reject;
 
-      };
+
+      img.src =
+        url;
+
+    }
+  );
+
+}
+
+
+function blobToDataURL(blob){
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    )=>{
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        ()=>resolve(
+          reader.result
+        );
+
 
       reader.onerror =
         reject;
 
-      reader.readAsDataURL(file);
+
+      reader
+      .readAsDataURL(
+        blob
+      );
 
     }
   );

@@ -8,10 +8,7 @@
 <style>
 *{box-sizing:border-box}
 html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
+  margin:0;width:100%;height:100%;
   font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
   background:#111;
 }
@@ -19,36 +16,32 @@ button,label{font:inherit}
 .hidden{display:none!important}
 
 /* =========================
-   전자칠판
+   전자칠판 첫 화면
 ========================= */
 #board{
-  width:100vw;
-  height:100vh;
-  position:relative;
-  overflow:hidden;
+  width:100vw;height:100vh;
+  position:relative;overflow:hidden;
 }
 
 #home{
-  position:absolute;
-  inset:0;
-  overflow:auto;
-  text-align:center;
-  padding:28px 22px 60px;
+  position:absolute;inset:0;
+  overflow:auto;text-align:center;
+  padding:25px 22px 55px;
   background:linear-gradient(#bceaff,#f8fdff);
 }
 
-.earth{font-size:75px}
+.earth{font-size:72px}
 
 #home h1{
-  margin:4px 0 6px;
-  font-size:clamp(34px,6vw,72px);
+  margin:3px 0 5px;
+  font-size:clamp(34px,6vw,70px);
   color:#173852;
 }
 
 #home p{
-  margin:0 0 22px;
+  margin:0 0 20px;
   color:#4f687d;
-  font-size:clamp(17px,2.4vw,26px);
+  font-size:clamp(17px,2.3vw,25px);
 }
 
 .grid{
@@ -60,60 +53,218 @@ button,label{font:inherit}
 }
 
 .country{
-  min-height:116px;
-  border:0;
-  border-radius:24px;
-  background:white;
+  min-height:112px;
+  border:0;border-radius:24px;
+  background:#fff;
   box-shadow:0 7px 20px #0002;
-  font-size:21px;
-  font-weight:900;
+  font-size:21px;font-weight:900;
   color:#263b50;
+  cursor:pointer;
 }
 
-.country .flag{
-  display:block;
-  font-size:48px;
-  margin-bottom:3px;
-}
+.country:active{transform:scale(.97)}
+.flag{display:block;font-size:46px;margin-bottom:3px}
 
 @media(max-width:650px){
   .grid{grid-template-columns:repeat(2,1fr)}
 }
 
-/* 여행 화면 */
+/* =========================
+   세계여행 화면
+========================= */
 #world{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  background:#000;
+  position:absolute;inset:0;
+  overflow:hidden;background:#000;
 }
 
 #photoBg{
   position:absolute;
-  inset:0;
+  inset:-1%;
   background-size:cover;
   background-position:center;
   transform:scale(1.02);
+  transition:background-image .4s ease;
+  z-index:1;
 }
 
-#photoBg:after{
-  content:"";
+#shade{
+  position:absolute;inset:0;
+  z-index:2;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.22),transparent 30%,transparent 68%,rgba(0,0,0,.28));
+}
+
+/* 나라별 움직이는 자연효과 */
+#effects{
+  position:absolute;inset:0;
+  z-index:5;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.fx{
   position:absolute;
-  inset:0;
+  pointer-events:none;
+}
+
+/* 일본 벚꽃 */
+.sakura{
+  top:-8%;
+  font-size:clamp(18px,2.5vw,35px);
+  opacity:.9;
+  animation:sakuraFall linear infinite;
+}
+@keyframes sakuraFall{
+  0%{transform:translate(0,-10vh) rotate(0)}
+  35%{transform:translate(55px,38vh) rotate(130deg)}
+  70%{transform:translate(-30px,76vh) rotate(260deg)}
+  100%{transform:translate(45px,115vh) rotate(420deg)}
+}
+
+/* 한국 꽃잎 */
+.kpetal{
+  top:-8%;
+  font-size:clamp(16px,2vw,29px);
+  opacity:.82;
+  animation:kpetalFall linear infinite;
+}
+@keyframes kpetalFall{
+  0%{transform:translateY(-10vh) rotate(0)}
+  50%{transform:translate(35px,55vh) rotate(180deg)}
+  100%{transform:translate(-25px,112vh) rotate(380deg)}
+}
+
+/* 중국 구름 */
+.cloud{
+  left:-18%;
+  font-size:clamp(55px,8vw,110px);
+  opacity:.52;
+  filter:blur(.4px);
+  animation:cloudMove linear infinite;
+}
+@keyframes cloudMove{
+  from{transform:translateX(-10vw)}
+  to{transform:translateX(135vw)}
+}
+
+/* 베트남 물빛 */
+.waterGlow{
+  left:-15%;bottom:-19%;
+  width:130%;height:42%;
+  border-radius:48%;
+  border:4px solid rgba(255,255,255,.18);
+  background:rgba(160,225,255,.08);
+  animation:waterWave 4s ease-in-out infinite alternate;
+}
+.waterGlow.second{
+  bottom:-24%;
+  opacity:.65;
+  animation-duration:6s;
+}
+@keyframes waterWave{
+  from{transform:translateX(-3%) rotate(-1.5deg)}
+  to{transform:translateX(3%) rotate(1.5deg)}
+}
+
+/* 프랑스 반짝임 */
+.sparkle{
+  font-size:clamp(18px,2.4vw,34px);
+  animation:sparkle 1.6s ease-in-out infinite;
+}
+@keyframes sparkle{
+  0%,100%{opacity:.08;transform:scale(.55) rotate(0)}
+  50%{opacity:1;transform:scale(1.3) rotate(35deg)}
+}
+
+/* 영국 비 */
+.rain{
+  top:-18%;
+  width:2px;height:65px;
+  background:linear-gradient(transparent,rgba(255,255,255,.6));
+  transform:rotate(12deg);
+  animation:rainFall linear infinite;
+}
+@keyframes rainFall{
+  from{transform:translateY(-20vh) translateX(0) rotate(12deg)}
+  to{transform:translateY(130vh) translateX(80px) rotate(12deg)}
+}
+
+/* 미국 구름 */
+.uscloud{
+  left:-20%;
+  font-size:clamp(55px,7vw,100px);
+  opacity:.48;
+  animation:usCloud 24s linear infinite;
+}
+@keyframes usCloud{
+  from{transform:translateX(-15vw)}
+  to{transform:translateX(140vw)}
+}
+
+/* 브라질 햇빛 */
+.sunRay{
+  top:-40%;left:20%;
+  width:50%;height:130%;
   background:linear-gradient(
-    180deg,
-    rgba(0,0,0,.22),
+    115deg,
     transparent 30%,
-    transparent 70%,
-    rgba(0,0,0,.34)
+    rgba(255,245,175,.17) 48%,
+    rgba(255,245,175,.28) 52%,
+    transparent 70%
   );
+  transform-origin:top center;
+  animation:sunRay 5s ease-in-out infinite alternate;
+}
+@keyframes sunRay{
+  from{transform:rotate(-5deg);opacity:.45}
+  to{transform:rotate(6deg);opacity:1}
 }
 
+.leaf{
+  top:-8%;
+  font-size:clamp(18px,2.4vw,32px);
+  animation:leafFall linear infinite;
+}
+@keyframes leafFall{
+  0%{transform:translateY(-10vh) rotate(0)}
+  50%{transform:translate(60px,55vh) rotate(180deg)}
+  100%{transform:translate(-40px,115vh) rotate(420deg)}
+}
+
+/* 이집트 모래 */
+.sand{
+  left:-10%;
+  width:5px;height:5px;
+  border-radius:50%;
+  background:#e8c579;
+  box-shadow:0 0 5px rgba(255,221,151,.8);
+  opacity:.62;
+  animation:sandFly linear infinite;
+}
+@keyframes sandFly{
+  from{transform:translateX(-10vw) translateY(0)}
+  to{transform:translateX(125vw) translateY(-100px)}
+}
+
+.heat{
+  position:absolute;inset:-2%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,230,170,.04),
+    transparent
+  );
+  animation:heat 2.5s ease-in-out infinite alternate;
+}
+@keyframes heat{
+  from{transform:scale(1) skewX(0)}
+  to{transform:scale(1.008) skewX(.5deg)}
+}
+
+/* 상단 */
 .topCard{
-  position:absolute;
-  z-index:20;
-  left:22px;
-  top:20px;
+  position:absolute;z-index:25;
+  left:22px;top:20px;
   padding:12px 18px;
   border-radius:23px;
   background:#ffffffeb;
@@ -125,18 +276,14 @@ button,label{font:inherit}
   font-size:clamp(27px,4vw,45px);
 }
 
-.topCard span{
-  color:#566;
-  font-size:15px;
+#landmarkName{
+  font-size:15px;color:#566;
 }
 
 .homeBtn{
-  position:absolute;
-  z-index:30;
-  right:20px;
-  top:20px;
-  border:0;
-  border-radius:25px;
+  position:absolute;z-index:30;
+  right:20px;top:20px;
+  border:0;border-radius:25px;
   padding:12px 18px;
   background:#ffffffee;
   font-weight:900;
@@ -145,22 +292,16 @@ button,label{font:inherit}
 
 /* QR */
 .qrCard{
-  position:absolute;
-  z-index:30;
-  right:18px;
-  bottom:18px;
-  width:190px;
-  padding:12px;
+  position:absolute;z-index:30;
+  right:18px;bottom:18px;
+  width:190px;padding:12px;
   border-radius:22px;
   background:#ffffffed;
   box-shadow:0 7px 22px #0004;
   text-align:center;
 }
 
-.qrCard b{
-  display:block;
-  margin-bottom:7px;
-}
+.qrCard b{display:block;margin-bottom:7px}
 
 #qr{
   display:flex;
@@ -169,143 +310,132 @@ button,label{font:inherit}
   min-height:140px;
 }
 
-#qr img,
-#qr canvas{
+#qr img,#qr canvas{
   width:140px!important;
   height:140px!important;
 }
 
 .qrCard small{
-  display:block;
-  margin-top:7px;
-  line-height:1.35;
-  color:#555;
+  display:block;margin-top:7px;
+  color:#555;line-height:1.35;
 }
 
-/* 캐릭터 */
+/* =========================
+   누끼 캐릭터
+========================= */
 #stage{
-  position:absolute;
-  inset:0;
-  z-index:15;
+  position:absolute;inset:0;
+  z-index:18;
   pointer-events:none;
 }
 
 .puppet{
   position:absolute;
-  width:clamp(170px,24vw,330px);
-  height:clamp(240px,38vw,480px);
-  left:-35vw;
+  width:clamp(180px,24vw,330px);
+  height:clamp(250px,38vw,480px);
+  left:-32vw;
   bottom:4vh;
-  animation:walkAcross 16s linear forwards;
-  filter:drop-shadow(0 12px 8px #0007);
+  filter:drop-shadow(0 12px 8px rgba(0,0,0,.45));
+  animation:travelWalk 16s linear forwards;
 }
 
+/*
+  같은 누끼 이미지를 영역별로 잘라 각각 움직인다.
+  아이 그림의 실제 관절을 AI가 인식하는 방식은 아니지만
+  머리/팔/다리가 따로 움직이는 여행 캐릭터 효과를 만든다.
+*/
 .piece{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
+  position:absolute;inset:0;
+  width:100%;height:100%;
   object-fit:contain;
-  will-change:transform;
 }
 
-/* 자동 분할 */
 .head{
-  clip-path:polygon(17% 0,83% 0,83% 39%,17% 39%);
+  clip-path:polygon(16% 0,84% 0,84% 40%,16% 40%);
   transform-origin:50% 32%;
-  animation:headBob .8s ease-in-out infinite alternate;
+  animation:headMove .75s ease-in-out infinite alternate;
 }
 
 .body{
-  clip-path:polygon(23% 29%,77% 29%,77% 76%,23% 76%);
-  transform-origin:50% 64%;
-  animation:bodyBob .42s ease-in-out infinite alternate;
+  clip-path:polygon(22% 28%,78% 28%,78% 77%,22% 77%);
+  animation:bodyMove .42s ease-in-out infinite alternate;
 }
 
 .armL{
-  clip-path:polygon(0 21%,43% 21%,43% 74%,0 74%);
+  clip-path:polygon(0 22%,43% 22%,43% 74%,0 74%);
   transform-origin:35% 34%;
-  animation:armL .52s ease-in-out infinite alternate;
+  animation:leftArm .5s ease-in-out infinite alternate;
 }
 
 .armR{
-  clip-path:polygon(57% 21%,100% 21%,100% 74%,57% 74%);
+  clip-path:polygon(57% 22%,100% 22%,100% 74%,57% 74%);
   transform-origin:65% 34%;
-  animation:armR .52s ease-in-out infinite alternate;
+  animation:rightArm .5s ease-in-out infinite alternate;
 }
 
 .legL{
-  clip-path:polygon(12% 62%,53% 62%,53% 100%,12% 100%);
-  transform-origin:42% 66%;
-  animation:legL .52s ease-in-out infinite alternate;
+  clip-path:polygon(10% 62%,53% 62%,53% 100%,10% 100%);
+  transform-origin:42% 67%;
+  animation:leftLeg .5s ease-in-out infinite alternate;
 }
 
 .legR{
-  clip-path:polygon(47% 62%,88% 62%,88% 100%,47% 100%);
-  transform-origin:58% 66%;
-  animation:legR .52s ease-in-out infinite alternate;
+  clip-path:polygon(47% 62%,90% 62%,90% 100%,47% 100%);
+  transform-origin:58% 67%;
+  animation:rightLeg .5s ease-in-out infinite alternate;
 }
 
-@keyframes walkAcross{
+@keyframes travelWalk{
   0%{left:-30vw;bottom:5vh}
-  18%{left:7vw;bottom:5vh}
-  42%{left:33vw;bottom:10vh}
-  68%{left:58vw;bottom:7vh}
+  20%{left:8vw;bottom:5vh}
+  42%{left:34vw;bottom:9vh}
+  68%{left:58vw;bottom:6vh}
   100%{left:110vw;bottom:5vh}
 }
 
-@keyframes armL{
-  from{transform:rotate(15deg)}
-  to{transform:rotate(-18deg)}
+@keyframes headMove{
+  from{transform:translateY(0) rotate(-2deg)}
+  to{transform:translateY(-5px) rotate(2deg)}
 }
-
-@keyframes armR{
-  from{transform:rotate(-15deg)}
-  to{transform:rotate(18deg)}
-}
-
-@keyframes legL{
-  from{transform:rotate(-9deg) translateY(0)}
-  to{transform:rotate(10deg) translateY(3px)}
-}
-
-@keyframes legR{
-  from{transform:rotate(10deg) translateY(3px)}
-  to{transform:rotate(-9deg) translateY(0)}
-}
-
-@keyframes headBob{
-  from{transform:rotate(-2deg) translateY(0)}
-  to{transform:rotate(2deg) translateY(-4px)}
-}
-
-@keyframes bodyBob{
+@keyframes bodyMove{
   from{transform:translateY(0)}
   to{transform:translateY(-5px)}
 }
+@keyframes leftArm{
+  from{transform:rotate(16deg)}
+  to{transform:rotate(-20deg)}
+}
+@keyframes rightArm{
+  from{transform:rotate(-16deg)}
+  to{transform:rotate(20deg)}
+}
+@keyframes leftLeg{
+  from{transform:rotate(-10deg)}
+  to{transform:rotate(11deg)}
+}
+@keyframes rightLeg{
+  from{transform:rotate(11deg)}
+  to{transform:rotate(-10deg)}
+}
 
 .arrive{
-  position:absolute;
-  z-index:40;
-  left:50%;
-  top:16%;
+  position:absolute;z-index:40;
+  left:50%;top:15%;
   transform:translateX(-50%);
-  padding:13px 22px;
+  padding:13px 23px;
   border-radius:28px;
   background:#fff;
   box-shadow:0 7px 22px #0004;
-  font-size:clamp(20px,3vw,32px);
+  font-size:clamp(20px,3vw,31px);
   font-weight:900;
   opacity:0;
 }
 
-.arrive.show{
-  animation:notice 2.6s ease;
-}
+.arrive.show{animation:arrival 2.6s ease}
 
-@keyframes notice{
+@keyframes arrival{
   0%{opacity:0;transform:translate(-50%,-15px)}
-  15%,76%{opacity:1;transform:translate(-50%,0)}
+  15%,75%{opacity:1;transform:translate(-50%,0)}
   100%{opacity:0}
 }
 
@@ -326,19 +456,15 @@ button,label{font:inherit}
   margin:auto;
   padding:24px 18px;
   border-radius:30px;
-  background:white;
+  background:#fff;
   box-shadow:0 8px 30px #0002;
 }
 
-.card h1{
-  margin:4px 0 6px;
-  font-size:30px;
-}
+.card h1{margin:4px 0 6px;font-size:30px}
 
 #phoneCountry{
   margin:8px 0 20px;
-  font-weight:900;
-  color:#345;
+  font-weight:900;color:#345;
 }
 
 .take{
@@ -346,15 +472,11 @@ button,label{font:inherit}
   padding:18px;
   border-radius:24px;
   background:#238cff;
-  color:white;
-  font-size:21px;
-  font-weight:900;
-  box-shadow:0 5px 16px #0002;
+  color:#fff;
+  font-size:21px;font-weight:900;
 }
 
-.take input{
-  display:none;
-}
+.take input{display:none}
 
 #previewWrap{
   display:none;
@@ -362,8 +484,8 @@ button,label{font:inherit}
   padding:12px;
   border-radius:20px;
   background:
-    repeating-conic-gradient(#eee 0 25%,#fff 0 50%)
-    0 / 22px 22px;
+    repeating-conic-gradient(#ddd 0 25%,#fff 0 50%)
+    0/22px 22px;
 }
 
 #preview{
@@ -375,17 +497,13 @@ button,label{font:inherit}
 #send{
   width:100%;
   margin-top:16px;
+  border:0;border-radius:24px;
   padding:17px;
-  border:0;
-  border-radius:24px;
   background:#ffd84f;
-  font-size:21px;
-  font-weight:900;
+  font-size:21px;font-weight:900;
 }
 
-#send:disabled{
-  opacity:.45;
-}
+#send:disabled{opacity:.45}
 
 #status{
   min-height:50px;
@@ -405,20 +523,17 @@ button,label{font:inherit}
 }
 
 #bar{
-  width:0;
-  height:100%;
+  height:100%;width:0;
   background:#69aef7;
   transition:width .2s;
 }
 
 .tip{
-  margin-top:18px;
-  padding:12px;
+  margin-top:18px;padding:12px;
   border-radius:18px;
   background:#f5f8fa;
   color:#5d6871;
-  font-size:14px;
-  line-height:1.45;
+  font-size:14px;line-height:1.45;
 }
 </style>
 </head>
@@ -427,160 +542,98 @@ button,label{font:inherit}
 
 <div id="board">
 
-  <section id="home">
+<section id="home">
+  <div class="earth">🌎✈️</div>
+  <h1>캐릭터와 떠나는 세계여행</h1>
+  <p>내가 만든 캐릭터와 세계의 유명한 곳으로 떠나볼까요?</p>
 
-    <div class="earth">🌎✈️</div>
+  <div class="grid">
+    <button class="country" data-country="korea"><span class="flag">🇰🇷</span>대한민국</button>
+    <button class="country" data-country="japan"><span class="flag">🇯🇵</span>일본</button>
+    <button class="country" data-country="china"><span class="flag">🇨🇳</span>중국</button>
+    <button class="country" data-country="vietnam"><span class="flag">🇻🇳</span>베트남</button>
+    <button class="country" data-country="france"><span class="flag">🇫🇷</span>프랑스</button>
+    <button class="country" data-country="uk"><span class="flag">🇬🇧</span>영국</button>
+    <button class="country" data-country="usa"><span class="flag">🇺🇸</span>미국</button>
+    <button class="country" data-country="brazil"><span class="flag">🇧🇷</span>브라질</button>
+    <button class="country" data-country="egypt"><span class="flag">🇪🇬</span>이집트</button>
+  </div>
+</section>
 
-    <h1>캐릭터와 떠나는 세계여행</h1>
+<section id="world" class="hidden">
+  <div id="photoBg"></div>
+  <div id="shade"></div>
+  <div id="effects"></div>
 
-    <p>
-      실제 세계 풍경 속으로<br>
-      내가 그린 캐릭터가 여행을 떠나요!
-    </p>
+  <div class="topCard">
+    <b id="countryTitle"></b>
+    <span id="landmarkName"></span>
+  </div>
 
-    <div class="grid">
+  <button id="homeBtn" class="homeBtn">🌎 다른 나라로</button>
 
-      <button class="country" data-country="korea">
-        <span class="flag">🇰🇷</span>
-        대한민국
-      </button>
+  <div id="stage"></div>
 
-      <button class="country" data-country="japan">
-        <span class="flag">🇯🇵</span>
-        일본
-      </button>
+  <div id="arrive" class="arrive">
+    ✨ 내 캐릭터가 여행을 왔어요!
+  </div>
 
-      <button class="country" data-country="china">
-        <span class="flag">🇨🇳</span>
-        중국
-      </button>
-
-      <button class="country" data-country="vietnam">
-        <span class="flag">🇻🇳</span>
-        베트남
-      </button>
-
-      <button class="country" data-country="france">
-        <span class="flag">🇫🇷</span>
-        프랑스
-      </button>
-
-      <button class="country" data-country="uk">
-        <span class="flag">🇬🇧</span>
-        영국
-      </button>
-
-      <button class="country" data-country="usa">
-        <span class="flag">🇺🇸</span>
-        미국
-      </button>
-
-      <button class="country" data-country="brazil">
-        <span class="flag">🇧🇷</span>
-        브라질
-      </button>
-
-      <button class="country" data-country="egypt">
-        <span class="flag">🇪🇬</span>
-        이집트
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <section id="world" class="hidden">
-
-    <div id="photoBg"></div>
-
-    <div class="topCard">
-      <b id="countryTitle"></b>
-      <span>QR을 찍고 캐릭터를 보내보세요 ✨</span>
-    </div>
-
-    <button id="homeBtn" class="homeBtn">
-      🌎 나라 고르기
-    </button>
-
-    <div id="stage"></div>
-
-    <div id="arrive" class="arrive">
-      ✨ 캐릭터가 도착했어요!
-    </div>
-
-    <div class="qrCard">
-
-      <b>📱 내 캐릭터 띄우기</b>
-
-      <div id="qr"></div>
-
-      <small>
-        QR → 사진 촬영 → 자동 누끼<br>
-        → 전자칠판에 등장!
-      </small>
-
-    </div>
-
-  </section>
+  <div class="qrCard">
+    <b>📱 캐릭터 보내기</b>
+    <div id="qr"></div>
+    <small>
+      QR을 찍고 그림을 촬영해요<br>
+      캐릭터만 뿅! ✨
+    </small>
+  </div>
+</section>
 
 </div>
 
 
 <div id="phone" class="hidden">
 
-  <div class="card">
+<div class="card">
+  <div class="earth">🎨📸</div>
+  <h1>내 캐릭터 보내기</h1>
 
-    <div class="earth">📱🎨</div>
+  <div id="phoneCountry">전자칠판과 연결 중...</div>
 
-    <h1>내 캐릭터 보내기</h1>
+  <label class="take">
+    📸 내 그림 촬영하기
+    <input id="photoInput" type="file" accept="image/*" capture="environment">
+  </label>
 
-    <div id="phoneCountry">
-      전자칠판과 연결 중...
-    </div>
-
-    <label class="take">
-      📸 그림 사진 찍기
-      <input
-        id="photoInput"
-        type="file"
-        accept="image/*"
-        capture="environment"
-      >
-    </label>
-
-    <div class="progress" id="progress">
-      <div id="bar"></div>
-    </div>
-
-    <div id="status">
-      종이 위 캐릭터가 크게 보이게 찍어주세요 😊
-    </div>
-
-    <div id="previewWrap">
-      <img id="preview">
-    </div>
-
-    <button id="send" disabled>
-      ✈️ 세계로 보내기
-    </button>
-
-    <div class="tip">
-      앱 설치·로그인 필요 없음<br>
-      사진을 찍으면 자동으로 배경을 없애요.
-    </div>
-
+  <div class="progress" id="progress">
+    <div id="bar"></div>
   </div>
+
+  <div id="status">
+    캐릭터가 크게 보이도록 찍어주세요 😊
+  </div>
+
+  <div id="previewWrap">
+    <img id="preview">
+  </div>
+
+  <button id="send" disabled>
+    ✈️ 세계로 보내기
+  </button>
+
+  <div class="tip">
+    앱 설치 없이 바로 사용할 수 있어요.<br>
+    사진을 찍으면 배경을 자동으로 지워요.
+  </div>
+</div>
 
 </div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-
 <script type="module">
 
-import { initializeApp }
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
@@ -593,167 +646,128 @@ import {
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCBdA2qEuytaJQwGil8Smo1mBtUPrVivAM",
-  authDomain: "world-character.firebaseapp.com",
-  databaseURL: "https://world-character-default-rtdb.firebaseio.com",
-  projectId: "world-character",
-  storageBucket: "world-character.firebasestorage.app",
-  messagingSenderId: "462004318277",
-  appId: "1:462004318277:web:3e7a7237d5bfea6b76332c",
-  measurementId: "G-W2E6LTWTCJ"
+const firebaseConfig={
+  apiKey:"AIzaSyCBdA2qEuytaJQwGil8Smo1mBtUPrVivAM",
+  authDomain:"world-character.firebaseapp.com",
+  databaseURL:"https://world-character-default-rtdb.firebaseio.com",
+  projectId:"world-character",
+  storageBucket:"world-character.firebasestorage.app",
+  messagingSenderId:"462004318277",
+  appId:"1:462004318277:web:3e7a7237d5bfea6b76332c",
+  measurementId:"G-W2E6LTWTCJ"
 };
 
-const app = initializeApp(firebaseConfig);
-
-const db = getDatabase(app);
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
 
 
 /* =========================
-   실제 여행지 사진
+   9개 나라 실사 랜드마크
 ========================= */
 
-const COUNTRIES = {
+const COUNTRIES={
 
   korea:{
     flag:"🇰🇷",
     name:"대한민국",
-    photo:
-    "https://images.unsplash.com/photo-1538485399081-7c8970b1c9b1?auto=format&fit=crop&w=1800&q=85"
+    landmark:"경복궁",
+    photo:"https://images.unsplash.com/photo-1599625205524-9f14c8a9f7b5?auto=format&fit=crop&w=1800&q=90",
+    effect:"korea"
   },
 
   japan:{
     flag:"🇯🇵",
     name:"일본",
-    photo:
-    "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=1800&q=85"
+    landmark:"후지산",
+    photo:"https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=1800&q=90",
+    effect:"japan"
   },
 
   china:{
     flag:"🇨🇳",
     name:"중국",
-    photo:
-    "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1800&q=85"
+    landmark:"만리장성",
+    photo:"https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1800&q=90",
+    effect:"china"
   },
 
   vietnam:{
     flag:"🇻🇳",
     name:"베트남",
-    photo:
-    "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=85"
+    landmark:"하롱베이",
+    photo:"https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=90",
+    effect:"vietnam"
   },
 
   france:{
     flag:"🇫🇷",
     name:"프랑스",
-    photo:
-    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1800&q=85"
+    landmark:"에펠탑",
+    photo:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1800&q=90",
+    effect:"france"
   },
 
   uk:{
     flag:"🇬🇧",
     name:"영국",
-    photo:
-    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1800&q=85"
+    landmark:"빅벤",
+    photo:"https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1800&q=90",
+    effect:"uk"
   },
 
   usa:{
     flag:"🇺🇸",
     name:"미국",
-    photo:
-    "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1800&q=85"
+    landmark:"자유의 여신상",
+    photo:"https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1800&q=90",
+    effect:"usa"
   },
 
   brazil:{
     flag:"🇧🇷",
     name:"브라질",
-    photo:
-    "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1800&q=85"
+    landmark:"리우 예수상",
+    photo:"https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1800&q=90",
+    effect:"brazil"
   },
 
   egypt:{
     flag:"🇪🇬",
     name:"이집트",
-    photo:
-    "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1800&q=85"
+    landmark:"기자 피라미드",
+    photo:"https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1800&q=90",
+    effect:"egypt"
   }
 
 };
 
 
 /* =========================
-   전자칠판/휴대폰 구분
+   전자칠판 / 휴대폰 연결
 ========================= */
 
-const params =
-  new URLSearchParams(location.search);
+const params=new URLSearchParams(location.search);
+const isPhone=params.get("mode")==="phone";
 
-const mode =
-  params.get("mode");
+let room=params.get("room");
 
-const isPhone =
-  mode === "phone";
+if(!room&&!isPhone){
 
-
-let room =
-  params.get("room");
-
-
-if(!room && !isPhone){
-
-  room =
-    localStorage.getItem(
-      "worldTravelRoom"
-    );
+  room=localStorage.getItem("worldTravelRoom");
 
   if(!room){
-
-    room =
-      Math.random()
-      .toString(36)
-      .slice(2,8)
-      .toUpperCase();
-
-    localStorage.setItem(
-      "worldTravelRoom",
-      room
-    );
-
+    room=Math.random().toString(36).slice(2,8).toUpperCase();
+    localStorage.setItem("worldTravelRoom",room);
   }
-
 }
 
+room=(room||"").replace(/[^A-Za-z0-9_-]/g,"").slice(0,20);
 
-room =
-  (room || "")
-  .replace(
-    /[^A-Za-z0-9_-]/g,
-    ""
-  )
-  .slice(0,20);
+document.getElementById("board").classList.toggle("hidden",isPhone);
+document.getElementById("phone").classList.toggle("hidden",!isPhone);
 
-
-document
-.getElementById("board")
-.classList
-.toggle("hidden",isPhone);
-
-
-document
-.getElementById("phone")
-.classList
-.toggle("hidden",!isPhone);
-
-
-if(isPhone){
-
-  startPhone();
-
-}else{
-
-  startBoard();
-
-}
+if(isPhone) startPhone();
+else startBoard();
 
 
 /* =========================
@@ -764,107 +778,53 @@ function startBoard(){
 
   makeQR();
 
+  document.querySelectorAll(".country").forEach(btn=>{
 
-  document
-  .querySelectorAll(".country")
-  .forEach(btn=>{
+    btn.onclick=async()=>{
 
-    btn.addEventListener(
-      "click",
-      async ()=>{
+      const key=btn.dataset.country;
 
-        const country =
-          btn.dataset.country;
+      await set(
+        ref(db,`rooms/${room}/currentCountry`),
+        key
+      );
 
-        await set(
-          ref(
-            db,
-            `rooms/${room}/currentCountry`
-          ),
-          country
-        );
-
-        showCountry(country);
-
-      }
-    );
-
+      showCountry(key);
+    };
   });
 
 
-  document
-  .getElementById("homeBtn")
-  .onclick = ()=>{
+  document.getElementById("homeBtn").onclick=()=>{
 
-    document
-    .getElementById("world")
-    .classList.add("hidden");
-
-    document
-    .getElementById("home")
-    .classList.remove("hidden");
+    document.getElementById("world").classList.add("hidden");
+    document.getElementById("home").classList.remove("hidden");
 
   };
 
 
-  let lastStamp = 0;
-
+  let lastStamp=0;
 
   onValue(
-    ref(
-      db,
-      `rooms/${room}/latest`
-    ),
+    ref(db,`rooms/${room}/latest`),
     snapshot=>{
 
-      const data =
-        snapshot.val();
+      const data=snapshot.val();
 
-      if(
-        !data ||
-        !data.image ||
-        !data.createdAt
-      ){
-        return;
-      }
+      if(!data||!data.image||!data.createdAt) return;
+      if(data.createdAt<=lastStamp) return;
 
-      if(
-        data.createdAt
-        <= lastStamp
-      ){
-        return;
-      }
+      lastStamp=data.createdAt;
 
-      lastStamp =
-        data.createdAt;
-
-      showPuppet(
-        data.image
-      );
-
+      showPuppet(data.image);
     }
   );
 
 
-  get(
-    ref(
-      db,
-      `rooms/${room}/currentCountry`
-    )
-  )
+  get(ref(db,`rooms/${room}/currentCountry`))
   .then(snapshot=>{
 
-    if(
-      snapshot.exists() &&
-      COUNTRIES[
-        snapshot.val()
-      ]
-    ){
-
-      showCountry(
-        snapshot.val()
-      );
-
+    if(snapshot.exists()&&COUNTRIES[snapshot.val()]){
+      showCountry(snapshot.val());
     }
 
   });
@@ -872,95 +832,251 @@ function startBoard(){
 }
 
 
-/* 나라 실사 화면 */
-function showCountry(country){
+function showCountry(key){
 
-  const c =
-    COUNTRIES[country];
+  const c=COUNTRIES[key];
+  if(!c)return;
 
-  if(!c) return;
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("world").classList.remove("hidden");
 
-
-  document
-  .getElementById("home")
-  .classList.add("hidden");
-
-
-  document
-  .getElementById("world")
-  .classList.remove("hidden");
-
-
-  document
-  .getElementById("photoBg")
-  .style
-  .backgroundImage =
+  document.getElementById("photoBg").style.backgroundImage=
     `url("${c.photo}")`;
 
-
-  document
-  .getElementById("countryTitle")
-  .textContent =
+  document.getElementById("countryTitle").textContent=
     `${c.flag} ${c.name}`;
 
+  document.getElementById("landmarkName").textContent=
+    `📍 ${c.landmark}`;
 
-  document
-  .getElementById("stage")
-  .innerHTML = "";
+  document.getElementById("stage").innerHTML="";
+
+  createEffects(c.effect);
+}
+
+
+/* =========================
+   나라별 움직임
+========================= */
+
+function createEffects(type){
+
+  const box=document.getElementById("effects");
+  box.innerHTML="";
+
+
+  if(type==="korea"){
+
+    for(let i=0;i<17;i++){
+      makeEmoji(
+        box,
+        "🌸",
+        "kpetal",
+        Math.random()*100,
+        6+Math.random()*8,
+        Math.random()*8
+      );
+    }
+
+  }
+
+
+  if(type==="japan"){
+
+    for(let i=0;i<24;i++){
+      makeEmoji(
+        box,
+        Math.random()>.45?"🌸":"🌸",
+        "sakura",
+        Math.random()*100,
+        6+Math.random()*9,
+        Math.random()*10
+      );
+    }
+
+  }
+
+
+  if(type==="china"){
+
+    for(let i=0;i<5;i++){
+
+      const cloud=document.createElement("div");
+      cloud.className="fx cloud";
+      cloud.textContent="☁️";
+
+      cloud.style.top=(5+Math.random()*38)+"%";
+      cloud.style.animationDuration=(25+Math.random()*25)+"s";
+      cloud.style.animationDelay=(-Math.random()*25)+"s";
+
+      box.appendChild(cloud);
+    }
+
+  }
+
+
+  if(type==="vietnam"){
+
+    const a=document.createElement("div");
+    a.className="fx waterGlow";
+
+    const b=document.createElement("div");
+    b.className="fx waterGlow second";
+
+    box.append(a,b);
+
+  }
+
+
+  if(type==="france"){
+
+    for(let i=0;i<22;i++){
+
+      const s=document.createElement("div");
+
+      s.className="fx sparkle";
+      s.textContent="✨";
+
+      s.style.left=(15+Math.random()*70)+"%";
+      s.style.top=(10+Math.random()*70)+"%";
+      s.style.animationDelay=(Math.random()*2)+"s";
+
+      box.appendChild(s);
+    }
+
+  }
+
+
+  if(type==="uk"){
+
+    for(let i=0;i<50;i++){
+
+      const rain=document.createElement("div");
+
+      rain.className="fx rain";
+
+      rain.style.left=Math.random()*105+"%";
+      rain.style.animationDuration=(.8+Math.random()*1.2)+"s";
+      rain.style.animationDelay=(-Math.random()*2)+"s";
+
+      box.appendChild(rain);
+    }
+
+  }
+
+
+  if(type==="usa"){
+
+    for(let i=0;i<4;i++){
+
+      const cloud=document.createElement("div");
+
+      cloud.className="fx uscloud";
+      cloud.textContent="☁️";
+
+      cloud.style.top=(4+Math.random()*32)+"%";
+      cloud.style.animationDuration=(22+Math.random()*20)+"s";
+      cloud.style.animationDelay=(-Math.random()*25)+"s";
+
+      box.appendChild(cloud);
+    }
+
+  }
+
+
+  if(type==="brazil"){
+
+    const ray=document.createElement("div");
+    ray.className="fx sunRay";
+    box.appendChild(ray);
+
+    for(let i=0;i<12;i++){
+
+      makeEmoji(
+        box,
+        "🍃",
+        "leaf",
+        Math.random()*100,
+        8+Math.random()*8,
+        Math.random()*8
+      );
+
+    }
+
+  }
+
+
+  if(type==="egypt"){
+
+    const heat=document.createElement("div");
+    heat.className="heat";
+    box.appendChild(heat);
+
+    for(let i=0;i<75;i++){
+
+      const sand=document.createElement("div");
+
+      sand.className="fx sand";
+      sand.style.top=(30+Math.random()*65)+"%";
+      sand.style.animationDuration=(4+Math.random()*7)+"s";
+      sand.style.animationDelay=(-Math.random()*7)+"s";
+
+      box.appendChild(sand);
+    }
+
+  }
 
 }
 
 
-/* QR */
+function makeEmoji(parent,text,className,left,duration,delay){
+
+  const el=document.createElement("div");
+
+  el.className=`fx ${className}`;
+  el.textContent=text;
+
+  el.style.left=left+"%";
+  el.style.animationDuration=duration+"s";
+  el.style.animationDelay=(-delay)+"s";
+
+  parent.appendChild(el);
+}
+
+
+/* =========================
+   QR
+========================= */
+
 function makeQR(){
 
-  const box =
-    document.getElementById("qr");
+  const box=document.getElementById("qr");
+  box.innerHTML="";
 
-  box.innerHTML = "";
+  const phoneURL=
+    `${location.origin}${location.pathname}?mode=phone&room=${encodeURIComponent(room)}`;
 
-
-  const base =
-    location.origin
-    +
-    location.pathname;
-
-
-  const phoneURL =
-    `${base}?mode=phone&room=${room}`;
-
-
-  new QRCode(
-    box,
-    {
-      text:phoneURL,
-      width:140,
-      height:140,
-      correctLevel:
-        QRCode.CorrectLevel.M
-    }
-  );
-
+  new QRCode(box,{
+    text:phoneURL,
+    width:140,
+    height:140,
+    correctLevel:QRCode.CorrectLevel.M
+  });
 }
 
 
-/* 캐릭터 걷기 */
+/* =========================
+   캐릭터 등장 + 움직임
+========================= */
+
 function showPuppet(src){
 
-  const stage =
-    document.getElementById("stage");
+  const stage=document.getElementById("stage");
 
+  stage.innerHTML="";
 
-  stage.innerHTML = "";
-
-
-  const puppet =
-    document.createElement("div");
-
-
-  puppet.className =
-    "puppet";
-
+  const puppet=document.createElement("div");
+  puppet.className="puppet";
 
   [
     "body",
@@ -969,58 +1085,32 @@ function showPuppet(src){
     "armR",
     "legL",
     "legR"
-  ]
-  .forEach(part=>{
+  ].forEach(part=>{
 
-    const img =
-      document.createElement("img");
+    const img=document.createElement("img");
 
-    img.src =
-      src;
+    img.src=src;
+    img.className=`piece ${part}`;
 
-    img.className =
-      `piece ${part}`;
-
-    puppet.appendChild(
-      img
-    );
+    puppet.appendChild(img);
 
   });
 
-
-  stage.appendChild(
-    puppet
-  );
+  stage.appendChild(puppet);
 
 
-  const notice =
-    document
-    .getElementById(
-      "arrive"
-    );
+  const notice=document.getElementById("arrive");
 
-
-  notice
-  .classList
-  .remove("show");
-
+  notice.classList.remove("show");
 
   void notice.offsetWidth;
 
-
-  notice
-  .classList
-  .add("show");
+  notice.classList.add("show");
 
 
-  puppet
-  .addEventListener(
+  puppet.addEventListener(
     "animationend",
-    ()=>{
-
-      stage.innerHTML="";
-
-    },
+    ()=>stage.innerHTML="",
     {once:true}
   );
 
@@ -1033,572 +1123,268 @@ function showPuppet(src){
 
 async function startPhone(){
 
+  const input=document.getElementById("photoInput");
+  const preview=document.getElementById("preview");
+  const previewWrap=document.getElementById("previewWrap");
+  const send=document.getElementById("send");
+  const status=document.getElementById("status");
+  const progress=document.getElementById("progress");
+  const bar=document.getElementById("bar");
+
+  let finalImage=null;
+
+
   if(!room){
-
-    document
-    .getElementById("status")
-    .textContent =
-      "QR을 다시 찍어주세요.";
-
+    status.textContent="전자칠판의 QR을 다시 찍어주세요.";
     return;
-
   }
 
 
-  let finalImage =
-    null;
-
-
-  const input =
-    document.getElementById(
-      "photoInput"
-    );
-
-
-  const preview =
-    document.getElementById(
-      "preview"
-    );
-
-
-  const previewWrap =
-    document.getElementById(
-      "previewWrap"
-    );
-
-
-  const send =
-    document.getElementById(
-      "send"
-    );
-
-
-  const status =
-    document.getElementById(
-      "status"
-    );
-
-
-  const progress =
-    document.getElementById(
-      "progress"
-    );
-
-
-  const bar =
-    document.getElementById(
-      "bar"
-    );
-
-
   onValue(
-    ref(
-      db,
-      `rooms/${room}/currentCountry`
-    ),
+    ref(db,`rooms/${room}/currentCountry`),
     snapshot=>{
 
-      const key =
-        snapshot.val();
+      const key=snapshot.val();
 
+      if(key&&COUNTRIES[key]){
 
-      if(
-        key &&
-        COUNTRIES[key]
-      ){
+        const c=COUNTRIES[key];
 
-        const c =
-          COUNTRIES[key];
-
-
-        document
-        .getElementById(
-          "phoneCountry"
-        )
-        .textContent =
-          `${c.flag} 지금 ${c.name} 여행 중이에요!`;
+        document.getElementById("phoneCountry").textContent=
+          `${c.flag} ${c.name} · ${c.landmark} 여행 중!`;
 
       }else{
 
-        document
-        .getElementById(
-          "phoneCountry"
-        )
-        .textContent =
+        document.getElementById("phoneCountry").textContent=
           "🌎 전자칠판에서 나라를 먼저 골라주세요.";
 
       }
-
     }
   );
 
 
-  input
-  .addEventListener(
-    "change",
-    async ()=>{
+  input.addEventListener("change",async()=>{
 
-      const file =
-        input.files?.[0];
+    const file=input.files?.[0];
+    if(!file)return;
 
+    finalImage=null;
+    send.disabled=true;
 
-      if(!file) return;
+    previewWrap.style.display="none";
+    progress.style.display="block";
 
+    bar.style.width="8%";
 
-      send.disabled =
-        true;
+    status.textContent=
+      "✨ 캐릭터만 쏙! 자동 누끼 중이에요...";
 
 
-      previewWrap
-      .style
-      .display =
-        "none";
+    try{
 
+      const mod=await import(
+        "https://esm.sh/@imgly/background-removal@1.7.0"
+      );
 
-      finalImage =
-        null;
+      const removeBackground=
+        mod.removeBackground||mod.default;
 
 
-      progress
-      .style
-      .display =
-        "block";
-
-
-      bar.style.width =
-        "8%";
-
-
-      status.textContent =
-        "✨ 캐릭터 자동 누끼를 준비하고 있어요...";
-
-
-      try{
-
-        const module =
-          await import(
-            "https://esm.sh/@imgly/background-removal@1.7.0"
-          );
-
-
-        const removeBackground =
-          module.removeBackground
-          ||
-          module.default;
-
-
-        const resultBlob =
-          await removeBackground(
-            file,
-            {
-              model:
-                "isnet_quint8",
-
-              device:
-                "cpu",
-
-              proxyToWorker:
-                false,
-
-              output:{
-                format:
-                  "image/png",
-
-                quality:
-                  1
-              },
-
-              progress:
-              (
-                key,
-                current,
-                total
-              )=>{
-
-                const percent =
-                  Math.max(
-                    10,
-                    Math.min(
-                      88,
-                      Math.round(
-                        current
-                        /
-                        total
-                        *
-                        88
-                      )
-                    )
-                  );
-
-
-                bar
-                .style
-                .width =
-                  percent+"%";
-
-
-                status
-                .textContent =
-                  `✂️ 배경을 자동으로 지우는 중... ${percent}%`;
-
-              }
-
-            }
-          );
-
-
-        bar.style.width =
-          "92%";
-
-
-        status.textContent =
-          "✨ 캐릭터 모양을 다듬는 중...";
-
-
-        finalImage =
-          await resizeTransparent(
-            resultBlob
-          );
-
-
-        bar.style.width =
-          "100%";
-
-
-        preview.src =
-          finalImage;
-
-
-        previewWrap
-        .style
-        .display =
-          "block";
-
-
-        send.disabled =
-          false;
-
-
-        status.textContent =
-          "완성! 캐릭터만 남았어요 💛";
-
-
-        setTimeout(
-          ()=>{
-
-            progress
-            .style
-            .display =
-              "none";
-
-          },
-          500
-        );
-
-      }
-      catch(error){
-
-        console.error(error);
-
-
-        status.textContent =
-          "누끼 처리에 실패했어요. 흰 종이 위에서 다시 찍어주세요 🥹";
-
-
-        progress
-        .style
-        .display =
-          "none";
-
-      }
-
-    }
-  );
-
-
-  send
-  .addEventListener(
-    "click",
-    async ()=>{
-
-      if(
-        !finalImage
-      ){
-        return;
-      }
-
-
-      send.disabled =
-        true;
-
-
-      status.textContent =
-        "✈️ 전자칠판으로 날아가는 중...";
-
-
-      const countrySnap =
-        await get(
-          ref(
-            db,
-            `rooms/${room}/currentCountry`
-          )
-        );
-
-
-      const country =
-        countrySnap.val()
-        ||
-        "world";
-
-
-      await set(
-        ref(
-          db,
-          `rooms/${room}/latest`
-        ),
+      const result=await removeBackground(
+        file,
         {
-          image:
-            finalImage,
+          model:"isnet_quint8",
+          device:"cpu",
+          proxyToWorker:false,
 
-          country:
-            country,
+          output:{
+            format:"image/png",
+            quality:1
+          },
 
-          createdAt:
-            Date.now()
+          progress:(key,current,total)=>{
+
+            if(!total)return;
+
+            const percent=Math.max(
+              10,
+              Math.min(
+                90,
+                Math.round((current/total)*90)
+              )
+            );
+
+            bar.style.width=percent+"%";
+
+            status.textContent=
+              `✂️ 배경을 지우고 있어요... ${percent}%`;
+          }
         }
       );
 
 
-      status.textContent =
-        "🎉 전자칠판에 도착했어요!";
+      bar.style.width="94%";
+
+      finalImage=
+        await resizeTransparent(result);
 
 
-      setTimeout(
-        ()=>{
+      bar.style.width="100%";
 
-          finalImage =
-            null;
+      preview.src=finalImage;
+      previewWrap.style.display="block";
 
+      send.disabled=false;
 
-          input.value =
-            "";
+      status.textContent=
+        "짜잔! 캐릭터만 남았어요 ✨";
 
-
-          preview.src =
-            "";
-
-
-          previewWrap
-          .style
-          .display =
-            "none";
+      setTimeout(()=>{
+        progress.style.display="none";
+      },500);
 
 
-          send.disabled =
-            true;
+    }catch(error){
 
+      console.error(error);
 
-          status.textContent =
-            "다음 캐릭터도 찍어보세요 📸";
+      progress.style.display="none";
 
-        },
-        1700
-      );
+      status.textContent=
+        "누끼에 실패했어요 🥹 흰 종이 위에서 캐릭터를 크게 찍어 다시 해주세요.";
 
     }
-  );
+
+  });
+
+
+  send.addEventListener("click",async()=>{
+
+    if(!finalImage)return;
+
+    send.disabled=true;
+
+    status.textContent=
+      "✈️ 내 캐릭터가 세계여행을 떠나는 중...";
+
+
+    const countrySnapshot=
+      await get(
+        ref(db,`rooms/${room}/currentCountry`)
+      );
+
+
+    await set(
+      ref(db,`rooms/${room}/latest`),
+      {
+        image:finalImage,
+        country:countrySnapshot.val()||"world",
+        createdAt:Date.now()
+      }
+    );
+
+
+    status.textContent=
+      "🎉 전자칠판을 봐주세요!";
+
+
+    setTimeout(()=>{
+
+      finalImage=null;
+
+      input.value="";
+      preview.src="";
+
+      previewWrap.style.display="none";
+
+      send.disabled=true;
+
+      status.textContent=
+        "다음 캐릭터도 여행을 떠나볼까요? 📸";
+
+    },1800);
+
+  });
 
 }
 
 
 /* =========================
-   투명 이미지 크기 줄이기
+   누끼 이미지 용량 조절
 ========================= */
 
 async function resizeTransparent(blob){
 
-  const img =
-    await blobToImage(blob);
+  const img=await blobToImage(blob);
 
+  const max=650;
 
-  const max =
-    700;
+  let w=img.naturalWidth;
+  let h=img.naturalHeight;
 
-
-  let width =
-    img.naturalWidth;
-
-
-  let height =
-    img.naturalHeight;
-
-
-  const scale =
-    Math.min(
-      1,
-      max
-      /
-      Math.max(
-        width,
-        height
-      )
-    );
-
-
-  width =
-    Math.max(
-      1,
-      Math.round(
-        width*scale
-      )
-    );
-
-
-  height =
-    Math.max(
-      1,
-      Math.round(
-        height*scale
-      )
-    );
-
-
-  const canvas =
-    document
-    .createElement(
-      "canvas"
-    );
-
-
-  canvas.width =
-    width;
-
-
-  canvas.height =
-    height;
-
-
-  const ctx =
-    canvas
-    .getContext(
-      "2d"
-    );
-
-
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
+  const scale=Math.min(
+    1,
+    max/Math.max(w,h)
   );
 
+  w=Math.max(1,Math.round(w*scale));
+  h=Math.max(1,Math.round(h*scale));
 
-  ctx.drawImage(
-    img,
-    0,
-    0,
-    width,
-    height
+  const canvas=document.createElement("canvas");
+
+  canvas.width=w;
+  canvas.height=h;
+
+  const ctx=canvas.getContext("2d");
+
+  ctx.clearRect(0,0,w,h);
+  ctx.drawImage(img,0,0,w,h);
+
+  const output=await new Promise(resolve=>
+    canvas.toBlob(resolve,"image/webp",.84)
   );
 
-
-  const outputBlob =
-    await new Promise(
-      resolve=>
-        canvas.toBlob(
-          resolve,
-          "image/webp",
-          .82
-        )
-    );
-
-
-  return await blobToDataURL(
-    outputBlob
-  );
-
+  return blobToDataURL(output);
 }
 
 
 function blobToImage(blob){
 
-  return new Promise(
-    (
-      resolve,
-      reject
-    )=>{
+  return new Promise((resolve,reject)=>{
 
-      const url =
-        URL.createObjectURL(
-          blob
-        );
+    const url=URL.createObjectURL(blob);
 
+    const img=new Image();
 
-      const img =
-        new Image();
+    img.onload=()=>{
+      URL.revokeObjectURL(url);
+      resolve(img);
+    };
 
+    img.onerror=reject;
 
-      img.onload =
-        ()=>{
+    img.src=url;
 
-          URL
-          .revokeObjectURL(
-            url
-          );
-
-          resolve(
-            img
-          );
-
-        };
-
-
-      img.onerror =
-        reject;
-
-
-      img.src =
-        url;
-
-    }
-  );
+  });
 
 }
 
 
 function blobToDataURL(blob){
 
-  return new Promise(
-    (
-      resolve,
-      reject
-    )=>{
+  return new Promise((resolve,reject)=>{
 
-      const reader =
-        new FileReader();
+    const reader=new FileReader();
 
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=reject;
 
-      reader.onload =
-        ()=>resolve(
-          reader.result
-        );
+    reader.readAsDataURL(blob);
 
-
-      reader.onerror =
-        reject;
-
-
-      reader
-      .readAsDataURL(
-        blob
-      );
-
-    }
-  );
+  });
 
 }
 
 </script>
-
 </body>
 </html>

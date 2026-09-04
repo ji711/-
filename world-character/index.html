@@ -7,368 +7,630 @@
 
 <style>
 *{box-sizing:border-box}
-body{
+html,body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  width:100%;
+  height:100%;
   overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
 }
 button{font-family:inherit;cursor:pointer}
+.hidden{display:none!important}
 
-/* 시작 */
-.screen{
+/* =========================
+   전자칠판
+========================= */
+#boardApp{
   width:100vw;
   height:100vh;
-}
-#start{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  background:linear-gradient(#aee7ff,#f7fdff);
-}
-#start .earth{font-size:90px}
-#start h1{
-  font-size:clamp(38px,7vw,80px);
-  margin:10px 20px;
-}
-#start p{
-  font-size:clamp(19px,3vw,30px);
-  line-height:1.6;
-}
-.bigButton{
-  border:0;
-  background:white;
-  padding:18px 35px;
-  border-radius:40px;
-  font-size:clamp(20px,3vw,30px);
-  font-weight:bold;
-  box-shadow:0 7px 20px #0002;
-}
-
-/* 나라 선택 */
-#countries{
-  display:none;
-  background:#eef9ff;
-  text-align:center;
-  padding:25px;
-  overflow:auto;
-}
-#countries h2{
-  font-size:clamp(32px,5vw,60px);
-  margin:15px;
-}
-.countryGrid{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:15px;
-  max-width:900px;
-  margin:30px auto;
-}
-.country{
-  width:170px;
-  min-height:120px;
-  border:0;
-  border-radius:25px;
-  background:white;
-  box-shadow:0 6px 16px #0002;
-  font-size:22px;
-  font-weight:bold;
-}
-.country span{
-  display:block;
-  font-size:50px;
-}
-
-/* 이집트 */
-#egypt{
-  display:none;
   position:relative;
   overflow:hidden;
-  background:linear-gradient(
-    #69d2ff 0%,
-    #c7efff 52%,
-    #f6ce75 53%,
-    #e7a746 100%
-  );
-}
-.sun{
-  position:absolute;
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  background:#ffd84b;
-  right:8%;
-  top:9%;
-  box-shadow:0 0 40px #ffd84b;
-}
-.pyramidBack{
-  position:absolute;
-  bottom:18%;
-  left:8%;
-  border-left:180px solid transparent;
-  border-right:180px solid transparent;
-  border-bottom:260px solid #d99c42;
-}
-.pyramid{
-  position:absolute;
-  bottom:13%;
-  left:38%;
-  border-left:280px solid transparent;
-  border-right:280px solid transparent;
-  border-bottom:400px solid #e6b354;
-  filter:drop-shadow(14px 10px 4px #8f5c2744);
-}
-.dune{
-  position:absolute;
-  width:75%;
-  height:190px;
-  border-radius:50%;
-  background:#efb957;
-  bottom:-100px;
-  left:-10%;
-}
-.dune2{
-  left:auto;
-  right:-20%;
-  background:#dfa345;
+  background:#dff4ff;
 }
 
-.title{
-  position:absolute;
-  z-index:20;
-  top:4%;
-  left:4%;
-  color:white;
-  text-shadow:0 3px 8px #0005;
+/* 첫 화면 */
+#home{
+  width:100%;
+  height:100%;
+  overflow:auto;
+  padding:32px 24px 80px;
+  text-align:center;
+  background:
+    radial-gradient(circle at 10% 15%,#fff 0 45px,transparent 46px),
+    radial-gradient(circle at 85% 18%,#fff 0 60px,transparent 61px),
+    linear-gradient(#aee6ff,#eefaff);
 }
-.title strong{
+
+.homeEarth{
+  font-size:75px;
+  margin-top:4px;
+}
+
+#home h1{
+  margin:4px 0 5px;
+  font-size:clamp(34px,5vw,68px);
+  color:#173659;
+}
+
+#home .sub{
+  font-size:clamp(17px,2vw,25px);
+  color:#486078;
+  margin:0 0 24px;
+}
+
+.countryGrid{
+  width:min(1000px,95%);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.countryBtn{
+  border:0;
+  border-radius:24px;
+  min-height:115px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 7px 18px rgba(0,0,0,.12);
+  font-weight:800;
+  font-size:21px;
+  color:#26384a;
+}
+
+.countryBtn .flag{
   display:block;
-  font-size:clamp(35px,5vw,65px);
-}
-.title span{
-  font-size:clamp(17px,2vw,26px);
+  font-size:46px;
+  margin-bottom:3px;
 }
 
-/* 캐릭터가 나타나는 공간 */
-#characterWorld{
+@media(max-width:650px){
+  .countryGrid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* 여행 화면 */
+#world{
+  width:100%;
+  height:100%;
+  position:relative;
+  overflow:hidden;
+}
+
+#scene{
   position:absolute;
   inset:0;
-  z-index:15;
-  pointer-events:none;
+  overflow:hidden;
 }
 
-.traveler{
+/* 하늘 */
+.sky{
   position:absolute;
-  bottom:7%;
-  left:-180px;
-  width:clamp(100px,14vw,190px);
-  height:clamp(120px,18vw,230px);
-  object-fit:contain;
-  filter:drop-shadow(0 8px 5px #0003);
-  animation:travel 15s linear infinite;
+  inset:0;
+  background:linear-gradient(#8ddaff 0 58%,#c9eeff 59% 100%);
 }
 
-@keyframes travel{
-  0%{
-    left:-20%;
-    bottom:7%;
-    transform:rotate(-4deg) translateY(0);
-  }
-  12%{
-    transform:rotate(4deg) translateY(-15px);
-  }
-  25%{
-    left:20%;
-    bottom:7%;
-    transform:rotate(-4deg);
-  }
-  42%{
-    left:38%;
-    bottom:19%;
-    transform:rotate(4deg) translateY(-12px);
-  }
-  58%{
-    left:51%;
-    bottom:34%;
-    transform:rotate(-4deg);
-  }
-  73%{
-    left:63%;
-    bottom:18%;
-    transform:rotate(4deg) translateY(-12px);
-  }
-  100%{
-    left:110%;
-    bottom:7%;
-    transform:rotate(-4deg);
-  }
+/* 땅 */
+.ground{
+  position:absolute;
+  left:-5%;
+  bottom:-12%;
+  width:110%;
+  height:40%;
+  border-radius:50% 50% 0 0;
+  background:#92cc6e;
 }
 
-/* 버튼 */
-.back{
+/* 나라 제목 */
+.countryTitle{
   position:absolute;
   z-index:50;
+  left:24px;
+  top:20px;
+  padding:13px 20px;
+  border-radius:24px;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 5px 15px #0002;
+}
+
+.countryTitle strong{
+  display:block;
+  font-size:clamp(27px,4vw,45px);
+}
+
+.countryTitle span{
+  font-size:16px;
+  color:#555;
+}
+
+/* 홈 버튼 */
+.homeBtn{
+  position:absolute;
+  z-index:100;
   top:20px;
   right:20px;
   border:0;
-  border-radius:30px;
-  padding:12px 20px;
-  background:#ffffffdd;
-  font-size:18px;
-  font-weight:bold;
+  border-radius:25px;
+  padding:12px 18px;
+  font-size:17px;
+  font-weight:800;
+  background:#ffffffee;
+  box-shadow:0 4px 14px #0002;
 }
-.upload{
-  position:absolute;
-  z-index:60;
-  bottom:25px;
-  left:50%;
-  transform:translateX(-50%);
-}
-.upload label{
-  display:block;
-  background:white;
-  padding:15px 25px;
-  border-radius:35px;
-  box-shadow:0 6px 20px #0003;
-  font-size:20px;
-  font-weight:bold;
-}
-.upload input{display:none}
 
-#message{
+/* QR 패널 */
+.qrPanel{
+  position:absolute;
+  z-index:100;
+  right:20px;
+  bottom:20px;
+  width:185px;
+  padding:12px;
+  border-radius:22px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 6px 20px #0003;
+  text-align:center;
+}
+
+.qrPanel .qrTitle{
+  font-size:15px;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+#qrcode{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:135px;
+}
+
+#qrcode img,
+#qrcode canvas{
+  max-width:135px!important;
+  max-height:135px!important;
+}
+
+.qrPanel small{
+  display:block;
+  margin-top:7px;
+  line-height:1.35;
+  color:#555;
+}
+
+/* 사진 등장 영역 */
+#photoStage{
+  position:absolute;
+  inset:0;
+  z-index:40;
+  pointer-events:none;
+}
+
+.travelPhoto{
+  position:absolute;
+  left:50%;
+  bottom:8%;
+  max-width:55vw;
+  max-height:63vh;
+  object-fit:contain;
+  border-radius:22px;
+  box-shadow:0 15px 35px rgba(0,0,0,.28);
+  transform:translateX(-50%) scale(.2);
+  opacity:0;
+  animation:photoPop .7s cubic-bezier(.2,1.3,.3,1) forwards,
+            photoFloat 2.4s ease-in-out .7s infinite;
+  background:white;
+}
+
+@keyframes photoPop{
+  to{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+  }
+}
+
+@keyframes photoFloat{
+  0%,100%{margin-bottom:0;rotate:-1deg}
+  50%{margin-bottom:12px;rotate:1deg}
+}
+
+.arrival{
   position:absolute;
   z-index:80;
   left:50%;
-  bottom:95px;
+  top:16%;
   transform:translateX(-50%);
-  background:#ffffffee;
-  padding:10px 20px;
+  padding:12px 22px;
+  border-radius:30px;
+  background:#fff;
+  box-shadow:0 6px 18px #0003;
+  font-weight:900;
+  font-size:clamp(20px,3vw,32px);
+  opacity:0;
+  pointer-events:none;
+}
+
+.arrival.show{
+  animation:notice 2.5s ease;
+}
+
+@keyframes notice{
+  0%{opacity:0;transform:translate(-50%,-15px)}
+  15%,75%{opacity:1;transform:translate(-50%,0)}
+  100%{opacity:0}
+}
+
+/* =========================
+   나라 배경 소품
+========================= */
+.prop{
+  position:absolute;
+  z-index:10;
+}
+
+/* 한국 */
+.palace{
+  left:17%;
+  bottom:18%;
+  font-size:clamp(110px,17vw,240px);
+}
+.koreaFlower{
+  right:15%;
+  bottom:17%;
+  font-size:clamp(70px,10vw,150px);
+}
+
+/* 일본 */
+.fuji{
+  left:12%;
+  bottom:18%;
+  width:42vw;
+  max-width:500px;
+  height:28vw;
+  max-height:330px;
+  clip-path:polygon(50% 0,100% 100%,0 100%);
+  background:linear-gradient(150deg,#fff 0 28%,#7ca5bd 29% 100%);
+}
+.sakura{
+  right:10%;
+  top:13%;
+  font-size:clamp(100px,16vw,220px);
+}
+
+/* 중국 */
+.wall{
+  left:5%;
+  right:5%;
+  bottom:21%;
+  height:75px;
+  background:#aa805c;
+  transform:rotate(-5deg);
+  border-radius:18px;
+  box-shadow:
+    120px -55px 0 -20px #8f6747,
+    320px -20px 0 -20px #8f6747,
+    530px -80px 0 -20px #8f6747;
+}
+.wall:before{
+  content:"";
+  position:absolute;
+  inset:-15px 0 auto 0;
+  height:20px;
+  background:repeating-linear-gradient(90deg,#8f6747 0 30px,transparent 30px 43px);
+}
+
+/* 베트남 */
+.vietnamBoat{
+  left:18%;
+  bottom:18%;
+  font-size:clamp(100px,15vw,220px);
+}
+.vietnamLantern{
+  right:16%;
+  top:17%;
+  font-size:clamp(90px,12vw,170px);
+}
+
+/* 프랑스 */
+.eiffel{
+  left:16%;
+  bottom:16%;
+  font-size:clamp(150px,23vw,330px);
+}
+.franceCafe{
+  right:13%;
+  bottom:17%;
+  font-size:clamp(100px,15vw,210px);
+}
+
+/* 영국 */
+.bigben{
+  left:17%;
+  bottom:16%;
+  font-size:clamp(160px,23vw,330px);
+}
+.londonBus{
+  right:14%;
+  bottom:18%;
+  font-size:clamp(100px,16vw,220px);
+}
+
+/* 미국 */
+.liberty{
+  left:14%;
+  bottom:17%;
+  font-size:clamp(150px,22vw,315px);
+}
+.city{
+  right:11%;
+  bottom:18%;
+  font-size:clamp(105px,16vw,230px);
+}
+
+/* 브라질 */
+.christ{
+  left:13%;
+  bottom:18%;
+  font-size:clamp(150px,23vw,320px);
+}
+.brazilTree{
+  right:10%;
+  bottom:17%;
+  font-size:clamp(130px,19vw,270px);
+}
+
+/* 이집트 */
+.desert{
+  background:linear-gradient(#7bd7ff 0 58%,#f4c667 59% 100%);
+}
+.pyramid1{
+  left:10%;
+  bottom:14%;
+  width:35vw;
+  height:33vw;
+  max-width:430px;
+  max-height:390px;
+  clip-path:polygon(50% 0,100% 100%,0 100%);
+  background:#d8a047;
+}
+.pyramid2{
+  left:36%;
+  bottom:13%;
+  width:46vw;
+  height:42vw;
+  max-width:560px;
+  max-height:500px;
+  clip-path:polygon(50% 0,100% 100%,0 100%);
+  background:#e4b35c;
+}
+
+/* =========================
+   휴대폰 촬영 화면
+========================= */
+#phoneApp{
+  width:100vw;
+  min-height:100vh;
+  overflow:auto;
+  background:linear-gradient(#c9eeff,#fff8e1);
+  padding:25px 18px 50px;
+  text-align:center;
+}
+
+.phoneCard{
+  max-width:520px;
+  margin:0 auto;
+  background:white;
+  border-radius:30px;
+  padding:25px 20px;
+  box-shadow:0 7px 25px #0002;
+}
+
+.phoneEarth{
+  font-size:65px;
+}
+
+.phoneCard h1{
+  font-size:29px;
+  margin:5px 0;
+}
+
+#phoneCountry{
+  margin:10px 0 22px;
+  font-size:19px;
+  font-weight:800;
+  color:#345;
+}
+
+.cameraLabel{
+  display:block;
+  padding:18px;
   border-radius:25px;
-  font-weight:bold;
+  background:#2d8cff;
+  color:white;
+  font-size:21px;
+  font-weight:900;
+  box-shadow:0 5px 15px #0002;
+}
+
+.cameraLabel input{
   display:none;
-  white-space:nowrap;
+}
+
+#previewWrap{
+  display:none;
+  margin-top:20px;
+}
+
+#preview{
+  max-width:100%;
+  max-height:380px;
+  border-radius:20px;
+  box-shadow:0 6px 20px #0002;
+}
+
+.sendBtn{
+  width:100%;
+  border:0;
+  margin-top:18px;
+  padding:17px;
+  border-radius:25px;
+  font-size:21px;
+  font-weight:900;
+  background:#ffd94f;
+  color:#333;
+}
+
+.sendBtn:disabled{
+  opacity:.45;
+}
+
+#phoneMessage{
+  min-height:28px;
+  margin-top:15px;
+  font-size:17px;
+  font-weight:800;
+}
+
+.tip{
+  margin-top:22px;
+  padding:13px;
+  background:#f4f8fb;
+  border-radius:18px;
+  color:#53606b;
+  line-height:1.5;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<section id="start" class="screen">
-  <div class="earth">🌎✈️</div>
-  <h1>캐릭터와 떠나는 세계여행</h1>
-  <p>
-    내가 그린 캐릭터가 살아 움직여요!<br>
-    어디로 여행을 떠나볼까요?
-  </p>
-  <button class="bigButton" onclick="showCountries()">
-    여행 시작하기 ✈️
-  </button>
-</section>
+<!-- ======================
+     전자칠판
+====================== -->
+<div id="boardApp">
 
-<section id="countries" class="screen">
-  <h2>🌎 어디로 떠나볼까요?</h2>
-  <p>가고 싶은 나라를 선택해 주세요!</p>
+  <section id="home">
+    <div class="homeEarth">🌎✈️</div>
+    <h1>캐릭터와 떠나는 세계여행</h1>
+    <p class="sub">어느 나라로 여행을 떠나볼까요?</p>
 
-  <div class="countryGrid">
-    <button class="country" onclick="showEgypt()">
-      <span>🇪🇬</span>이집트
+    <div class="countryGrid">
+      <button class="countryBtn" onclick="selectCountry('korea')">
+        <span class="flag">🇰🇷</span>대한민국
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('japan')">
+        <span class="flag">🇯🇵</span>일본
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('china')">
+        <span class="flag">🇨🇳</span>중국
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('vietnam')">
+        <span class="flag">🇻🇳</span>베트남
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('france')">
+        <span class="flag">🇫🇷</span>프랑스
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('uk')">
+        <span class="flag">🇬🇧</span>영국
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('usa')">
+        <span class="flag">🇺🇸</span>미국
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('brazil')">
+        <span class="flag">🇧🇷</span>브라질
+      </button>
+
+      <button class="countryBtn" onclick="selectCountry('egypt')">
+        <span class="flag">🇪🇬</span>이집트
+      </button>
+    </div>
+  </section>
+
+  <section id="world" class="hidden">
+
+    <div id="scene"></div>
+
+    <div class="countryTitle">
+      <strong id="boardCountryName"></strong>
+      <span>내가 찍은 사진이 이곳에 나타나요 ✨</span>
+    </div>
+
+    <button class="homeBtn" onclick="goHome()">
+      🌎 나라 고르기
     </button>
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇫🇷</span>프랑스
-    </button>
+    <div id="photoStage"></div>
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇯🇵</span>일본
-    </button>
+    <div id="arrival" class="arrival">
+      ✨ 새로운 캐릭터가 도착했어요!
+    </div>
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇬🇧</span>영국
-    </button>
+    <div class="qrPanel">
+      <div class="qrTitle">📱 내 사진 띄우기</div>
+      <div id="qrcode"></div>
+      <small>QR 찍기 → 사진 촬영 →<br>세계로 보내기!</small>
+    </div>
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇺🇸</span>미국
-    </button>
+  </section>
+</div>
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇨🇳</span>중국
-    </button>
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇻🇳</span>베트남
-    </button>
+<!-- ======================
+     휴대폰
+====================== -->
+<div id="phoneApp" class="hidden">
 
-    <button class="country" onclick="comingSoon()">
-      <span>🇧🇷</span>브라질
-    </button>
-  </div>
-</section>
+  <div class="phoneCard">
 
-<section id="egypt" class="screen">
+    <div class="phoneEarth">📱🌎</div>
 
-  <div class="sun"></div>
-  <div class="pyramidBack"></div>
-  <div class="pyramid"></div>
-  <div class="dune"></div>
-  <div class="dune dune2"></div>
+    <h1>내 캐릭터 보내기</h1>
 
-  <div class="title">
-    <strong>🇪🇬 이집트</strong>
-    <span>내 캐릭터와 피라미드 여행!</span>
-  </div>
+    <div id="phoneCountry">
+      전자칠판과 연결 중...
+    </div>
 
-  <div id="characterWorld"></div>
-
-  <button class="back" onclick="showCountries()">
-    🌎 다른 나라
-  </button>
-
-  <div id="message"></div>
-
-  <div class="upload">
-    <label>
-      📸 내 캐릭터 보내기
+    <label class="cameraLabel">
+      📸 사진 찍기
       <input
-        id="photo"
+        id="phonePhoto"
         type="file"
         accept="image/*"
         capture="environment"
       >
     </label>
+
+    <div id="previewWrap">
+      <img id="preview">
+    </div>
+
+    <button
+      id="sendBtn"
+      class="sendBtn"
+      disabled
+    >
+      ✈️ 세계로 보내기
+    </button>
+
+    <div id="phoneMessage"></div>
+
+    <div class="tip">
+      앱을 설치할 필요 없어요 😊<br>
+      사진을 찍은 뒤 <b>세계로 보내기</b>만 눌러주세요.
+    </div>
+
   </div>
+</div>
 
-</section>
 
-<script>
-function hideScreens(){
-  document.getElementById("start").style.display="none";
-  document.getElementById("countries").style.display="none";
-  document.getElementById("egypt").style.display="none";
-}
-
-function showCountries(){
-  hideScreens();
-  document.getElementById("countries").style.display="block";
-}
-
-function showEgypt(){
-  hideScreens();
-  document.getElementById("egypt").style.display="block";
-}
-
-function comingSoon(){
-  alert("이 나라는 다음에 여행을 떠나요! 🌎✨");
-}
-
-function say(text){
-  const box=document.getElementById("message");
-  box.textContent=text;
-  box.style.display="block";
-  setTimeout(()=>box.style.display="none",2500);
-}
-</script>
+<!-- QR 만들기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
 <!-- Firebase -->
@@ -380,8 +642,12 @@ from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import {
   getDatabase,
   ref,
+  set,
   push,
-  onChildAdded
+  onValue,
+  onChildAdded,
+  query,
+  limitToLast
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
@@ -397,171 +663,547 @@ const firebaseConfig = {
   measurementId: "G-W2E6LTWTCJ"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-
-const photo=document.getElementById("photo");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 
-/* 사진 선택 */
-photo.addEventListener("change",async function(){
+/* 우리 반 방 이름 */
+const ROOM = "dasom-class";
 
-  const file=this.files[0];
-  if(!file) return;
 
-  say("✨ 캐릭터를 준비하고 있어요!");
+const countries = {
 
-  try{
+  korea:{
+    flag:"🇰🇷",
+    name:"대한민국",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop palace">🏯</div>
+      <div class="prop koreaFlower">🌺</div>
+    `
+  },
 
-    const image=await loadImage(file);
+  japan:{
+    flag:"🇯🇵",
+    name:"일본",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop fuji"></div>
+      <div class="prop sakura">🌸</div>
+    `
+  },
 
-    const canvas=document.createElement("canvas");
+  china:{
+    flag:"🇨🇳",
+    name:"중국",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop wall"></div>
+    `
+  },
 
-    /* Firebase에 너무 큰 사진이 들어가지 않도록 축소 */
-    const MAX=500;
-    let w=image.width;
-    let h=image.height;
+  vietnam:{
+    flag:"🇻🇳",
+    name:"베트남",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop vietnamBoat">🛶🌿</div>
+      <div class="prop vietnamLantern">🏮</div>
+    `
+  },
 
-    if(w>h && w>MAX){
-      h=h*(MAX/w);
-      w=MAX;
-    }
-    else if(h>MAX){
-      w=w*(MAX/h);
-      h=MAX;
-    }
+  france:{
+    flag:"🇫🇷",
+    name:"프랑스",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop eiffel">🗼</div>
+      <div class="prop franceCafe">🥐☕</div>
+    `
+  },
 
-    canvas.width=Math.round(w);
-    canvas.height=Math.round(h);
+  uk:{
+    flag:"🇬🇧",
+    name:"영국",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop bigben">🕰️</div>
+      <div class="prop londonBus">🚌</div>
+    `
+  },
 
-    const ctx=canvas.getContext("2d");
+  usa:{
+    flag:"🇺🇸",
+    name:"미국",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop liberty">🗽</div>
+      <div class="prop city">🏙️</div>
+    `
+  },
 
-    ctx.drawImage(image,0,0,canvas.width,canvas.height);
+  brazil:{
+    flag:"🇧🇷",
+    name:"브라질",
+    scene:`
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="prop christ">🙌</div>
+      <div class="prop brazilTree">🌴🌺</div>
+    `
+  },
 
-    /*
-      흰 종이 배경을 최대한 투명하게 만들기
-    */
-    const data=ctx.getImageData(
-      0,0,canvas.width,canvas.height
-    );
-
-    const pixels=data.data;
-
-    for(let i=0;i<pixels.length;i+=4){
-
-      const r=pixels[i];
-      const g=pixels[i+1];
-      const b=pixels[i+2];
-
-      const brightness=(r+g+b)/3;
-
-      if(
-        brightness>235 &&
-        Math.abs(r-g)<18 &&
-        Math.abs(g-b)<18
-      ){
-        pixels[i+3]=0;
-      }
-
-      else if(brightness>215){
-        pixels[i+3]=Math.max(
-          0,
-          255-(brightness-215)*6
-        );
-      }
-    }
-
-    ctx.putImageData(data,0,0);
-
-    const imageData=
-      canvas.toDataURL("image/png");
-
-    await push(
-      ref(db,"characters"),
-      {
-        image:imageData,
-        country:"egypt",
-        created:Date.now()
-      }
-    );
-
-    say("🌟 캐릭터가 여행을 떠났어요!");
-
+  egypt:{
+    flag:"🇪🇬",
+    name:"이집트",
+    scene:`
+      <div class="sky desert"></div>
+      <div class="prop pyramid1"></div>
+      <div class="prop pyramid2"></div>
+    `
   }
-  catch(error){
-    console.error(error);
-    say("🥹 다시 한 번 찍어주세요!");
-  }
 
-  this.value="";
-});
+};
 
 
-function loadImage(file){
+/* =========================
+   어떤 화면인지 확인
+========================= */
 
-  return new Promise((resolve,reject)=>{
+const params = new URLSearchParams(location.search);
 
-    const reader=new FileReader();
+const mode = params.get("mode");
 
-    reader.onload=function(e){
+const boardApp =
+  document.getElementById("boardApp");
 
-      const img=new Image();
+const phoneApp =
+  document.getElementById("phoneApp");
 
-      img.onload=()=>resolve(img);
-      img.onerror=reject;
 
-      img.src=e.target.result;
-    };
+if(mode === "phone"){
 
-    reader.onerror=reject;
+  boardApp.classList.add("hidden");
+  phoneApp.classList.remove("hidden");
 
-    reader.readAsDataURL(file);
+  startPhone();
 
-  });
+}else{
+
+  boardApp.classList.remove("hidden");
+  phoneApp.classList.add("hidden");
+
+  startBoard();
 }
 
 
-/*
- 전자칠판에서도 같은 페이지를 켜두면
- 새 그림이 들어오는 순간 자동 등장
-*/
-const characterRef=ref(db,"characters");
+/* =========================
+   전자칠판
+========================= */
 
-onChildAdded(characterRef,(snapshot)=>{
+function startBoard(){
 
-  const character=snapshot.val();
+  makeQR();
 
-  if(
-    !character ||
-    !character.image ||
-    character.country!=="egypt"
-  ) return;
+  const photosQuery =
+    query(
+      ref(db,`rooms/${ROOM}/photos`),
+      limitToLast(1)
+    );
 
-  addCharacter(character.image);
+  onChildAdded(photosQuery,snapshot=>{
 
-});
+    const data = snapshot.val();
+
+    if(!data || !data.image) return;
+
+    showPhoto(data.image);
+
+  });
+
+}
 
 
-function addCharacter(src){
+window.selectCountry =
+async function(country){
 
-  const world=
-    document.getElementById("characterWorld");
+  if(!countries[country]) return;
 
-  const img=document.createElement("img");
+  await set(
+    ref(db,`rooms/${ROOM}/currentCountry`),
+    country
+  );
 
-  img.src=src;
-  img.className="traveler";
+  showCountry(country);
 
-  /* 여러 아이가 겹치지 않도록 조금씩 다르게 */
-  const delay=Math.random()*5;
+};
 
-  img.style.animationDelay=
-    "-" + delay + "s";
 
-  img.style.width=
-    (110+Math.random()*70)+"px";
+function showCountry(country){
 
-  world.appendChild(img);
+  const info = countries[country];
+
+  document
+    .getElementById("home")
+    .classList.add("hidden");
+
+  document
+    .getElementById("world")
+    .classList.remove("hidden");
+
+  document.getElementById("scene").innerHTML =
+    info.scene;
+
+  document.getElementById("boardCountryName")
+    .textContent =
+    `${info.flag} ${info.name}`;
+
+  document.getElementById("photoStage")
+    .innerHTML = "";
+
+}
+
+
+window.goHome =
+function(){
+
+  document
+    .getElementById("world")
+    .classList.add("hidden");
+
+  document
+    .getElementById("home")
+    .classList.remove("hidden");
+
+};
+
+
+function makeQR(){
+
+  const qrBox =
+    document.getElementById("qrcode");
+
+  qrBox.innerHTML = "";
+
+  const base =
+    location.origin + location.pathname;
+
+  const phoneURL =
+    `${base}?mode=phone`;
+
+  new QRCode(qrBox,{
+    text:phoneURL,
+    width:135,
+    height:135
+  });
+
+}
+
+
+function showPhoto(src){
+
+  const stage =
+    document.getElementById("photoStage");
+
+  stage.innerHTML = "";
+
+  const img =
+    document.createElement("img");
+
+  img.className = "travelPhoto";
+  img.src = src;
+
+  stage.appendChild(img);
+
+  const notice =
+    document.getElementById("arrival");
+
+  notice.classList.remove("show");
+
+  void notice.offsetWidth;
+
+  notice.classList.add("show");
+
+}
+
+
+/* =========================
+   휴대폰
+========================= */
+
+function startPhone(){
+
+  let selectedImage = null;
+
+  const countryText =
+    document.getElementById("phoneCountry");
+
+  const input =
+    document.getElementById("phonePhoto");
+
+  const preview =
+    document.getElementById("preview");
+
+  const previewWrap =
+    document.getElementById("previewWrap");
+
+  const sendBtn =
+    document.getElementById("sendBtn");
+
+  const message =
+    document.getElementById("phoneMessage");
+
+
+  onValue(
+    ref(db,`rooms/${ROOM}/currentCountry`),
+    snapshot=>{
+
+      const country = snapshot.val();
+
+      if(
+        country &&
+        countries[country]
+      ){
+
+        const info =
+          countries[country];
+
+        countryText.textContent =
+          `${info.flag} 지금 전자칠판은 ${info.name} 여행 중이에요!`;
+
+      }else{
+
+        countryText.textContent =
+          "🌎 전자칠판에서 나라를 먼저 골라주세요.";
+
+      }
+
+    }
+  );
+
+
+  input.addEventListener(
+    "change",
+    async function(){
+
+      const file =
+        this.files[0];
+
+      if(!file) return;
+
+      message.textContent =
+        "사진을 준비하고 있어요 ✨";
+
+      try{
+
+        selectedImage =
+          await compressImage(file);
+
+        preview.src =
+          selectedImage;
+
+        previewWrap.style.display =
+          "block";
+
+        sendBtn.disabled =
+          false;
+
+        message.textContent =
+          "사진이 준비됐어요 😊";
+
+      }
+      catch(e){
+
+        console.error(e);
+
+        message.textContent =
+          "사진을 다시 찍어주세요 🥹";
+
+      }
+
+    }
+  );
+
+
+  sendBtn.addEventListener(
+    "click",
+    async function(){
+
+      if(!selectedImage) return;
+
+      sendBtn.disabled = true;
+
+      message.textContent =
+        "✈️ 전자칠판으로 보내는 중...";
+
+      try{
+
+        const countrySnap =
+          await new Promise(resolve=>{
+
+            onValue(
+              ref(db,`rooms/${ROOM}/currentCountry`),
+              resolve,
+              {onlyOnce:true}
+            );
+
+          });
+
+        const country =
+          countrySnap.val() || "world";
+
+
+        await push(
+          ref(db,`rooms/${ROOM}/photos`),
+          {
+            image:selectedImage,
+            country:country,
+            createdAt:Date.now()
+          }
+        );
+
+        message.textContent =
+          "🎉 전자칠판에 나타났어요!";
+
+        setTimeout(()=>{
+
+          selectedImage = null;
+
+          preview.src = "";
+
+          previewWrap.style.display =
+            "none";
+
+          input.value = "";
+
+          message.textContent =
+            "다음 캐릭터도 찍어보세요 📸";
+
+        },1800);
+
+      }
+      catch(e){
+
+        console.error(e);
+
+        message.textContent =
+          "전송이 안 됐어요. 다시 눌러주세요 🥹";
+
+        sendBtn.disabled = false;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* 사진 용량 줄이기 */
+function compressImage(file){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+      function(e){
+
+        const image =
+          new Image();
+
+        image.onload =
+        function(){
+
+          const canvas =
+            document.createElement("canvas");
+
+          const maxSize = 900;
+
+          let width =
+            image.width;
+
+          let height =
+            image.height;
+
+          if(
+            width > height &&
+            width > maxSize
+          ){
+
+            height =
+              Math.round(
+                height * maxSize / width
+              );
+
+            width =
+              maxSize;
+
+          }
+
+          if(
+            height >= width &&
+            height > maxSize
+          ){
+
+            width =
+              Math.round(
+                width * maxSize / height
+              );
+
+            height =
+              maxSize;
+
+          }
+
+          canvas.width =
+            width;
+
+          canvas.height =
+            height;
+
+          const ctx =
+            canvas.getContext("2d");
+
+          ctx.drawImage(
+            image,
+            0,0,
+            width,height
+          );
+
+          resolve(
+            canvas.toDataURL(
+              "image/jpeg",
+              .72
+            )
+          );
+
+        };
+
+        image.onerror =
+          reject;
+
+        image.src =
+          e.target.result;
+
+      };
+
+      reader.onerror =
+        reject;
+
+      reader.readAsDataURL(file);
+
+    }
+  );
 
 }
 

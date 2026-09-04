@@ -16,183 +16,126 @@ html,body{
 button{font-family:inherit;cursor:pointer}
 
 /* =========================
-   나라 선택 화면
+   나라 선택
 ========================= */
-
 #home{
   width:100%;height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:25px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:24px;
   background:linear-gradient(145deg,#dff6ff,#fff8df,#f8e8ff);
 }
-
 #home h1{
   font-size:clamp(32px,5vw,68px);
-  color:#30364a;
-  text-align:center;
-  margin-bottom:8px;
+  color:#30364a;text-align:center;margin-bottom:8px;
 }
-
 .subtitle{
   font-size:clamp(17px,2vw,25px);
-  color:#697084;
-  margin-bottom:28px;
+  color:#697084;margin-bottom:28px;
 }
-
 .countryGrid{
   width:min(1100px,94vw);
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:15px;
 }
-
 .countryBtn{
-  border:0;
-  background:rgba(255,255,255,.93);
-  border-radius:25px;
-  padding:18px 10px;
+  border:0;background:rgba(255,255,255,.94);
+  border-radius:25px;padding:18px 10px;
   box-shadow:0 8px 25px rgba(0,0,0,.1);
   font-size:clamp(18px,2.4vw,29px);
-  font-weight:900;
-  color:#333;
+  font-weight:900;color:#333;
   transition:.2s;
 }
-
-.countryBtn:hover{
-  transform:translateY(-4px) scale(1.02);
-}
-
+.countryBtn:hover{transform:translateY(-4px) scale(1.02)}
 .flag{
   display:block;
   font-size:clamp(36px,5vw,62px);
   margin-bottom:4px;
 }
 
-
 /* =========================
    여행 화면
 ========================= */
-
 #world{
-  display:none;
-  position:relative;
-  width:100vw;
-  height:100vh;
-  overflow:hidden;
+  display:none;position:relative;
+  width:100vw;height:100vh;overflow:hidden;
   background:linear-gradient(#bcecff,#e9faff 65%,#c8ecb6);
 }
-
 #background{
-  position:absolute;
-  inset:0;
-  z-index:1;
+  position:absolute;inset:0;z-index:1;
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
 }
-
 #shade{
-  position:absolute;
-  inset:0;
-  z-index:2;
+  position:absolute;inset:0;z-index:2;
   pointer-events:none;
   background:linear-gradient(
-    180deg,
-    rgba(0,0,0,.08),
-    transparent 28%,
-    transparent 75%,
+    180deg,rgba(0,0,0,.08),
+    transparent 28%,transparent 75%,
     rgba(0,0,0,.08)
   );
 }
-
 #effects{
-  position:absolute;
-  inset:0;
-  z-index:5;
-  pointer-events:none;
-  overflow:hidden;
+  position:absolute;inset:0;z-index:5;
+  pointer-events:none;overflow:hidden;
 }
-
 
 /* =========================
-   나라 효과
+   나라별 효과
 ========================= */
-
-/* 꽃잎 */
 .petal{
-  position:absolute;
-  top:-60px;
+  position:absolute;top:-60px;
   animation:petalFall linear infinite;
 }
-
 @keyframes petalFall{
-  0%{transform:translate(0,-10vh) rotate(0deg);opacity:0}
+  0%{transform:translate(0,-10vh) rotate(0);opacity:0}
   10%{opacity:.95}
   100%{transform:translate(130px,115vh) rotate(500deg);opacity:.3}
 }
 
-/* 구름 */
 .cloud{
-  position:absolute;
-  left:-250px;
-  opacity:.68;
+  position:absolute;left:-250px;opacity:.68;
   animation:cloudMove linear infinite;
 }
-
 @keyframes cloudMove{
   to{transform:translateX(calc(100vw + 500px))}
 }
 
-/* 비 */
 .rain{
-  position:absolute;
-  top:-80px;
-  width:3px;
-  height:60px;
+  position:absolute;top:-80px;
+  width:3px;height:60px;
   background:rgba(225,242,255,.78);
-  border-radius:10px;
-  transform:rotate(12deg);
+  border-radius:10px;transform:rotate(12deg);
   animation:rainFall linear infinite;
 }
-
 @keyframes rainFall{
   to{transform:translate(80px,120vh) rotate(12deg)}
 }
 
-/* 반짝임 */
 .sparkle{
   position:absolute;
   animation:sparkle 1.8s ease-in-out infinite;
 }
-
 @keyframes sparkle{
   0%,100%{opacity:.15;transform:scale(.5)}
   50%{opacity:1;transform:scale(1.45)}
 }
 
-/* 나뭇잎 */
 .leaf{
-  position:absolute;
-  top:-60px;
+  position:absolute;top:-60px;
   animation:leafFall linear infinite;
 }
-
 @keyframes leafFall{
   0%{transform:translate(0,-10vh) rotate(0)}
   50%{transform:translate(100px,50vh) rotate(180deg)}
   100%{transform:translate(-50px,115vh) rotate(450deg)}
 }
 
-/* 물빛 */
 .waterLight{
-  position:absolute;
-  left:-20%;
-  bottom:-10%;
-  width:140%;
-  height:40%;
+  position:absolute;left:-20%;bottom:-10%;
+  width:140%;height:40%;
   background:repeating-radial-gradient(
     ellipse at center,
     rgba(255,255,255,.18) 0 3px,
@@ -200,225 +143,330 @@ button{font-family:inherit;cursor:pointer}
   );
   animation:waterMove 5s ease-in-out infinite alternate;
 }
-
 @keyframes waterMove{
   from{transform:translateX(-20px) scaleY(.9)}
   to{transform:translateX(30px) scaleY(1.08)}
 }
 
-/* 브라질 햇살 */
 .sunRay{
-  position:absolute;
-  left:-20%;top:-40%;
+  position:absolute;left:-20%;top:-40%;
   width:80%;height:150%;
   background:linear-gradient(
-    120deg,
-    rgba(255,245,180,.32),
-    transparent 55%
+    120deg,rgba(255,245,180,.32),transparent 55%
   );
   animation:sunGlow 4s ease-in-out infinite alternate;
 }
-
 @keyframes sunGlow{
-  from{opacity:.3}
-  to{opacity:.9}
+  from{opacity:.3}to{opacity:.9}
 }
 
-/* 모래 */
 .sand{
-  position:absolute;
-  width:5px;height:5px;
+  position:absolute;width:5px;height:5px;
   border-radius:50%;
   background:rgba(235,203,135,.8);
   animation:sandMove linear infinite;
 }
-
 @keyframes sandMove{
   from{transform:translateX(-20vw)}
   to{transform:translateX(120vw) translateY(-70px)}
 }
-
 .heat{
-  position:absolute;
-  inset:0;
+  position:absolute;inset:0;
   backdrop-filter:blur(.35px);
   animation:heatWave 2s ease-in-out infinite alternate;
 }
-
 @keyframes heatWave{
   from{transform:scale(1)}
   to{transform:scale(1.006) translateY(-2px)}
 }
 
-
 /* =========================
-   나라 이름
+   위쪽 UI
 ========================= */
-
 #countryInfo{
-  position:absolute;
-  z-index:30;
-  top:22px;
-  left:22px;
+  position:absolute;z-index:30;
+  top:22px;left:22px;
   padding:14px 22px;
   border-radius:24px;
-  background:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.91);
   backdrop-filter:blur(10px);
   box-shadow:0 8px 24px rgba(0,0,0,.13);
 }
-
 #countryName{
   font-size:clamp(23px,3vw,40px);
-  font-weight:900;
-  color:#30364a;
+  font-weight:900;color:#30364a;
 }
-
 #countryMessage{
-  margin-top:3px;
-  font-size:15px;
-  color:#666;
+  margin-top:3px;font-size:15px;color:#666;
 }
-
-
-/* =========================
-   버튼
-========================= */
-
 #controls{
-  position:absolute;
-  z-index:40;
-  top:22px;
-  right:22px;
-  display:flex;
-  gap:9px;
+  position:absolute;z-index:40;
+  top:22px;right:22px;
+  display:flex;gap:9px;
 }
-
 .controlBtn{
-  border:0;
-  padding:13px 17px;
+  border:0;padding:13px 17px;
   border-radius:18px;
   background:rgba(255,255,255,.94);
   box-shadow:0 6px 18px rgba(0,0,0,.13);
-  font-size:15px;
-  font-weight:900;
+  font-size:15px;font-weight:900;
 }
 
-
-/* =========================
-   캐릭터
-========================= */
-
+/* ==================================================
+   캐릭터 무대
+================================================== */
 #stage{
-  position:absolute;
-  inset:0;
-  z-index:18;
-  pointer-events:none;
-  overflow:hidden;
+  position:absolute;inset:0;z-index:18;
+  pointer-events:none;overflow:hidden;
 }
 
 .character{
   position:absolute;
-  width:clamp(115px,14vw,220px);
-  height:clamp(150px,19vw,290px);
-  filter:drop-shadow(0 11px 7px rgba(0,0,0,.25));
+  width:clamp(130px,15vw,230px);
+  height:clamp(170px,21vw,310px);
   transform-origin:center bottom;
-
-  /* 이동 */
-  transition:
-    left 4.2s ease-in-out,
-    top 4.2s ease-in-out;
+  transition:left 4s ease-in-out,top 4s ease-in-out;
 }
 
-.characterInner{
-  position:relative;
-  width:100%;
-  height:100%;
+/*
+  puppet 안에 동일한 누끼 이미지를 여러 장 겹친다.
+  clip-path로 팔/다리/몸 부분만 보이게 함.
+*/
+.puppet{
+  position:absolute;
+  inset:0;
   transform-origin:center bottom;
+  filter:drop-shadow(0 11px 7px rgba(0,0,0,.23));
 }
 
-.character img{
+.part{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
   object-fit:contain;
-  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
-
-/* 걷는 느낌 */
-
-.character.walking .characterInner{
-  animation:walkBob .42s ease-in-out infinite alternate;
+/* 몸통은 중앙 부분 */
+.bodyPart{
+  clip-path:polygon(
+    27% 15%,
+    73% 15%,
+    74% 76%,
+    26% 76%
+  );
+  z-index:4;
 }
 
-@keyframes walkBob{
-  from{transform:translateY(0) rotate(-2deg)}
-  to{transform:translateY(-11px) rotate(2deg)}
+/* 머리 */
+.headPart{
+  clip-path:polygon(
+    20% 0%,
+    80% 0%,
+    78% 35%,
+    22% 35%
+  );
+  z-index:6;
+  transform-origin:50% 28%;
 }
 
+/* 왼팔 */
+.leftArm{
+  clip-path:polygon(
+    0% 25%,
+    42% 23%,
+    45% 72%,
+    0% 72%
+  );
+  z-index:3;
+  transform-origin:36% 32%;
+}
+
+/* 오른팔 */
+.rightArm{
+  clip-path:polygon(
+    58% 23%,
+    100% 25%,
+    100% 72%,
+    55% 72%
+  );
+  z-index:5;
+  transform-origin:64% 32%;
+}
+
+/* 왼다리 */
+.leftLeg{
+  clip-path:polygon(
+    18% 60%,
+    52% 60%,
+    52% 100%,
+    15% 100%
+  );
+  z-index:2;
+  transform-origin:45% 66%;
+}
+
+/* 오른다리 */
+.rightLeg{
+  clip-path:polygon(
+    48% 60%,
+    82% 60%,
+    85% 100%,
+    48% 100%
+  );
+  z-index:1;
+  transform-origin:55% 66%;
+}
+
+/* 가운데 빈 부분이 생기는 것을 막는 기본 이미지 */
+.basePart{
+  z-index:0;
+  opacity:.95;
+}
 
 /* =========================
-   빼꼼 등장
+   걷기
 ========================= */
-
-.character.enterLeft{
-  left:-180px!important;
+.character.walking .puppet{
+  animation:bodyWalk .42s ease-in-out infinite alternate;
+}
+.character.walking .leftArm{
+  animation:leftArmWalk .45s ease-in-out infinite alternate;
+}
+.character.walking .rightArm{
+  animation:rightArmWalk .45s ease-in-out infinite alternate-reverse;
+}
+.character.walking .leftLeg{
+  animation:leftLegWalk .45s ease-in-out infinite alternate-reverse;
+}
+.character.walking .rightLeg{
+  animation:rightLegWalk .45s ease-in-out infinite alternate;
+}
+.character.walking .headPart{
+  animation:headWalk .45s ease-in-out infinite alternate;
 }
 
-.character.enterRight{
-  left:calc(100vw + 20px)!important;
+@keyframes bodyWalk{
+  from{transform:translateY(0) rotate(-1deg)}
+  to{transform:translateY(-7px) rotate(1deg)}
 }
-
-.character.peek .characterInner{
-  animation:peek .75s ease-in-out 2 alternate;
+@keyframes leftArmWalk{
+  from{transform:rotate(-11deg)}
+  to{transform:rotate(12deg)}
 }
-
-@keyframes peek{
-  from{transform:rotate(0deg)}
+@keyframes rightArmWalk{
+  from{transform:rotate(-11deg)}
+  to{transform:rotate(12deg)}
+}
+@keyframes leftLegWalk{
+  from{transform:rotate(-8deg)}
   to{transform:rotate(8deg)}
 }
-
-
-/* 쏙 등장 */
-
-.character.pop .characterInner{
-  animation:popIn .7s cubic-bezier(.2,1.4,.5,1);
+@keyframes rightLegWalk{
+  from{transform:rotate(-8deg)}
+  to{transform:rotate(8deg)}
+}
+@keyframes headWalk{
+  from{transform:rotate(-1deg) translateY(0)}
+  to{transform:rotate(1deg) translateY(-2px)}
 }
 
+/* =========================
+   빼꼼
+========================= */
+.character.peek .puppet{
+  animation:peekBody .6s ease-in-out infinite alternate;
+}
+@keyframes peekBody{
+  from{transform:rotate(-2deg)}
+  to{transform:rotate(5deg)}
+}
+
+.character.pop .puppet{
+  animation:popIn .7s cubic-bezier(.2,1.4,.5,1);
+}
 @keyframes popIn{
-  0%{transform:scale(.65) translateY(25px)}
-  70%{transform:scale(1.08) translateY(-8px)}
+  0%{transform:scale(.7) translateY(25px)}
+  70%{transform:scale(1.08) translateY(-7px)}
   100%{transform:scale(1) translateY(0)}
 }
 
-
-/* 손 흔드는 느낌 */
-
-.character.wave .characterInner{
-  animation:wave .35s ease-in-out 6 alternate;
+/* =========================
+   안녕! 오른팔을 크게 흔듦
+========================= */
+.character.hello .rightArm{
+  z-index:10;
+  animation:helloArm .28s ease-in-out 8 alternate;
+}
+.character.hello .puppet{
+  animation:helloBody .55s ease-in-out infinite alternate;
 }
 
-@keyframes wave{
-  from{transform:rotate(-5deg) translateY(0)}
-  to{transform:rotate(6deg) translateY(-10px)}
+@keyframes helloArm{
+  from{transform:rotate(-12deg)}
+  to{transform:rotate(-52deg)}
+}
+@keyframes helloBody{
+  from{transform:translateY(0)}
+  to{transform:translateY(-5px)}
 }
 
+/* 말풍선 */
+.speech{
+  position:absolute;
+  z-index:20;
+  left:50%;
+  top:-28px;
+  transform:translateX(-50%) scale(0);
+  padding:9px 16px;
+  border-radius:22px;
+  background:white;
+  color:#333;
+  font-size:20px;
+  font-weight:900;
+  white-space:nowrap;
+  box-shadow:0 6px 18px rgba(0,0,0,.17);
+}
+.speech::after{
+  content:"";
+  position:absolute;
+  left:50%;bottom:-9px;
+  transform:translateX(-50%);
+  border-left:9px solid transparent;
+  border-right:9px solid transparent;
+  border-top:11px solid white;
+}
+.character.hello .speech{
+  animation:speechHello 2.5s ease;
+}
+@keyframes speechHello{
+  0%,100%{
+    opacity:0;
+    transform:translateX(-50%) scale(0);
+  }
+  12%,82%{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+  }
+}
 
-/* 하트 */
-
+/* =========================
+   하트
+========================= */
 .hearts{
   position:absolute;
-  left:50%;
-  top:0;
+  z-index:20;
+  left:50%;top:0;
   transform:translateX(-50%);
-  font-size:38px;
   opacity:0;
+  font-size:36px;
   white-space:nowrap;
 }
-
 .character.love .hearts{
   animation:heartPop 2.1s ease-out;
 }
-
 @keyframes heartPop{
   0%{
     opacity:0;
@@ -434,28 +482,20 @@ button{font-family:inherit;cursor:pointer}
   }
 }
 
-
-/* 도착 표시 */
-
+/* 도착 */
 #arrival{
-  position:absolute;
-  z-index:50;
-  left:50%;
-  top:18%;
+  position:absolute;z-index:50;
+  left:50%;top:18%;
   transform:translate(-50%,-50%) scale(0);
   padding:17px 28px;
   border-radius:28px;
-  background:rgba(255,255,255,.94);
+  background:rgba(255,255,255,.95);
   box-shadow:0 12px 35px rgba(0,0,0,.2);
-  font-size:clamp(20px,3vw,36px);
+  font-size:clamp(20px,3vw,35px);
   font-weight:900;
   pointer-events:none;
 }
-
-#arrival.show{
-  animation:arrival 1.8s ease;
-}
-
+#arrival.show{animation:arrival 1.8s ease}
 @keyframes arrival{
   0%{transform:translate(-50%,-50%) scale(0)}
   15%{transform:translate(-50%,-50%) scale(1.08)}
@@ -463,205 +503,112 @@ button{font-family:inherit;cursor:pointer}
   100%{transform:translate(-50%,-50%) scale(0)}
 }
 
-
 /* =========================
    QR
 ========================= */
-
 #qrCard{
-  position:absolute;
-  z-index:40;
-  right:22px;
-  bottom:22px;
-  width:185px;
-  padding:14px;
+  position:absolute;z-index:40;
+  right:22px;bottom:22px;
+  width:185px;padding:14px;
   border-radius:23px;
   background:rgba(255,255,255,.94);
   box-shadow:0 8px 28px rgba(0,0,0,.18);
   text-align:center;
 }
-
-#qrCard h3{
-  font-size:15px;
-  margin-bottom:8px;
-}
-
+#qrCard h3{font-size:15px;margin-bottom:8px}
 #qrcode{
-  width:145px;
-  height:145px;
-  margin:auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  width:145px;height:145px;margin:auto;
+  display:flex;align-items:center;justify-content:center;
 }
-
 #qrcode img,#qrcode canvas{
   max-width:145px!important;
   max-height:145px!important;
 }
-
-#qrCard p{
-  margin-top:7px;
-  color:#666;
-  font-size:12px;
-}
-
+#qrCard p{margin-top:7px;color:#666;font-size:12px}
 
 /* =========================
-   배경 선택창
+   배경 선택
 ========================= */
-
 #backgroundModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:100;
-  align-items:center;
-  justify-content:center;
+  display:none;position:fixed;inset:0;z-index:100;
+  align-items:center;justify-content:center;
   background:rgba(0,0,0,.55);
 }
-
 .modalBox{
   width:min(500px,90vw);
-  padding:32px;
-  border-radius:32px;
-  background:white;
-  text-align:center;
+  padding:32px;border-radius:32px;
+  background:white;text-align:center;
   box-shadow:0 20px 60px rgba(0,0,0,.3);
 }
-
-.modalBox .big{
-  font-size:58px;
-}
-
-.modalBox h2{
-  margin:8px 0;
-  font-size:27px;
-}
-
+.modalBox .big{font-size:58px}
+.modalBox h2{margin:8px 0;font-size:27px}
 .modalBox p{
-  margin-bottom:20px;
-  color:#777;
-  line-height:1.6;
+  margin-bottom:20px;color:#777;line-height:1.6;
 }
-
 .uploadLabel{
-  display:block;
-  padding:17px;
+  display:block;padding:17px;
   border-radius:20px;
-  background:#525bea;
-  color:white;
-  font-size:19px;
-  font-weight:900;
-  cursor:pointer;
+  background:#525bea;color:white;
+  font-size:19px;font-weight:900;cursor:pointer;
 }
-
 #bgInput{display:none}
-
 .closeModal{
-  margin-top:10px;
-  padding:11px 20px;
-  border:0;
-  border-radius:15px;
-  background:#eee;
+  margin-top:10px;padding:11px 20px;
+  border:0;border-radius:15px;background:#eee;
 }
-
 
 /* =========================
    휴대폰
 ========================= */
-
 #phone{
-  display:none;
-  width:100%;
-  min-height:100vh;
-  overflow-y:auto;
+  display:none;width:100%;
+  min-height:100vh;overflow-y:auto;
   background:linear-gradient(180deg,#e8f8ff,#fff5df);
   padding:22px 17px 50px;
 }
-
 .phoneBox{
   width:min(520px,100%);
-  margin:auto;
-  padding:25px 19px;
-  border-radius:30px;
-  background:white;
+  margin:auto;padding:25px 19px;
+  border-radius:30px;background:white;
   box-shadow:0 10px 35px rgba(0,0,0,.1);
   text-align:center;
 }
-
 .phoneTitle{
-  font-size:27px;
-  font-weight:900;
-  color:#30364a;
+  font-size:27px;font-weight:900;color:#30364a;
 }
-
 #phoneCountry{
   margin:10px 0 20px;
-  font-size:17px;
-  font-weight:800;
-  color:#5c6476;
+  font-size:17px;font-weight:800;color:#5c6476;
 }
-
 #readyText{
-  margin-bottom:16px;
-  padding:10px;
-  border-radius:15px;
-  background:#f1f8ff;
-  font-size:14px;
-  color:#647080;
+  margin-bottom:16px;padding:10px;
+  border-radius:15px;background:#f1f8ff;
+  font-size:14px;color:#647080;
 }
-
 .cameraLabel{
-  display:block;
-  width:100%;
-  padding:20px;
-  border-radius:22px;
-  background:#525bea;
-  color:white;
-  font-size:21px;
-  font-weight:900;
-  cursor:pointer;
+  display:block;width:100%;
+  padding:20px;border-radius:22px;
+  background:#525bea;color:white;
+  font-size:21px;font-weight:900;cursor:pointer;
 }
-
 #cameraInput{display:none}
-
-#progressBox{
-  display:none;
-  margin-top:22px;
-}
-
+#progressBox{display:none;margin-top:22px}
 .progressOuter{
-  height:15px;
-  border-radius:20px;
-  background:#eee;
-  overflow:hidden;
+  height:15px;border-radius:20px;
+  background:#eee;overflow:hidden;
 }
-
 #progressBar{
-  width:0;
-  height:100%;
-  background:#525bea;
-  transition:.2s;
+  width:0;height:100%;
+  background:#525bea;transition:.2s;
 }
-
 #statusText{
   margin-top:10px;
-  font-size:16px;
-  font-weight:800;
-  color:#555;
+  font-size:16px;font-weight:800;color:#555;
 }
-
-#previewWrap{
-  display:none;
-  margin-top:18px;
-}
-
+#previewWrap{display:none;margin-top:18px}
 #preview{
-  width:100%;
-  max-height:330px;
-  object-fit:contain;
-  border-radius:20px;
+  width:100%;max-height:330px;
+  object-fit:contain;border-radius:20px;
   background:
     linear-gradient(45deg,#eee 25%,transparent 25%),
     linear-gradient(-45deg,#eee 25%,transparent 25%),
@@ -670,36 +617,21 @@ button{font-family:inherit;cursor:pointer}
   background-size:20px 20px;
   background-position:0 0,0 10px,10px -10px,-10px 0;
 }
-
 #success{
-  display:none;
-  margin-top:18px;
-  padding:18px;
-  border-radius:20px;
-  background:#e7fff0;
-  color:#23844a;
-  font-size:20px;
-  font-weight:900;
+  display:none;margin-top:18px;padding:18px;
+  border-radius:20px;background:#e7fff0;
+  color:#23844a;font-size:20px;font-weight:900;
 }
-
 #retryBtn{
-  display:none;
-  width:100%;
-  margin-top:12px;
-  padding:16px;
-  border:0;
-  border-radius:19px;
-  background:#ff8197;
-  color:white;
-  font-size:18px;
-  font-weight:900;
+  display:none;width:100%;
+  margin-top:12px;padding:16px;
+  border:0;border-radius:19px;
+  background:#ff8197;color:white;
+  font-size:18px;font-weight:900;
 }
-
 .tip{
-  margin-top:18px;
-  color:#777;
-  line-height:1.6;
-  font-size:14px;
+  margin-top:18px;color:#777;
+  line-height:1.6;font-size:14px;
 }
 
 @media(max-width:700px){
@@ -712,12 +644,10 @@ button{font-family:inherit;cursor:pointer}
 
 <!-- 나라 선택 -->
 <div id="home">
-
   <h1>🌎 캐릭터와 떠나는 세계여행 ✈️</h1>
   <div class="subtitle">어디로 여행을 떠나볼까요?</div>
 
   <div class="countryGrid">
-
     <button class="countryBtn" onclick="selectCountry('korea')">
       <span class="flag">🇰🇷</span>대한민국
     </button>
@@ -753,14 +683,11 @@ button{font-family:inherit;cursor:pointer}
     <button class="countryBtn" onclick="selectCountry('egypt')">
       <span class="flag">🇪🇬</span>이집트
     </button>
-
   </div>
 </div>
 
-
 <!-- 전자칠판 -->
 <div id="world">
-
   <div id="background"></div>
   <div id="shade"></div>
   <div id="effects"></div>
@@ -772,19 +699,9 @@ button{font-family:inherit;cursor:pointer}
   </div>
 
   <div id="controls">
-
-    <button class="controlBtn" onclick="openBackground()">
-      🖼️ 우리 배경
-    </button>
-
-    <button class="controlBtn" onclick="clearCharacters()">
-      🧹 캐릭터 정리
-    </button>
-
-    <button class="controlBtn" onclick="goHome()">
-      🌎 다른 나라
-    </button>
-
+    <button class="controlBtn" onclick="openBackground()">🖼️ 우리 배경</button>
+    <button class="controlBtn" onclick="clearCharacters()">🧹 캐릭터 정리</button>
+    <button class="controlBtn" onclick="goHome()">🌎 다른 나라</button>
   </div>
 
   <div id="qrCard">
@@ -793,20 +710,13 @@ button{font-family:inherit;cursor:pointer}
     <p>QR을 찍고 그림을 촬영해주세요!</p>
   </div>
 
-  <div id="arrival">
-    👀 빼꼼! 새로운 친구가 왔어요
-  </div>
-
+  <div id="arrival">👀 빼꼼! 새로운 친구가 왔어요</div>
 </div>
-
 
 <!-- 배경 선택 -->
 <div id="backgroundModal">
-
   <div class="modalBox">
-
     <div class="big">🖼️</div>
-
     <h2 id="modalCountry">배경을 골라주세요</h2>
 
     <p>
@@ -819,28 +729,19 @@ button{font-family:inherit;cursor:pointer}
       <input id="bgInput" type="file" accept="image/*">
     </label>
 
-    <button class="closeModal" onclick="closeBackground()">
-      닫기
-    </button>
-
+    <button class="closeModal" onclick="closeBackground()">닫기</button>
   </div>
 </div>
 
-
 <!-- 휴대폰 -->
 <div id="phone">
-
   <div class="phoneBox">
 
     <div class="phoneTitle">🎨 내 캐릭터 여행 보내기</div>
 
-    <div id="phoneCountry">
-      여행지를 확인하고 있어요...
-    </div>
+    <div id="phoneCountry">여행지를 확인하고 있어요...</div>
 
-    <div id="readyText">
-      ✂️ 누끼 기능 준비 중...
-    </div>
+    <div id="readyText">✂️ 누끼 기능 준비 중...</div>
 
     <label class="cameraLabel">
       📸 캐릭터 촬영하기
@@ -853,15 +754,10 @@ button{font-family:inherit;cursor:pointer}
     </label>
 
     <div id="progressBox">
-
       <div class="progressOuter">
         <div id="progressBar"></div>
       </div>
-
-      <div id="statusText">
-        준비 중...
-      </div>
-
+      <div id="statusText">준비 중...</div>
     </div>
 
     <div id="previewWrap">
@@ -870,27 +766,24 @@ button{font-family:inherit;cursor:pointer}
 
     <div id="success">
       ✈️ 슝~!<br>
-      전자칠판을 확인해보세요! 👀
+      내 캐릭터가 여행을 시작했어요!
     </div>
 
-    <button id="retryBtn">
-      📸 다른 캐릭터 보내기
-    </button>
+    <button id="retryBtn">📸 다른 캐릭터 보내기</button>
 
     <div class="tip">
       💡 <b>흰 종이</b>에 캐릭터를 크게 그리고<br>
-      그림 전체가 보이게 촬영하면 가장 잘 돼요.
+      팔다리까지 전체가 잘 보이게 촬영해주세요.
     </div>
 
   </div>
 </div>
 
-
 <script type="module">
 
-/* ==============================
+/* ==================================================
    FIREBASE
-============================== */
+================================================== */
 
 import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -906,7 +799,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-
 const firebaseConfig={
   apiKey:"AIzaSyCBdA2qEuytaJQwGil8Smo1mBtUPrVivAM",
   authDomain:"world-character.firebaseapp.com",
@@ -921,95 +813,43 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
-
-/* ==============================
+/* ==================================================
    나라
-============================== */
+================================================== */
 
 const COUNTRIES={
-
-  korea:{
-    flag:"🇰🇷",
-    name:"대한민국",
-    effect:"petal"
-  },
-
-  japan:{
-    flag:"🇯🇵",
-    name:"일본",
-    effect:"petal"
-  },
-
-  china:{
-    flag:"🇨🇳",
-    name:"중국",
-    effect:"cloud"
-  },
-
-  vietnam:{
-    flag:"🇻🇳",
-    name:"베트남",
-    effect:"water"
-  },
-
-  france:{
-    flag:"🇫🇷",
-    name:"프랑스",
-    effect:"sparkle"
-  },
-
-  uk:{
-    flag:"🇬🇧",
-    name:"영국",
-    effect:"rain"
-  },
-
-  usa:{
-    flag:"🇺🇸",
-    name:"미국",
-    effect:"cloud"
-  },
-
-  brazil:{
-    flag:"🇧🇷",
-    name:"브라질",
-    effect:"leaf"
-  },
-
-  egypt:{
-    flag:"🇪🇬",
-    name:"이집트",
-    effect:"sand"
-  }
+  korea:{flag:"🇰🇷",name:"대한민국",effect:"petal"},
+  japan:{flag:"🇯🇵",name:"일본",effect:"petal"},
+  china:{flag:"🇨🇳",name:"중국",effect:"cloud"},
+  vietnam:{flag:"🇻🇳",name:"베트남",effect:"water"},
+  france:{flag:"🇫🇷",name:"프랑스",effect:"sparkle"},
+  uk:{flag:"🇬🇧",name:"영국",effect:"rain"},
+  usa:{flag:"🇺🇸",name:"미국",effect:"cloud"},
+  brazil:{flag:"🇧🇷",name:"브라질",effect:"leaf"},
+  egypt:{flag:"🇪🇬",name:"이집트",effect:"sand"}
 };
 
-
-/* ==============================
+/* ==================================================
    ROOM
-============================== */
+================================================== */
 
 const params=new URLSearchParams(location.search);
-
 const phoneMode=params.get("mode")==="phone";
 
 let room=params.get("room");
 
 if(!phoneMode){
-
   room=localStorage.getItem("worldTravelRoom");
 
   if(!room){
-
     room=Math.random().toString(36).substring(2,8);
-
     localStorage.setItem("worldTravelRoom",room);
   }
 }
 
-
-/* ==============================
+/* ==================================================
    요소
-============================== */
+================================================== */
 
 const home=document.getElementById("home");
 const world=document.getElementById("world");
@@ -1021,15 +861,13 @@ const arrival=document.getElementById("arrival");
 
 let currentCountry=null;
 
-
-/* ==============================
+/* ==================================================
    나라 선택
-============================== */
+================================================== */
 
 window.selectCountry=async function(key){
 
   currentCountry=key;
-
   const c=COUNTRIES[key];
 
   home.style.display="none";
@@ -1037,7 +875,6 @@ window.selectCountry=async function(key){
 
   countryName.textContent=`${c.flag} ${c.name}`;
 
-  /* 새 나라를 누르면 배경만 다시 선택 */
   background.style.backgroundImage="none";
 
   createEffects(c.effect);
@@ -1052,72 +889,55 @@ window.selectCountry=async function(key){
   setTimeout(openBackground,300);
 };
 
-
-/* ==============================
+/* ==================================================
    배경
-============================== */
+================================================== */
 
-const backgroundModal=
-document.getElementById("backgroundModal");
-
-const bgInput=
-document.getElementById("bgInput");
-
-const modalCountry=
-document.getElementById("modalCountry");
-
+const backgroundModal=document.getElementById("backgroundModal");
+const bgInput=document.getElementById("bgInput");
+const modalCountry=document.getElementById("modalCountry");
 
 window.openBackground=function(){
 
   if(currentCountry){
-
     const c=COUNTRIES[currentCountry];
-
     modalCountry.textContent=
-    `${c.flag} ${c.name} 배경을 골라주세요`;
+      `${c.flag} ${c.name} 배경을 골라주세요`;
   }
 
   backgroundModal.style.display="flex";
 };
 
-
 window.closeBackground=function(){
   backgroundModal.style.display="none";
 };
 
-
 bgInput.addEventListener("change",function(){
 
   const file=this.files?.[0];
-
   if(!file)return;
 
   const reader=new FileReader();
 
   reader.onload=e=>{
-
-    background.style.backgroundImage=
-    `url("${e.target.result}")`;
-
+    background.style.backgroundImage=`url("${e.target.result}")`;
     closeBackground();
   };
 
   reader.readAsDataURL(file);
 });
 
-
-/* ==============================
+/* ==================================================
    QR
-============================== */
+================================================== */
 
 function createQR(){
 
   const box=document.getElementById("qrcode");
-
   box.innerHTML="";
 
   const url=
-  `${location.origin}${location.pathname}?mode=phone&room=${encodeURIComponent(room)}`;
+    `${location.origin}${location.pathname}?mode=phone&room=${encodeURIComponent(room)}`;
 
   new QRCode(box,{
     text:url,
@@ -1127,173 +947,119 @@ function createQR(){
   });
 }
 
-
-/* ==============================
-   효과
-============================== */
+/* ==================================================
+   나라 효과
+================================================== */
 
 function createEffects(type){
 
   effects.innerHTML="";
 
-
-  /* 한국 / 일본 */
   if(type==="petal"){
-
     for(let i=0;i<25;i++){
-
       const e=document.createElement("div");
-
       e.className="petal";
       e.textContent="🌸";
-
       e.style.left=Math.random()*100+"%";
       e.style.fontSize=(15+Math.random()*20)+"px";
       e.style.animationDuration=(6+Math.random()*7)+"s";
       e.style.animationDelay=(-Math.random()*10)+"s";
-
       effects.appendChild(e);
     }
   }
 
-
-  /* 중국 / 미국 */
   if(type==="cloud"){
-
     for(let i=0;i<5;i++){
-
       const e=document.createElement("div");
-
       e.className="cloud";
       e.textContent="☁️";
-
       e.style.top=(5+Math.random()*40)+"%";
       e.style.fontSize=(60+Math.random()*70)+"px";
       e.style.animationDuration=(25+Math.random()*20)+"s";
       e.style.animationDelay=(-Math.random()*25)+"s";
-
       effects.appendChild(e);
     }
   }
 
-
-  /* 영국 */
   if(type==="rain"){
-
     for(let i=0;i<50;i++){
-
       const e=document.createElement("div");
-
       e.className="rain";
-
       e.style.left=Math.random()*100+"%";
       e.style.animationDuration=(.8+Math.random()*.6)+"s";
       e.style.animationDelay=(-Math.random()*2)+"s";
-
       effects.appendChild(e);
     }
   }
 
-
-  /* 프랑스 */
   if(type==="sparkle"){
-
     for(let i=0;i<28;i++){
-
       const e=document.createElement("div");
-
       e.className="sparkle";
       e.textContent="✨";
-
       e.style.left=Math.random()*100+"%";
       e.style.top=Math.random()*85+"%";
       e.style.fontSize=(14+Math.random()*22)+"px";
       e.style.animationDelay=Math.random()*2+"s";
-
       effects.appendChild(e);
     }
   }
 
-
-  /* 베트남 */
   if(type==="water"){
-
     const e=document.createElement("div");
     e.className="waterLight";
     effects.appendChild(e);
   }
 
-
-  /* 브라질 */
   if(type==="leaf"){
-
     const sun=document.createElement("div");
     sun.className="sunRay";
     effects.appendChild(sun);
 
     for(let i=0;i<16;i++){
-
       const e=document.createElement("div");
-
       e.className="leaf";
       e.textContent="🍃";
-
       e.style.left=Math.random()*100+"%";
       e.style.fontSize=(17+Math.random()*18)+"px";
       e.style.animationDuration=(7+Math.random()*8)+"s";
       e.style.animationDelay=(-Math.random()*10)+"s";
-
       effects.appendChild(e);
     }
   }
 
-
-  /* 이집트 */
   if(type==="sand"){
-
     const heat=document.createElement("div");
     heat.className="heat";
     effects.appendChild(heat);
 
     for(let i=0;i<65;i++){
-
       const e=document.createElement("div");
-
       e.className="sand";
-
       e.style.left=Math.random()*100+"%";
       e.style.top=Math.random()*100+"%";
       e.style.animationDuration=(3+Math.random()*5)+"s";
       e.style.animationDelay=(-Math.random()*5)+"s";
-
       effects.appendChild(e);
     }
   }
 }
 
-
-/* ==============================
-   홈
-============================== */
+/* ==================================================
+   홈 / 정리
+================================================== */
 
 window.goHome=function(){
-
   world.style.display="none";
   home.style.display="flex";
-
   currentCountry=null;
-
   effects.innerHTML="";
   background.style.backgroundImage="none";
 };
 
-
-/* ==============================
-   캐릭터 정리
-============================== */
+const shownCharacters=new Set();
 
 window.clearCharacters=async function(){
-
   stage.innerHTML="";
   shownCharacters.clear();
 
@@ -1302,251 +1068,236 @@ window.clearCharacters=async function(){
   }catch(e){}
 };
 
+/* ==================================================
+   종이인형 만들기
+================================================== */
 
-/* ==============================
-   캐릭터 등장
-============================== */
+function makePart(src,className){
 
-const shownCharacters=new Set();
+  const img=document.createElement("img");
 
+  img.src=src;
+  img.className=`part ${className}`;
+
+  return img;
+}
 
 function addCharacter(id,image){
 
   if(shownCharacters.has(id))return;
-
   shownCharacters.add(id);
-
 
   const char=document.createElement("div");
   char.className="character";
 
+  const puppet=document.createElement("div");
+  puppet.className="puppet";
 
-  const inner=document.createElement("div");
-  inner.className="characterInner";
+  /*
+    동일한 누끼를 영역별로 잘라 겹친다.
+  */
 
+  puppet.appendChild(makePart(image,"basePart"));
+  puppet.appendChild(makePart(image,"leftLeg"));
+  puppet.appendChild(makePart(image,"rightLeg"));
+  puppet.appendChild(makePart(image,"leftArm"));
+  puppet.appendChild(makePart(image,"bodyPart"));
+  puppet.appendChild(makePart(image,"rightArm"));
+  puppet.appendChild(makePart(image,"headPart"));
 
-  const img=document.createElement("img");
-  img.src=image;
-
+  const speech=document.createElement("div");
+  speech.className="speech";
+  speech.textContent="안녕! 👋";
 
   const hearts=document.createElement("div");
   hearts.className="hearts";
   hearts.textContent="💗 💕 💗";
 
-
-  inner.appendChild(img);
-
-  char.appendChild(inner);
+  char.appendChild(puppet);
+  char.appendChild(speech);
   char.appendChild(hearts);
 
   stage.appendChild(char);
 
-
-  /* =========================
-     왼쪽/오른쪽 랜덤 빼꼼
-  ========================= */
-
+  /* 왼쪽 / 오른쪽 랜덤 등장 */
   const fromLeft=Math.random()>.5;
 
   const y=
-  window.innerHeight*.42+
-  Math.random()*(window.innerHeight*.25);
-
+    window.innerHeight*.42+
+    Math.random()*(window.innerHeight*.23);
 
   char.style.top=y+"px";
 
-
   if(fromLeft){
-
-    char.style.left="-150px";
-
+    char.style.left="-180px";
   }else{
-
     char.style.left=(window.innerWidth+20)+"px";
   }
 
-
   char.classList.add("peek");
-
 
   arrival.classList.remove("show");
   void arrival.offsetWidth;
   arrival.classList.add("show");
 
-
-  /* 얼굴 빼꼼 */
-
+  /* 빼꼼 */
   setTimeout(()=>{
-
     char.style.left=
-    fromLeft
-      ? "-65px"
-      : (window.innerWidth-90)+"px";
-
+      fromLeft
+      ? "-70px"
+      : (window.innerWidth-95)+"px";
   },150);
 
-
-  /* 잠깐 보고 */
-
+  /* 쏙 들어오기 */
   setTimeout(()=>{
 
     char.classList.remove("peek");
-
     char.classList.add("pop");
 
-    /* 화면 안으로 쏙 */
-
     char.style.left=
-    fromLeft
-      ? (60+Math.random()*180)+"px"
-      : (window.innerWidth-330-Math.random()*160)+"px";
+      fromLeft
+      ? (60+Math.random()*160)+"px"
+      : Math.max(
+          60,
+          window.innerWidth-360-Math.random()*130
+        )+"px";
 
-  },1500);
+  },1400);
 
-
-  /* 그다음 여행 시작 */
-
+  /* 들어오자마자 안녕 */
   setTimeout(()=>{
 
     char.classList.remove("pop");
+    doHello(char);
 
-    startCharacterLife(char);
-
-  },2500);
+  },2400);
 }
 
+/* ==================================================
+   안녕
+================================================== */
 
-/* ==============================
-   계속 돌아다니기
-============================== */
+function doHello(char){
 
-function startCharacterLife(char){
+  if(!char.isConnected)return;
 
-  function move(){
+  char.classList.remove("walking","love");
+  char.classList.add("hello");
+
+  setTimeout(()=>{
+
+    char.classList.remove("hello");
+
+    moveCharacter(char);
+
+  },2600);
+}
+
+/* ==================================================
+   이동
+================================================== */
+
+function moveCharacter(char){
+
+  if(!char.isConnected)return;
+
+  char.classList.remove("hello","love");
+  char.classList.add("walking");
+
+  const width=Math.max(140,char.offsetWidth);
+  const height=Math.max(180,char.offsetHeight);
+
+  /*
+    QR 영역을 피해서 주로 화면 왼쪽~중앙 이동
+  */
+  const maxX=Math.max(
+    120,
+    window.innerWidth-width-220
+  );
+
+  const minY=window.innerHeight*.35;
+
+  const maxY=Math.max(
+    minY+30,
+    window.innerHeight-height-25
+  );
+
+  const oldX=char.offsetLeft;
+
+  const x=
+    25+
+    Math.random()*Math.max(40,maxX-25);
+
+  const y=
+    minY+
+    Math.random()*Math.max(30,maxY-minY);
+
+  /*
+    이동 방향에 따라 인형 전체 좌우 반전.
+  */
+  const puppet=char.querySelector(".puppet");
+
+  if(x<oldX){
+    puppet.style.scale="-1 1";
+  }else{
+    puppet.style.scale="1 1";
+  }
+
+  char.style.left=x+"px";
+  char.style.top=y+"px";
+
+  setTimeout(()=>{
 
     if(!char.isConnected)return;
 
-    char.classList.remove("wave","love");
-    char.classList.add("walking");
+    char.classList.remove("walking");
 
+    randomAction(char);
 
-    const charWidth=
-    Math.max(150,char.offsetWidth);
+  },4100);
+}
 
-    const charHeight=
-    Math.max(190,char.offsetHeight);
+/* ==================================================
+   랜덤 행동
+================================================== */
 
+function randomAction(char){
 
-    /* QR 카드가 있는 오른쪽 아래는 조금 피함 */
+  if(!char.isConnected)return;
 
-    const maxX=
-    Math.max(
-      100,
-      window.innerWidth-charWidth-230
-    );
+  const r=Math.random();
 
-    const minY=
-    window.innerHeight*.35;
+  /*
+    안녕을 꽤 자주 함.
+  */
+  if(r<.48){
 
-    const maxY=
-    Math.max(
-      minY+20,
-      window.innerHeight-charHeight-30
-    );
+    doHello(char);
 
+  }else if(r<.72){
 
-    const oldX=char.offsetLeft;
-
-    const x=
-    25+Math.random()*Math.max(30,maxX-25);
-
-    const y=
-    minY+Math.random()*Math.max(20,maxY-minY);
-
-
-    /*
-      이미지 자체를 뒤집으면
-      하트까지 뒤집히지 않도록 img만 뒤집음
-    */
-
-    const img=char.querySelector("img");
-
-    if(x<oldX){
-      img.style.transform="scaleX(-1)";
-    }else{
-      img.style.transform="scaleX(1)";
-    }
-
-
-    char.style.left=x+"px";
-    char.style.top=y+"px";
-
+    char.classList.add("love");
 
     setTimeout(()=>{
 
-      char.classList.remove("walking");
+      char.classList.remove("love");
 
-      action();
+      moveCharacter(char);
 
-    },4300);
+    },2100);
+
+  }else{
+
+    setTimeout(
+      ()=>moveCharacter(char),
+      1100
+    );
   }
-
-
-  function action(){
-
-    if(!char.isConnected)return;
-
-    const r=Math.random();
-
-
-    /* 가끔 손 흔드는 듯한 몸짓 */
-
-    if(r<.42){
-
-      char.classList.add("wave");
-
-      setTimeout(()=>{
-
-        char.classList.remove("wave");
-
-        move();
-
-      },2100);
-
-    }
-
-    /* 가끔 하트 */
-
-    else if(r<.72){
-
-      char.classList.add("love");
-
-      setTimeout(()=>{
-
-        char.classList.remove("love");
-
-        move();
-
-      },2100);
-
-    }
-
-    /* 잠깐 구경 */
-
-    else{
-
-      setTimeout(move,1200);
-    }
-  }
-
-
-  setTimeout(move,500+Math.random()*800);
 }
 
-
-/* ==============================
-   전자칠판 실시간 감시
-============================== */
+/* ==================================================
+   Firebase 캐릭터 감시
+================================================== */
 
 if(!phoneMode){
 
@@ -1558,28 +1309,25 @@ if(!phoneMode){
       const data=snapshot.val();
 
       if(!data){
-
         stage.innerHTML="";
         shownCharacters.clear();
         return;
       }
 
-
       Object.entries(data).forEach(([id,item])=>{
 
         if(item?.image){
-
           addCharacter(id,item.image);
         }
+
       });
     }
   );
 }
 
-
-/* ===================================================
+/* ==================================================
    휴대폰
-=================================================== */
+================================================== */
 
 if(phoneMode){
 
@@ -1588,45 +1336,20 @@ if(phoneMode){
 
   document.getElementById("phone").style.display="block";
 
-
-  const phoneCountry=
-  document.getElementById("phoneCountry");
-
-  const readyText=
-  document.getElementById("readyText");
-
-  const cameraInput=
-  document.getElementById("cameraInput");
-
-  const progressBox=
-  document.getElementById("progressBox");
-
-  const progressBar=
-  document.getElementById("progressBar");
-
-  const statusText=
-  document.getElementById("statusText");
-
-  const previewWrap=
-  document.getElementById("previewWrap");
-
-  const preview=
-  document.getElementById("preview");
-
-  const success=
-  document.getElementById("success");
-
-  const retryBtn=
-  document.getElementById("retryBtn");
-
+  const phoneCountry=document.getElementById("phoneCountry");
+  const readyText=document.getElementById("readyText");
+  const cameraInput=document.getElementById("cameraInput");
+  const progressBox=document.getElementById("progressBox");
+  const progressBar=document.getElementById("progressBar");
+  const statusText=document.getElementById("statusText");
+  const previewWrap=document.getElementById("previewWrap");
+  const preview=document.getElementById("preview");
+  const success=document.getElementById("success");
+  const retryBtn=document.getElementById("retryBtn");
 
   let removeBackground=null;
 
-
-  /* =========================
-     나라 표시
-  ========================= */
-
+  /* 나라 */
   onValue(
     ref(db,`rooms/${room}/currentCountry`),
 
@@ -1639,145 +1362,112 @@ if(phoneMode){
         const c=COUNTRIES[key];
 
         phoneCountry.textContent=
-        `${c.flag} ${c.name}으로 여행을 떠나요! ✈️`;
+          `${c.flag} ${c.name}으로 여행을 떠나요! ✈️`;
 
       }else{
 
         phoneCountry.textContent=
-        "전자칠판에서 나라를 먼저 골라주세요 🌎";
+          "전자칠판에서 나라를 먼저 골라주세요 🌎";
       }
     }
   );
 
-
-  /* =================================================
-     QR 페이지가 열리자마자
-     누끼 프로그램 미리 불러오기
-  ================================================= */
-
+  /* 누끼 라이브러리 미리 로딩 */
   async function preloadRemoval(){
 
     try{
 
-      readyText.textContent=
-      "✂️ 캐릭터 마법가위 준비 중...";
+      readyText.textContent="✂️ 캐릭터 마법가위 준비 중...";
 
       const module=
-      await import(
-        "https://esm.sh/@imgly/background-removal@1.7.0"
-      );
+        await import(
+          "https://esm.sh/@imgly/background-removal@1.7.0"
+        );
 
       removeBackground=
-      module.removeBackground || module.default;
+        module.removeBackground||module.default;
 
-      readyText.textContent=
-      "✨ 준비 완료! 바로 촬영해주세요.";
+      readyText.textContent="✨ 준비 완료! 바로 촬영해주세요.";
 
     }catch(error){
 
       console.error(error);
 
       readyText.textContent=
-      "📸 촬영해주세요. 누끼 기능은 촬영 후 준비할게요.";
+        "📸 촬영해주세요. 누끼 기능은 촬영 후 준비할게요.";
     }
   }
 
-
   preloadRemoval();
 
-
-  /* =================================================
-     핵심 속도 개선
-
-     원본 사진으로 누끼하지 않음!
-     먼저 1000px 정도로 줄임
-  ================================================= */
+  /* ==================================================
+     사진을 먼저 줄여서 렉 감소
+  ================================================== */
 
   async function shrinkBeforeRemoval(file){
 
-    const bitmap=
-    await createImageBitmap(file);
+    const bitmap=await createImageBitmap(file);
 
-    const MAX=1000;
+    /*
+      이전 1000보다 조금 더 작게.
+      수업에서는 속도 우선.
+    */
+    const MAX=850;
 
     let w=bitmap.width;
     let h=bitmap.height;
 
-    if(w>MAX || h>MAX){
+    if(w>MAX||h>MAX){
 
-      const ratio=
-      Math.min(MAX/w,MAX/h);
+      const ratio=Math.min(MAX/w,MAX/h);
 
       w=Math.round(w*ratio);
       h=Math.round(h*ratio);
     }
 
-
-    const canvas=
-    document.createElement("canvas");
+    const canvas=document.createElement("canvas");
 
     canvas.width=w;
     canvas.height=h;
 
     const ctx=canvas.getContext("2d");
 
-    /* 흰색 배경 유지 */
-
-    ctx.fillStyle="#ffffff";
+    ctx.fillStyle="#fff";
     ctx.fillRect(0,0,w,h);
 
-    ctx.drawImage(
-      bitmap,
-      0,0,w,h
-    );
+    ctx.drawImage(bitmap,0,0,w,h);
 
-
-    const blob=
-    await new Promise(resolve=>{
-
-      canvas.toBlob(
-        resolve,
-        "image/jpeg",
-        .80
-      );
+    const blob=await new Promise(resolve=>{
+      canvas.toBlob(resolve,"image/jpeg",.76);
     });
-
 
     bitmap.close?.();
 
-    return blob || file;
+    return blob||file;
   }
 
-
-  /* =================================================
-     누끼 후 최종 크기
-
-     Firebase로 큰 사진을 보내지 않게
-     약 480px로 줄임
-  ================================================= */
+  /* ==================================================
+     누끼 후 전송용으로 줄이기
+  ================================================== */
 
   async function makeSmallCharacter(blob){
 
-    const bitmap=
-    await createImageBitmap(blob);
+    const bitmap=await createImageBitmap(blob);
 
-    const MAX=480;
+    const MAX=450;
 
     let w=bitmap.width;
     let h=bitmap.height;
 
-    if(w>MAX || h>MAX){
+    if(w>MAX||h>MAX){
 
-      const ratio=
-      Math.min(MAX/w,MAX/h);
+      const ratio=Math.min(MAX/w,MAX/h);
 
       w=Math.round(w*ratio);
       h=Math.round(h*ratio);
     }
 
-
-    const canvas=
-    document.createElement("canvas");
+    const canvas=document.createElement("canvas");
 
     canvas.width=w;
     canvas.height=h;
@@ -1785,46 +1475,25 @@ if(phoneMode){
     const ctx=canvas.getContext("2d");
 
     ctx.clearRect(0,0,w,h);
-
-    ctx.drawImage(
-      bitmap,
-      0,0,w,h
-    );
-
+    ctx.drawImage(bitmap,0,0,w,h);
 
     bitmap.close?.();
 
-
     /*
-      투명 배경이 필요하므로
-      WebP로 압축
+      투명 WebP
     */
+    let result=canvas.toDataURL("image/webp",.75);
 
-    let result=
-    canvas.toDataURL(
-      "image/webp",
-      .76
-    );
-
-
-    /*
-      WebP가 안 되는 경우 PNG
-    */
-
-    if(!result || !result.startsWith("data:image/")){
-
-      result=
-      canvas.toDataURL("image/png");
+    if(!result||!result.startsWith("data:image/")){
+      result=canvas.toDataURL("image/png");
     }
-
 
     return result;
   }
 
-
-  /* =================================================
-     촬영
-  ================================================= */
+  /* ==================================================
+     촬영 → 누끼 → 자동전송
+  ================================================== */
 
   cameraInput.addEventListener(
     "change",
@@ -1834,128 +1503,102 @@ if(phoneMode){
 
       if(!file)return;
 
-
       success.style.display="none";
       retryBtn.style.display="none";
       previewWrap.style.display="none";
 
       progressBox.style.display="block";
-
       progressBar.style.width="5%";
 
-      statusText.textContent=
-      "📸 사진을 빠르게 준비하고 있어요...";
-
+      statusText.textContent="📸 캐릭터를 준비하고 있어요...";
 
       try{
 
-        /* 1. 원본 먼저 축소 */
-
+        /* 먼저 축소 */
         const smallPhoto=
-        await shrinkBeforeRemoval(file);
+          await shrinkBeforeRemoval(file);
 
         progressBar.style.width="20%";
 
-
-        /* 2. 누끼 라이브러리 없으면 로딩 */
-
+        /* 라이브러리 준비 */
         if(!removeBackground){
 
-          statusText.textContent=
-          "✂️ 마법가위를 준비하고 있어요...";
+          statusText.textContent="✂️ 마법가위 준비 중...";
 
           const module=
-          await import(
-            "https://esm.sh/@imgly/background-removal@1.7.0"
-          );
+            await import(
+              "https://esm.sh/@imgly/background-removal@1.7.0"
+            );
 
           removeBackground=
-          module.removeBackground || module.default;
+            module.removeBackground||module.default;
         }
-
 
         progressBar.style.width="30%";
 
-        statusText.textContent=
-        "✂️ 캐릭터만 쏙 꺼내는 중...";
+        statusText.textContent="✂️ 캐릭터만 쏙 꺼내는 중...";
 
-
-        /* 3. 작은 사진으로 AI 누끼 */
-
+        /* 누끼 */
         const cutout=
-        await removeBackground(
-          smallPhoto,
-          {
-            model:"isnet_quint8",
-            device:"cpu",
-            proxyToWorker:false,
+          await removeBackground(
+            smallPhoto,
+            {
+              model:"isnet_quint8",
+              device:"cpu",
+              proxyToWorker:false,
 
-            output:{
-              format:"image/png",
-              quality:1
-            },
+              output:{
+                format:"image/png",
+                quality:1
+              },
 
-            progress:(key,current,total)=>{
+              progress:(key,current,total)=>{
 
-              if(total>0){
+                if(total>0){
 
-                const p=
-                30+
-                Math.round(
-                  (current/total)*45
-                );
+                  const p=
+                    30+
+                    Math.round((current/total)*45);
 
-                progressBar.style.width=
-                Math.min(75,p)+"%";
+                  progressBar.style.width=
+                    Math.min(75,p)+"%";
+                }
               }
             }
-          }
-        );
-
+          );
 
         progressBar.style.width="80%";
 
-        statusText.textContent=
-        "✨ 여행 준비 중...";
-
-
-        /* 4. 최종 이미지 더 작게 */
+        statusText.textContent="✨ 여행 준비 중...";
 
         const finalImage=
-        await makeSmallCharacter(cutout);
-
-
-        progressBar.style.width="90%";
-
+          await makeSmallCharacter(cutout);
 
         preview.src=finalImage;
         previewWrap.style.display="block";
 
+        progressBar.style.width="90%";
+
+        statusText.textContent="✈️ 전자칠판으로 슝~";
 
         /*
-          5. 버튼을 또 누르지 않아도
-          바로 Firebase 전송
+          현재 나라 확인
         */
-
-        statusText.textContent=
-        "✈️ 전자칠판으로 슝~";
-
-
         const countrySnapshot=
-        await get(
-          ref(db,`rooms/${room}/currentCountry`)
-        );
-
+          await get(
+            ref(db,`rooms/${room}/currentCountry`)
+          );
 
         const country=
-        countrySnapshot.val() || "";
+          countrySnapshot.val()||"";
 
-
+        /*
+          새 캐릭터 추가
+        */
         const newCharacter=
-        push(
-          ref(db,`rooms/${room}/characters`)
-        );
-
+          push(
+            ref(db,`rooms/${room}/characters`)
+          );
 
         await set(
           newCharacter,
@@ -1966,16 +1609,11 @@ if(phoneMode){
           }
         );
 
-
         progressBar.style.width="100%";
-
-        statusText.textContent=
-        "🎉 도착했어요!";
-
+        statusText.textContent="🎉 도착했어요!";
 
         success.style.display="block";
         retryBtn.style.display="block";
-
 
       }catch(error){
 
@@ -1984,18 +1622,14 @@ if(phoneMode){
         progressBar.style.width="0%";
 
         statusText.innerHTML=
-        "🥹 캐릭터를 꺼내지 못했어요.<br>흰 종이 위에서 다시 촬영해주세요.";
+          "🥹 캐릭터를 꺼내지 못했어요.<br>흰 종이에 팔다리가 잘 보이게 놓고 다시 촬영해주세요.";
 
         retryBtn.style.display="block";
       }
     }
   );
 
-
-  /* =========================
-     다음 아이 / 다시 촬영
-  ========================= */
-
+  /* 다시 촬영 */
   retryBtn.addEventListener("click",()=>{
 
     cameraInput.value="";
@@ -2004,10 +1638,6 @@ if(phoneMode){
     previewWrap.style.display="none";
     success.style.display="none";
     retryBtn.style.display="none";
-
-    /*
-      파일 선택창 다시 열기
-    */
 
     cameraInput.click();
   });
